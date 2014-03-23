@@ -1,7 +1,3 @@
-import java.util.Queue;
-import java.util.Stack;
-import java.util.LinkedList;
-
 /**
  * 
  */
@@ -16,24 +12,23 @@ public class AirportRaphsodyMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Stack<Bag> planesHold = new Stack<Bag>();
-		int i = 0;
-		Boolean transit = false;
+	
+		int K = 2;
+		int N = 6;
+		int M = 2;
 		
-		for (i = 0; i < 12; i++) {
-			planesHold.add(new Bag(i,transit));
-			transit = !transit;
-		}
+		MGeneralRepository genRep = new MGeneralRepository();
 		
-		Queue<MAirplane> airplaneQueue = new LinkedList<MAirplane>();
-		airplaneQueue.add (new MAirplane(planesHold));
+
 		
-		MArrivalTerminal arrivalTerminal = new MArrivalTerminal(airplaneQueue);
-		MBaggagePickupZone baggagePickupZone = new MBaggagePickupZone();
+		MArrivalTerminalExit arrivalTerminalExit = new MArrivalTerminalExit(genRep);
+		MBaggagePickupZone baggagePickupZone = new MBaggagePickupZone(genRep);
+		MBaggageReclaimGuichet reclaimGuichet = new MBaggageReclaimGuichet(genRep);
 		MTempBaggageStorage baggageStorage = new MTempBaggageStorage();
-		TPorter porter = new TPorter(arrivalTerminal, baggagePickupZone, baggageStorage);
+		MArrivalTerminal arrivalTerminal = new MArrivalTerminal(K, N, M, genRep);	
 		
-		porter.run();
+		TPorter porter = new TPorter(arrivalTerminal, baggagePickupZone, baggageStorage);
+		porter.start();
 		
 	}
 

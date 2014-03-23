@@ -4,6 +4,14 @@
  */
 public class MTempBaggageStorage {
 
+
+	/**
+	 * 
+	 */
+	public MTempBaggageStorage() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @param currentBag
 	 */
