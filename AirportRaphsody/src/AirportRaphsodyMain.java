@@ -13,14 +13,16 @@ public class AirportRaphsodyMain {
 	 */
 	public static void main(String[] args) {
 	
-		int K = 2;
+		int K = 1;
 		int N = 6;
 		int M = 2;
+		int T = 3;
 		
 		MGeneralRepository genRep = new MGeneralRepository();
 		
 
-		
+		MBus bus = new MBus(T, genRep);
+		MArrivalTerminalTransferZone arrivalTerminalTransferZone = new MArrivalTerminalTransferZone(T, genRep);
 		MArrivalTerminalExit arrivalTerminalExit = new MArrivalTerminalExit(genRep);
 		MBaggagePickupZone baggagePickupZone = new MBaggagePickupZone(genRep);
 		MBaggageReclaimGuichet reclaimGuichet = new MBaggageReclaimGuichet(genRep);
@@ -28,8 +30,11 @@ public class AirportRaphsodyMain {
 		MArrivalTerminal arrivalTerminal = new MArrivalTerminal(K, N, M, genRep);	
 		
 		TPorter porter = new TPorter(arrivalTerminal, baggagePickupZone, baggageStorage);
-		porter.start();
+
 		
+		TDriver driver = new TDriver(genRep);
+		driver.start();
+		porter.start();		
 	}
 
 }

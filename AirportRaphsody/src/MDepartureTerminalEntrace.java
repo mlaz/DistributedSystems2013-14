@@ -6,6 +6,6 @@
  * @author Miguel Azevedo, Filipe Teixeira
  * 
  */
-public class MBoardingTerminalEntrace {
+public class MDepartureTerminalEntrace {
 
 }

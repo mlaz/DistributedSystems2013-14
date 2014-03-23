@@ -9,7 +9,7 @@ public class MGeneralRepository {
 	private MArrivalTerminalTransferZone arrivalTerminalTransferZone;
 	private MBaggagePickupZone baggagePickupZone;
 	private MBaggageReclaimGuichet baggageReclaimGuichet;
-
+	private MBus bus;
 
 	/*public MGeneralRepository(MArrivalTerminal arrivalTerminal, 
 			MArrivalTerminalExit arrivalTerminalExit,
@@ -92,5 +92,20 @@ public class MGeneralRepository {
 	public void setBaggageReclaimGuichet(MBaggageReclaimGuichet baggageReclaimGuichet) {
 		this.baggageReclaimGuichet = baggageReclaimGuichet;
 	}
+
+	/**
+	 * @return the bus
+	 */
+	public MBus getBus() {
+		return bus;
+	}
+
+	/**
+	 * @param bus the bus to set
+	 */
+	public void setBus(MBus bus) {
+		this.bus = bus;
+	}
+
 
 }

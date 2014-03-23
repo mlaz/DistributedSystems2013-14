@@ -63,7 +63,7 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 	 */
 	@Override
 	public synchronized void whatSouldIDo(int passengerId) throws InterruptedException {
-		System.out.println("What should I do?: "+ passengerId + "\n");
+		//System.out.println("What should I do?: "+ passengerId + "\n");
 		while (passengerQueue.peek().getPassNumber() != passengerId)
 			wait();
 		

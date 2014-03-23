@@ -23,6 +23,9 @@ public class TPassenger extends Thread {
 	private MArrivalTerminalExit arrivalTerminalExit;
 	private IPassengerBaggageCollectionPoint luggageCollectionPoint;
 	private MBaggageReclaimGuichet baggageReclaimOffice;
+	private IPassengerArrivalTerminalTransferZone arrivalTerminalTransferZone;
+	private IPassengerBus bus;
+	
 	
 
 	
@@ -45,6 +48,8 @@ public class TPassenger extends Thread {
 		this.arrivalTerminalExit = genRep.getArrivalTerminalExit();
 		this.luggageCollectionPoint = genRep.getBaggagePickupZone();
 		this.baggageReclaimOffice = genRep.getBaggageReclaimGuichet();
+		this.arrivalTerminalTransferZone = genRep.getArrivalTerminalTransferZone();
+		this.bus = genRep.getBus();
 	}
 	
 	public void run() {
@@ -102,13 +107,41 @@ public class TPassenger extends Thread {
 				break;
 				
 			case AT_THE_ARRIVAL_TRANSFER_TERMINAL:
-				System.out.println(passengerNumber + " AT_THE_ARRIVAL_TRANSFER_TERMINAL");
+				System.out.println(passengerNumber + " AT_THE_ARRIVAL_TRANSFER_TERMINAL\n");
+				try {
+					arrivalTerminalTransferZone.takeABus(passengerNumber);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				nextState = states.TERMINAL_TRANSFER;
+				break;
+				
+			case TERMINAL_TRANSFER:
+				System.out.println(passengerNumber + " TERMINAL_TRANSFER\n");
+
+				try {
+					bus.enterTheBus();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				nextState = states.AT_THE_DEPARTURE_TRANSFER_TERMINAL;
+				break;
+				
+			case AT_THE_DEPARTURE_TRANSFER_TERMINAL:
+				System.out.println(passengerNumber + " AT_THE_DEPARTURE_TRANSFER_TERMINAL\n");
+
+				try {
+					bus.leaveTheBus();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				//nextState = states.AT_THE_DEPARTURE_TRANSFER_TERMINAL;
 				running = false;
 				break;
-			case TERMINAL_TRANSFER:
-				break;
-			case AT_THE_DEPARTURE_TRANSFER_TERMINAL:
-				break;
+				
 			case ENTERING_THE_DEPARTURE_TERMINAL:
 				break;
 			}	

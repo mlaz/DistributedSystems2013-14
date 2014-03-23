@@ -24,14 +24,14 @@ public class MAirplane implements IPorterAirplane {
 		int i;
 		int j;
 		int nbags = maxBags;
-		Boolean transit = false;
-		
+		//Boolean transit = false;
+		Boolean transit = true;
 		//generating passengers and bags 
 		for (i = 0; i < nPassengers; i++) {
 			passengerList.add(new TPassenger(i + (planeNumber * 10), nbags, transit, genRep));
 			for (j = 0 ; j < nbags; j++)
 				planesHold.add(new Bag(i + (planeNumber * 10),transit));
-			transit = !transit;
+			//transit = !transit;
 			nbags = (nbags == maxBags) ? 0 : nbags + 1;
 		}
 	}
