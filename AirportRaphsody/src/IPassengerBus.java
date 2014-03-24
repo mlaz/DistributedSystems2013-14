@@ -9,10 +9,11 @@
 public interface IPassengerBus {
 
 	/**
+	 * @return 
 	 * @throws InterruptedException 
 	 * 
 	 */
-	void enterTheBus() throws InterruptedException;
+	boolean enterTheBus() throws InterruptedException;
 
 	/**
 	 * @throws InterruptedException 

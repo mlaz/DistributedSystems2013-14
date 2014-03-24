@@ -6,12 +6,12 @@
  * @author miguel
  *
  */
-public interface IPassengerArrivalTerminalTransferZone {
+public interface IPassengerArrivalExitTransferZone {
 
 	/**
 	 * @param passNumber
 	 * @throws InterruptedException
 	 */
 	void takeABus(int passNumber) throws InterruptedException;
-
+	void goHome();
 }

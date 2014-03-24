@@ -20,14 +20,10 @@ public class TPassenger extends Thread {
 	
 	private MGeneralRepository genRep;
 	private IPassengerArrivalTerminal arrivalTerminal;
-	private MArrivalTerminalExit arrivalTerminalExit;
 	private IPassengerBaggageCollectionPoint luggageCollectionPoint;
 	private MBaggageReclaimGuichet baggageReclaimOffice;
-	private IPassengerArrivalTerminalTransferZone arrivalTerminalTransferZone;
+	private IPassengerArrivalExitTransferZone arrivalTerminalExit;
 	private IPassengerBus bus;
-	
-	
-
 	
 	private int passengerNumber;
 	private int remainingBags;
@@ -45,10 +41,9 @@ public class TPassenger extends Thread {
 		this.remainingBags = remainingBags;
 		this.inTransit = inTransit;		
 		this.arrivalTerminal = genRep.getArrivalTerminal();
-		this.arrivalTerminalExit = genRep.getArrivalTerminalExit();
 		this.luggageCollectionPoint = genRep.getBaggagePickupZone();
 		this.baggageReclaimOffice = genRep.getBaggageReclaimGuichet();
-		this.arrivalTerminalTransferZone = genRep.getArrivalTerminalTransferZone();
+		this.arrivalTerminalExit = genRep.getArrivalTerminalExit();
 		this.bus = genRep.getBus();
 	}
 	
@@ -109,7 +104,7 @@ public class TPassenger extends Thread {
 			case AT_THE_ARRIVAL_TRANSFER_TERMINAL:
 				System.out.println(passengerNumber + " AT_THE_ARRIVAL_TRANSFER_TERMINAL\n");
 				try {
-					arrivalTerminalTransferZone.takeABus(passengerNumber);
+					arrivalTerminalExit.takeABus(passengerNumber);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -121,12 +116,15 @@ public class TPassenger extends Thread {
 				System.out.println(passengerNumber + " TERMINAL_TRANSFER\n");
 
 				try {
-					bus.enterTheBus();
+					if (bus.enterTheBus())
+						nextState = states.AT_THE_DEPARTURE_TRANSFER_TERMINAL;
+					else
+						nextState = states.AT_THE_ARRIVAL_TRANSFER_TERMINAL;
+
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				nextState = states.AT_THE_DEPARTURE_TRANSFER_TERMINAL;
 				break;
 				
 			case AT_THE_DEPARTURE_TRANSFER_TERMINAL:

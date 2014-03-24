@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * @author Miguel Azevedo, Filipe Teixeira
  *
@@ -6,17 +9,15 @@ public class MGeneralRepository {
 	
 	private MArrivalTerminal arrivalTerminal;
 	private MArrivalTerminalExit arrivalTerminalExit;
-	private MArrivalTerminalTransferZone arrivalTerminalTransferZone;
 	private MBaggagePickupZone baggagePickupZone;
 	private MBaggageReclaimGuichet baggageReclaimGuichet;
 	private MBus bus;
 	private MTempBaggageStorage tempBaggageStorage;
+	private Queue<MAirplane> airplaneQueue;
 	
 	public MGeneralRepository() {
-		
-		
+		airplaneQueue = new LinkedList<MAirplane>();
 	}
-	
 	/**
 	 * @return the arrivalTerminalExit
 	 */
@@ -29,21 +30,6 @@ public class MGeneralRepository {
 	 */
 	public void setArrivalTerminalExit(MArrivalTerminalExit arrivalTerminalExit) {
 		this.arrivalTerminalExit = arrivalTerminalExit;
-	}
-	
-	/**
-	 * @return the arrivalTerminalTransferZone
-	 */
-	public MArrivalTerminalTransferZone getArrivalTerminalTransferZone() {
-		return arrivalTerminalTransferZone;
-	}
-	
-	/**
-	 * @param arrivalTerminalTransferZone the arrivalTerminalTransferZone to set
-	 */
-	public void setArrivalTerminalTransferZone(
-			MArrivalTerminalTransferZone arrivalTerminalTransferZone) {
-		this.arrivalTerminalTransferZone = arrivalTerminalTransferZone;
 	}
 	
 	/**
@@ -116,5 +102,19 @@ public class MGeneralRepository {
 		this.tempBaggageStorage = tempBaggageStorage;
 	}
 
+	/**
+	 * @param airplaneQueue the airplaneQueue to set
+	 */
+	public void setAirplaneQueue(Queue<MAirplane> airplaneQueue) {
+		this.airplaneQueue = airplaneQueue;
+	}
+
+	public MAirplane getNextAirPlane() {
+		return airplaneQueue.poll();
+	}
+
+	public void addAirplane(MAirplane airplane) {
+		airplaneQueue.add(airplane);
+	}
 
 }

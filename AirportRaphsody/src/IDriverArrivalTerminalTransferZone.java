@@ -9,10 +9,11 @@
 public interface IDriverArrivalTerminalTransferZone {
 
 	/**
+	 * @return 
 	 * @throws InterruptedException 
 	 * 
 	 */
-	void announcingBusBoaring() throws InterruptedException;
-
+	boolean announcingBusBoaring() throws InterruptedException;
+	void announcingDeparture();
 }
 

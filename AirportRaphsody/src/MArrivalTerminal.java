@@ -12,66 +12,50 @@ import java.util.Iterator;
  */
 public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArrivalTerminal {
 
-	private int remainingPassengers = 0;
-	private boolean ongoingArrival = false; //ongoing plane arrival
+	private boolean ongoingArrival;
+	private int passengersPerPlane;
+	private int remainingPlanes;
+	private int remainingPassengers;
 	private MGeneralRepository genRep;
-	private Queue<MAirplane> airplaneQueue;
-	private Queue<TPassenger> passengerQueue = null;
 	
-	public MArrivalTerminal(int nAirplanes, int nPassengers, int MaxBags, MGeneralRepository genRep) {
+	public MArrivalTerminal(int nAirplanes, int nPassengers, MGeneralRepository genRep) {
 		
 		this.genRep = genRep;
 		genRep.setArrivalTerminal(this);
 		
-		int i;
-		airplaneQueue = new LinkedList<MAirplane>();
-		//generating airplanes
-		for (i = 0; i < nAirplanes; i++) {
-			airplaneQueue.add(new MAirplane(i, nPassengers, MaxBags, genRep));
-		}
-		
+		ongoingArrival = true;
+		remainingPlanes = nAirplanes;
+		passengersPerPlane = remainingPassengers = nPassengers;
 	}
 	
-	/* (non-Javadoc)
+	/** 
 	 * @see IPorterArrivalTerminal#takeARest
 	 * ()
 	 */
 	@Override
 	public synchronized MAirplane takeARest() throws InterruptedException {
-		if (!ongoingArrival) {
-			
-			if (airplaneQueue.isEmpty())
-				return null;// porter dies
-			
-			passengerQueue = airplaneQueue.peek().getPassengers();
-			remainingPassengers = passengerQueue.size();
-			
-			Iterator<TPassenger> iterator = passengerQueue.iterator();
-			while(iterator.hasNext()) 
-				iterator.next().start();
-			
+		if (ongoingArrival) {
+			while (remainingPassengers > 0)
+				wait();
+			//System.out.println("no more passengers\n");
+			remainingPlanes--;
+			remainingPassengers = passengersPerPlane;
 		}
-		
-		while (remainingPassengers > 0)
-			wait();
-		//System.out.println("no more passengers\n");
-		ongoingArrival = false;
-		return airplaneQueue.poll();
+		ongoingArrival = (remainingPlanes > 0);
+		return genRep.getNextAirPlane();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see IPassengerArrivalTerminal#whatSouldIDo()
 	 */
 	@Override
 	public synchronized void whatSouldIDo(int passengerId) throws InterruptedException {
-		System.out.println("What should I do?: "+ passengerId + "\n");
-		while (passengerQueue.peek().getPassNumber() != passengerId)
-			wait();
-		
-		passengerQueue.poll();
+		//System.out.println("What should I do?: "+ passengerId + "\n");
 		remainingPassengers--;
-		//System.out.println("passenger Q size:" + passengerQueue.size() + "\n");
-		notifyAll();
+		if (remainingPassengers == 0) {
+			ongoingArrival = false;
+			notify();
+		}
 	}
 	
 }
