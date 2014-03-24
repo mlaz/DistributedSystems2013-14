@@ -138,11 +138,13 @@ public class TPassenger extends Thread {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				//nextState = states.AT_THE_DEPARTURE_TRANSFER_TERMINAL;
-				running = false;
+				nextState = states.ENTERING_THE_DEPARTURE_TERMINAL;
 				break;
 				
 			case ENTERING_THE_DEPARTURE_TERMINAL:
+				System.out.println(passengerNumber + " AT_THE_DEPARTURE_TRANSFER_TERMINAL\n");
+
+				running = false;
 				break;
 			}	
 			state = nextState;

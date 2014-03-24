@@ -29,12 +29,12 @@ public class MBus implements IDriverBus, IPassengerBus {
 	 */
 	@Override
 	public synchronized void waitingForPassengers() throws InterruptedException {
-			notifyAll();
-			location = Locations.ARR_TERM;
-			System.out.println("Driver : occupiedSeats:" + occupiedSeats);
-			while (occupiedSeats == 0)
-				Thread.sleep(10000);	
-		}
+		notifyAll();
+		location = Locations.ARR_TERM;
+		System.out.println("Driver : occupiedSeats:" + occupiedSeats);
+		while (occupiedSeats == 0)
+                    wait(1000);
+	}
 	
 	/* (non-Javadoc)
 	 * @see IDriverBus#parkAndLetPassOff()

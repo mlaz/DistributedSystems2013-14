@@ -18,13 +18,12 @@ public class TPorter extends Thread {
 	private IPorterBaggagePickupZone baggageBeltConveyor;
 	private MTempBaggageStorage baggageStorage;
 	
-	public TPorter (IPorterArrivalTerminal arrivalTerminal, 
-					IPorterBaggagePickupZone baggageBeltConveyor,
-					MTempBaggageStorage baggageStorage) {
-		
-		this.arrivalTerminal = arrivalTerminal;
-		this.baggageBeltConveyor = baggageBeltConveyor;
-		this.baggageStorage = baggageStorage;
+	
+	public TPorter(MGeneralRepository genRep) {
+
+		this.arrivalTerminal = genRep.getArrivalTerminal();
+		this.baggageBeltConveyor = genRep.getBaggagePickupZone();
+		this.baggageStorage = genRep.getTempBaggageStorage();
 	}
 	
 	public void run () {

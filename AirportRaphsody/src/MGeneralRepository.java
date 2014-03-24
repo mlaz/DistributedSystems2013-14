@@ -10,17 +10,12 @@ public class MGeneralRepository {
 	private MBaggagePickupZone baggagePickupZone;
 	private MBaggageReclaimGuichet baggageReclaimGuichet;
 	private MBus bus;
-
-	/*public MGeneralRepository(MArrivalTerminal arrivalTerminal, 
-			MArrivalTerminalExit arrivalTerminalExit,
-			MArrivalTerminalTransferZone arrivalTerminalTransferZone,
-			MBaggagePickupZone baggagePickupZone) {
+	private MTempBaggageStorage tempBaggageStorage;
+	
+	public MGeneralRepository() {
 		
-		this.setArrivalTerminal(arrivalTerminal);
-		this.setArrivalTerminalExit(arrivalTerminalExit);
-		this.setArrivalTerminalTransferZone(arrivalTerminalTransferZone);
-		this.setBaggagePickupZone(baggagePickupZone);
-	}*/
+		
+	}
 	
 	/**
 	 * @return the arrivalTerminalExit
@@ -105,6 +100,20 @@ public class MGeneralRepository {
 	 */
 	public void setBus(MBus bus) {
 		this.bus = bus;
+	}
+
+	/**
+	 * @return the tempBaggageStorage
+	 */
+	public MTempBaggageStorage getTempBaggageStorage() {
+		return tempBaggageStorage;
+	}
+
+	/**
+	 * @param tempBaggageStorage the tempBaggageStorage to set
+	 */
+	public void setTempBaggageStorage(MTempBaggageStorage tempBaggageStorage) {
+		this.tempBaggageStorage = tempBaggageStorage;
 	}
 
 

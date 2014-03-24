@@ -14,7 +14,7 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 
 	private int remainingPassengers = 0;
 	private boolean ongoingArrival = false; //ongoing plane arrival
-	MGeneralRepository genRep;
+	private MGeneralRepository genRep;
 	private Queue<MAirplane> airplaneQueue;
 	private Queue<TPassenger> passengerQueue = null;
 	
@@ -42,13 +42,14 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 			
 			if (airplaneQueue.isEmpty())
 				return null;// porter dies
-
+			
 			passengerQueue = airplaneQueue.peek().getPassengers();
 			remainingPassengers = passengerQueue.size();
 			
 			Iterator<TPassenger> iterator = passengerQueue.iterator();
-			while(iterator.hasNext())
+			while(iterator.hasNext()) 
 				iterator.next().start();
+			
 		}
 		
 		while (remainingPassengers > 0)
@@ -63,7 +64,7 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 	 */
 	@Override
 	public synchronized void whatSouldIDo(int passengerId) throws InterruptedException {
-		//System.out.println("What should I do?: "+ passengerId + "\n");
+		System.out.println("What should I do?: "+ passengerId + "\n");
 		while (passengerQueue.peek().getPassNumber() != passengerId)
 			wait();
 		
