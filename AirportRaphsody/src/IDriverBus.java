@@ -15,10 +15,11 @@ public interface IDriverBus {
 	void waitingForPassengers() throws InterruptedException;
 
 	/**
+	 * @return 
 	 * @throws x 
 	 * @throws InterruptedException 
 	 * 
 	 */
-	void parkAndLetPassOff() throws InterruptedException;
+	int parkAndLetPassOff() throws InterruptedException;
 
 }

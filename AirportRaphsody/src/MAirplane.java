@@ -24,7 +24,7 @@ public class MAirplane implements IPorterAirplane {
 		int i;
 		int j;
 		int nbags = maxBags;
-		//Boolean transit = false;
+		
 		Boolean transit = false;
 		//generating passengers and bags 
 		for (i = 0; i < nPassengers; i++) {
