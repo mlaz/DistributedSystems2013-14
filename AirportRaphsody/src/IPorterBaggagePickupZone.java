@@ -18,5 +18,4 @@ public interface IPorterBaggagePickupZone {
 	 * 
 	 */
 	void noMoreBagsToCollect() throws InterruptedException;
-
 }

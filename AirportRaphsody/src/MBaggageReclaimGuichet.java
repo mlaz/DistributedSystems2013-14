@@ -22,5 +22,4 @@ public class MBaggageReclaimGuichet {
 		// TODO Auto-generated method stub
 		System.out.println("Passenger #"+ passengerNumber + "reclaiming Bags.\n");
 	}
-
 }

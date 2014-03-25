@@ -8,13 +8,13 @@
  */
 public interface IDriverArrivalTerminalTransferZone {
 
+	void announcingDeparture();
+
 	/**
 	 * @return 
 	 * @throws InterruptedException 
 	 * 
 	 */
-	
-	void announcingDeparture();
 	boolean announcingBusBoaring(int lastPassengers)
 			throws InterruptedException;
 }

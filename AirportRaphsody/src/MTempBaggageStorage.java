@@ -18,5 +18,4 @@ public class MTempBaggageStorage {
 		// TODO Auto-generated method stub
 		//System.out.println("Bag from passenger: " + currentBag.getPassNumber() + " stored.\n");
 	}
-
 }

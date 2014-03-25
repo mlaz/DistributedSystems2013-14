@@ -86,5 +86,4 @@ public class TPorter extends Thread {
 		}
 		System.out.println("Porter Dying!\n");
 	}	
-
 }

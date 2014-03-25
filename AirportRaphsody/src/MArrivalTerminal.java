@@ -87,5 +87,4 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 		return currentPlanesHold.pop();
 	}
 
-	
 }

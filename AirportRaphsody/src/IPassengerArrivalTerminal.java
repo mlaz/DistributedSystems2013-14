@@ -9,4 +9,5 @@ public interface IPassengerArrivalTerminal {
 	 * @throws InterruptedException 
 	 */
 	void whatSouldIDo(int passengerId) throws InterruptedException;
+
 }
