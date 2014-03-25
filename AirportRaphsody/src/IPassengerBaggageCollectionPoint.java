@@ -13,6 +13,7 @@ public interface IPassengerBaggageCollectionPoint {
 	 * @return
 	 * @throws InterruptedException 
 	 */
-	boolean tryToCollectABag(int passengerNumber) throws InterruptedException;
+	boolean tryToCollectABag(int passengerNumber, int flightNum)
+			throws InterruptedException;
 
 }

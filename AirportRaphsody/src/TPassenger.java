@@ -26,12 +26,14 @@ public class TPassenger extends Thread {
 	private IPassengerBus bus;
 	
 	private int passengerNumber;
+	private int flightNumber;
 	private int remainingBags;
 	private boolean inTransit;
 
 	public TPassenger(int passengerNumber, 
 			int remainingBags, 
-			boolean inTransit, 
+			boolean inTransit,
+			int flightNumber,
 			MGeneralRepository genRep) {
 		this.genRep = genRep;
 		
@@ -45,6 +47,7 @@ public class TPassenger extends Thread {
 		this.baggageReclaimOffice = genRep.getBaggageReclaimGuichet();
 		this.arrivalTerminalExit = genRep.getArrivalTerminalExit();
 		this.bus = genRep.getBus();
+		this.flightNumber = flightNumber;
 	}
 	
 	public void run() {
@@ -76,7 +79,7 @@ public class TPassenger extends Thread {
 			case AT_THE_LUGGAGE_COLLECTION_POINT:
 				try {
 					
-					while ( (remainingBags > 0) && luggageCollectionPoint.tryToCollectABag(passengerNumber) ) {
+					while ( (remainingBags > 0) && luggageCollectionPoint.tryToCollectABag(passengerNumber, flightNumber) ) {
 						remainingBags--;
 						System.out.println("Passenger #" + passengerNumber + " just got a bag\n");
 					}
@@ -140,7 +143,7 @@ public class TPassenger extends Thread {
 				break;
 				
 			case ENTERING_THE_DEPARTURE_TERMINAL:
-				System.out.println(passengerNumber + " AT_THE_DEPARTURE_TRANSFER_TERMINAL\n");
+				System.out.println(passengerNumber + " ENTERING_THE_DEPARTURE_TERMINAL\n");
 
 				running = false;
 				break;

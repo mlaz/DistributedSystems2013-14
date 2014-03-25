@@ -11,11 +11,12 @@ public interface IPorterBaggagePickupZone {
 	/**
 	 * @param currentBag
 	 */
-	void carryItToAppropriateStore(Bag currentBag);
+	void carryItToAppropriateStore(int passId);
 
 	/**
+	 * @throws InterruptedException 
 	 * 
 	 */
-	void noMoreBagsToCollect();
+	void noMoreBagsToCollect() throws InterruptedException;
 
 }

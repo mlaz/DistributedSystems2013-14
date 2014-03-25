@@ -54,7 +54,12 @@ public class TPorter extends Thread {
 				//System.out.println("state = AT_THE_PLANES_HOLD\n");
 				if ( (currentBag = currentAirplane.tryToCollectABag ()) == null) {
 					currentAirplane = null;
-					baggageBeltConveyor.noMoreBagsToCollect();
+					try {
+						baggageBeltConveyor.noMoreBagsToCollect();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					nextState = states.WAITING_FOR_A_PLANE_TO_LAND;
 					break;
 				}
@@ -69,7 +74,7 @@ public class TPorter extends Thread {
 				
 			case AT_THE_LUGGAGE_BELT_CONVEYOR:
 				//System.out.println("state = AT_THE_LUGGAGE_BELT_CONVEYOR\n");
-				baggageBeltConveyor.carryItToAppropriateStore (currentBag);
+				baggageBeltConveyor.carryItToAppropriateStore (currentBag.getPassNumber());
 				currentBag = null;
 				nextState = states.AT_THE_PLANES_HOLD;
 				break;

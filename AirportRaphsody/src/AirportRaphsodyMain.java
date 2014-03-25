@@ -38,12 +38,13 @@ public class AirportRaphsodyMain {
 		driver.start();
 		porter.start();		
 		
-		
+		MAirplane a;
 		LinkedList<MAirplane> airplaneList = new LinkedList<MAirplane>();
 		int i;
 		for (i = 0; i < K; i++) {
-			airplaneList.add(new MAirplane(i, N, M, genRep));
-			genRep.addAirplane(airplaneList.peek());
+			a = new MAirplane(i, N, M, genRep);
+			airplaneList.add(a);
+			genRep.addAirplane(a);
 		}
 		
 		LinkedList<TPassenger> passengerList;

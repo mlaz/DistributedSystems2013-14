@@ -62,8 +62,11 @@ public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone,
 		
 		passengersToGo = nSeats;
 		availableBus = true;
-		if (busQueue.isEmpty())
+		if (busQueue.isEmpty()) {//if
 			wait();
+			//if (totalPassengers == passengersDone)
+				//return false;
+		}
 		else
 			notifyAll();
 		System.out.println("DRIVER ANNOUNCED");
@@ -74,8 +77,9 @@ public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone,
 	 * 
 	 */
 	public synchronized void goHome() {
-		// TODO Auto-generated method stub
 		passengersDone++;
+		System.out.println("passengersDone:" + passengersDone);
+		//notifyAll();//so the driver knows
 	}
 
 	@Override
