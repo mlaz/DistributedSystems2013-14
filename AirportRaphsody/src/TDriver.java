@@ -16,6 +16,7 @@ public class TDriver extends Thread {
 	
 	private IDriverArrivalTerminalTransferZone arrivalTerminalTransferZone;
 	private IDriverBus bus;
+	private int lastPassengers = 0;
 	
 	/**
 	 * @param genRep
@@ -35,9 +36,9 @@ public class TDriver extends Thread {
 				//System.out.println("DRIVER: PARKING_AT_THE_ARRIVAL_TERMINAL");
 				try {
 					
-					if (!(running = arrivalTerminalTransferZone.announcingBusBoaring()))
+					if (!(running = arrivalTerminalTransferZone.announcingBusBoaring(lastPassengers)))
 						break;
-					
+					lastPassengers = 0;
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -65,7 +66,7 @@ public class TDriver extends Thread {
 				//System.out.println("DRIVER: PARKING_AT_THE_DEPARTURE_TERMINAL");
 
 				try {
-					bus.parkAndLetPassOff();
+					lastPassengers = bus.parkAndLetPassOff();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

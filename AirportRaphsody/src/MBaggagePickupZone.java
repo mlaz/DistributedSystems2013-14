@@ -52,7 +52,7 @@ public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerB
 		waitingForBags = false;
 		notifyAll();
 		System.out.println("passengersWaiting: "+passengersWaiting);
-		while (passengersWaiting > 0)
+		while ((passengersWaiting > 0) || (!conveyourBelt.isEmpty()))
 			wait();
 		waitingForBags = true;
 		currentFlight++;

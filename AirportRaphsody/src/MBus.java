@@ -40,20 +40,26 @@ public class MBus implements IDriverBus, IPassengerBus {
 	 * @see IDriverBus#parkAndLetPassOff()
 	 */
 	@Override
-	public synchronized void parkAndLetPassOff() throws InterruptedException {
+	public synchronized int parkAndLetPassOff() throws InterruptedException {
+		int passengers = occupiedSeats;
 		location = Locations.DEP_TERM;
 		notifyAll();
+		
 		
 		while (occupiedSeats > 0)
 			wait();
 		location = Locations.ARR_TERM;
+		System.out.println("BUSPASSENGERS:" + passengers);
+		return passengers;
 	}
 
 	/* (non-Javadoc)
 	 * @see IPassengerBus#enterTheBus()
 	 */
 	@Override
-	public synchronized void enterTheBus() throws InterruptedException {
+	public synchronized boolean enterTheBus() throws InterruptedException {
+		if (location != Locations.ARR_TERM)
+			return false;
 		occupiedSeats++;
 		System.out.println("occupiedSeats:" + occupiedSeats);
 		if (occupiedSeats == nSeats)
@@ -61,7 +67,7 @@ public class MBus implements IDriverBus, IPassengerBus {
 		
 		while (location != Locations.DEP_TERM)
 			wait();
-		//return true;
+		return true;
 	}
 
 	/* (non-Javadoc)

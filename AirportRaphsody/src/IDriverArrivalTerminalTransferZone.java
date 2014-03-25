@@ -13,7 +13,9 @@ public interface IDriverArrivalTerminalTransferZone {
 	 * @throws InterruptedException 
 	 * 
 	 */
-	boolean announcingBusBoaring() throws InterruptedException;
+	
 	void announcingDeparture();
+	boolean announcingBusBoaring(int lastPassengers)
+			throws InterruptedException;
 }
 

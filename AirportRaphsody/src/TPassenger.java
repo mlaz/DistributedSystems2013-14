@@ -119,13 +119,15 @@ public class TPassenger extends Thread {
 				//System.out.println(passengerNumber + " TERMINAL_TRANSFER\n");
 
 				try {
-					bus.enterTheBus();
-					
+					if(!bus.enterTheBus())
+						nextState = states.AT_THE_ARRIVAL_TRANSFER_TERMINAL;
+					else
+						nextState = states.AT_THE_DEPARTURE_TRANSFER_TERMINAL;
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				nextState = states.AT_THE_DEPARTURE_TRANSFER_TERMINAL;
+
 				break;
 				
 			case AT_THE_DEPARTURE_TRANSFER_TERMINAL:
