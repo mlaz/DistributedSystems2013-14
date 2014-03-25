@@ -7,5 +7,7 @@
  *
  */
 public interface IPorterArrivalTerminal {
-	public MAirplane takeARest () throws InterruptedException;
+	public boolean takeARest () throws InterruptedException;
+	public Bag tryToCollectABag ();
+
 }

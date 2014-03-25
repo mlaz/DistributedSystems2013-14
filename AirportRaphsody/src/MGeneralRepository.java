@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * @author Miguel Azevedo, Filipe Teixeira
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  *
  */
 public class MGeneralRepository {
@@ -17,7 +17,6 @@ public class MGeneralRepository {
 	private MBaggageReclaimGuichet baggageReclaimGuichet;
 	private MBus bus;
 	private MTempBaggageStorage tempBaggageStorage;
-	private Queue<MAirplane> airplaneQueue;
 	
         private LinkedList<String> log;
         
@@ -28,7 +27,6 @@ public class MGeneralRepository {
         private int registeredPassengers;
         
 	public MGeneralRepository(int numPassengers) {
-		airplaneQueue = new LinkedList<MAirplane>();
                 passengers = new PassengerInfo[numPassengers];
                 registeredPassengers = 0;
                 log = new LinkedList<>();
@@ -247,21 +245,6 @@ public class MGeneralRepository {
 	 */
 	public void setTempBaggageStorage(MTempBaggageStorage tempBaggageStorage) {
 		this.tempBaggageStorage = tempBaggageStorage;
-	}
-
-	/**
-	 * @param airplaneQueue the airplaneQueue to set
-	 */
-	public void setAirplaneQueue(Queue<MAirplane> airplaneQueue) {
-		this.airplaneQueue = airplaneQueue;
-	}
-
-	public MAirplane getNextAirPlane() {
-		return airplaneQueue.poll();
-	}
-
-	public void addAirplane(MAirplane airplane) {
-		airplaneQueue.add(airplane);
 	}
 
 }

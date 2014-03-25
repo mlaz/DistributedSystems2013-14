@@ -3,7 +3,7 @@
  */
 
 /**
- * @author Miguel Azevedo, Filipe Teixeira
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * 
  */
 public class MDepartureTerminalEntrace {

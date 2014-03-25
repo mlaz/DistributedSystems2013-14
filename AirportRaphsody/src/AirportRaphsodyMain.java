@@ -1,5 +1,6 @@
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Stack;
 
 
 
@@ -8,7 +9,7 @@ import java.util.LinkedList;
  */
 
 /**
- * @author miguel
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  *
  */
 public class AirportRaphsodyMain {
@@ -23,7 +24,7 @@ public class AirportRaphsodyMain {
 		int M = 2; //maximum number of bags
 		int T = 3; //number of bus seat
 		
-		MGeneralRepository genRep = new MGeneralRepository();
+		MGeneralRepository genRep = new MGeneralRepository(N);
 		
 
 		MBus bus = new MBus(T, genRep);
@@ -31,44 +32,55 @@ public class AirportRaphsodyMain {
 		MBaggagePickupZone baggagePickupZone = new MBaggagePickupZone(genRep);
 		MBaggageReclaimGuichet reclaimGuichet = new MBaggageReclaimGuichet(genRep);
 		MTempBaggageStorage baggageStorage = new MTempBaggageStorage(genRep);
-		MArrivalTerminal arrivalTerminal = new MArrivalTerminal(K, N, genRep);	
+		MArrivalTerminal arrivalTerminal = new MArrivalTerminal(K, N, M, genRep);	
 		
 		TPorter porter = new TPorter(genRep);
 		TDriver driver = new TDriver(genRep);
 		driver.start();
 		porter.start();		
 		
-		MAirplane a;
-		LinkedList<MAirplane> airplaneList = new LinkedList<MAirplane>();
-		int i;
-		for (i = 0; i < K; i++) {
-			a = new MAirplane(i, N, M, genRep);
-			airplaneList.add(a);
-			genRep.addAirplane(a);
+		TPassenger[][] passengerList =  new TPassenger[K][N];	
+		int flightNumber;
+		int passNumber;
+		int nbags = M;
+		Boolean transit = false;
+		for(flightNumber = 0; flightNumber < K; flightNumber++){
+		//generating passengers 	
+			for (passNumber = 0; passNumber < N; passNumber++) {
+				passengerList[flightNumber][passNumber] = new TPassenger(passNumber, nbags, transit, flightNumber, genRep);
+			
+				transit = !transit;
+				nbags = (nbags == M) ? 0 : nbags + 1;
+			}
+			System.out.println("flight# " + flightNumber + " NPASSENGERS:" + N);
 		}
 		
-		LinkedList<TPassenger> passengerList;
-		Iterator<TPassenger> passIterator;
-		
-		Iterator<MAirplane> planeIterator = airplaneList.iterator();
-		while (planeIterator.hasNext()) {
-			passengerList = planeIterator.next().getPassengers();
+		for(flightNumber = 0; flightNumber < K; flightNumber++){
+			//generating passengers
 			System.out.println("NEW airplane-----------------------------------------\n");
-			passIterator = passengerList.iterator();
-			while (passIterator.hasNext()) {
-				passIterator.next().start();
-			}
 			
-			passIterator = passengerList.iterator();
-			while (passIterator.hasNext())
+			for (passNumber = 0; passNumber < N; passNumber++) 
+				passengerList[flightNumber][passNumber].start();
+				
+				
+			for (passNumber = 0; passNumber < N; passNumber++)
 				try {
-					passIterator.next().join();
+					passengerList[flightNumber][passNumber].join();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+
 			System.out.println("ALL Passengers Done-----------------------------------------\n");
 		}
+		try {
+			porter.join();
+			driver.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("ALL Threads Done-----------------------------------------\n");
 	}
 
 }

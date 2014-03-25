@@ -3,7 +3,7 @@
  */
 
 /**
- * @author miguel
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  *
  */
 public interface IPassengerBaggageCollectionPoint {
