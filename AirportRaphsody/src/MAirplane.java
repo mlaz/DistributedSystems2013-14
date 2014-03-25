@@ -25,7 +25,7 @@ public class MAirplane implements IPorterAirplane {
 		int j;
 		int nbags = maxBags;
 		//Boolean transit = false;
-		Boolean transit = true;//false;
+		Boolean transit = false;
 		//generating passengers and bags 
 		for (i = 0; i < nPassengers; i++) {
 			passengerList.add(new TPassenger(i, nbags, transit, planeNumber, genRep));

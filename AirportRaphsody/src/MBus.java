@@ -53,7 +53,7 @@ public class MBus implements IDriverBus, IPassengerBus {
 	 * @see IPassengerBus#enterTheBus()
 	 */
 	@Override
-	public synchronized boolean enterTheBus() throws InterruptedException {
+	public synchronized void enterTheBus() throws InterruptedException {
 		occupiedSeats++;
 		System.out.println("occupiedSeats:" + occupiedSeats);
 		if (occupiedSeats == nSeats)
@@ -61,7 +61,7 @@ public class MBus implements IDriverBus, IPassengerBus {
 		
 		while (location != Locations.DEP_TERM)
 			wait();
-		return true;
+		//return true;
 	}
 
 	/* (non-Javadoc)

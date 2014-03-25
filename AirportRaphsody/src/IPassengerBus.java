@@ -13,7 +13,7 @@ public interface IPassengerBus {
 	 * @throws InterruptedException 
 	 * 
 	 */
-	boolean enterTheBus() throws InterruptedException;
+	void enterTheBus() throws InterruptedException;
 
 	/**
 	 * @throws InterruptedException 

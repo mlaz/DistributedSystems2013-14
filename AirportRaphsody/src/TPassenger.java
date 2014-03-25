@@ -105,7 +105,7 @@ public class TPassenger extends Thread {
 				break;
 				
 			case AT_THE_ARRIVAL_TRANSFER_TERMINAL:
-				System.out.println(passengerNumber + " AT_THE_ARRIVAL_TRANSFER_TERMINAL\n");
+				//System.out.println(passengerNumber + " AT_THE_ARRIVAL_TRANSFER_TERMINAL\n");
 				try {
 					arrivalTerminalExit.takeABus(passengerNumber);
 				} catch (InterruptedException e) {
@@ -116,22 +116,20 @@ public class TPassenger extends Thread {
 				break;
 				
 			case TERMINAL_TRANSFER:
-				System.out.println(passengerNumber + " TERMINAL_TRANSFER\n");
+				//System.out.println(passengerNumber + " TERMINAL_TRANSFER\n");
 
 				try {
-					if (bus.enterTheBus())
-						nextState = states.AT_THE_DEPARTURE_TRANSFER_TERMINAL;
-					else
-						nextState = states.AT_THE_ARRIVAL_TRANSFER_TERMINAL;
-
+					bus.enterTheBus();
+					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				nextState = states.AT_THE_DEPARTURE_TRANSFER_TERMINAL;
 				break;
 				
 			case AT_THE_DEPARTURE_TRANSFER_TERMINAL:
-				System.out.println(passengerNumber + " AT_THE_DEPARTURE_TRANSFER_TERMINAL\n");
+				//System.out.println(passengerNumber + " AT_THE_DEPARTURE_TRANSFER_TERMINAL\n");
 
 				try {
 					bus.leaveTheBus();
@@ -143,7 +141,7 @@ public class TPassenger extends Thread {
 				break;
 				
 			case ENTERING_THE_DEPARTURE_TERMINAL:
-				System.out.println(passengerNumber + " ENTERING_THE_DEPARTURE_TERMINAL\n");
+				//System.out.println(passengerNumber + " ENTERING_THE_DEPARTURE_TERMINAL\n");
 
 				running = false;
 				break;

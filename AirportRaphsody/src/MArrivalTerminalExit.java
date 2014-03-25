@@ -58,19 +58,23 @@ public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone,
 	public synchronized boolean announcingBusBoaring() throws InterruptedException {
 		if (totalPassengers == passengersDone)
 			return false;// the simulation is over there are no more passengers to process
-		
-		
+
+
 		passengersToGo = nSeats;
 		availableBus = true;
+
 		if (busQueue.isEmpty()) {//if
 			wait();
-			//if (totalPassengers == passengersDone)
-				//return false;
+			if (totalPassengers == passengersDone)
+				return false;
 		}
 		else
 			notifyAll();
+		
 		System.out.println("DRIVER ANNOUNCED");
 		return true;
+
+
 	}
 	
 	/**
@@ -79,7 +83,8 @@ public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone,
 	public synchronized void goHome() {
 		passengersDone++;
 		System.out.println("passengersDone:" + passengersDone);
-		//notifyAll();//so the driver knows
+		if (totalPassengers == passengersDone)
+			notify();//so the driver knows
 	}
 
 	@Override

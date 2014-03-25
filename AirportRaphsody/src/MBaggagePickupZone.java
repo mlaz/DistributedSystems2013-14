@@ -9,7 +9,8 @@ import java.util.LinkedList;
  * @author Miguel Azevedo, Filipe Teixeira
  * 
  */
-public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerBaggageCollectionPoint{
+public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerBaggageCollectionPoint {
+	private boolean looseNextItem = false;
 	private int passengersWaiting = 0;
 	private boolean waitingForBags = true;
 	private LinkedList<Integer> conveyourBelt;
@@ -27,6 +28,10 @@ public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerB
 	 */
 	@Override
 	public synchronized void carryItToAppropriateStore(int passId) {
+		looseNextItem = !looseNextItem;
+		if (looseNextItem)
+			return;
+			
 		System.out.println("Bag from passenger: " + passId + " droped at BPZ.\n");
 		conveyourBelt.add((Integer) passId);
 		waitingForBags = true;
@@ -41,7 +46,7 @@ public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerB
 		System.out.println("no more bags\n");
 		waitingForBags = false;
 		notifyAll();		
-		while (passengersWaiting < 0)
+		while (passengersWaiting > 0)
 			wait();
 		waitingForBags = true;
 	}
