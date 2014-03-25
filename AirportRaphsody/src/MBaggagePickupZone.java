@@ -10,9 +10,10 @@ import java.util.LinkedList;
  * 
  */
 public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerBaggageCollectionPoint {
-	private boolean looseNextItem = false;
-	private int passengersWaiting = 0;
-	private boolean waitingForBags = true;
+	private boolean looseNextItem;
+	private int currentFlight;
+	private int passengersWaiting;
+	private boolean waitingForBags;
 	private LinkedList<Integer> conveyourBelt;
 	
 	/**
@@ -21,6 +22,10 @@ public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerB
 	public MBaggagePickupZone(MGeneralRepository genRep) {
 		genRep.setBaggagePickupZone(this);
 		conveyourBelt = new LinkedList<Integer>();
+		looseNextItem = false;
+		passengersWaiting = 0;
+		waitingForBags = true;
+		currentFlight = 0;
 	}
 
 	/* (non-Javadoc)
@@ -34,7 +39,7 @@ public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerB
 			
 		System.out.println("Bag from passenger: " + passId + " droped at BPZ.\n");
 		conveyourBelt.add((Integer) passId);
-		waitingForBags = true;
+		//waitingForBags = true;
 		notifyAll();
 	}
 
@@ -45,10 +50,12 @@ public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerB
 	public synchronized void noMoreBagsToCollect() throws InterruptedException {
 		System.out.println("no more bags\n");
 		waitingForBags = false;
-		notifyAll();		
+		notifyAll();
+		System.out.println("passengersWaiting: "+passengersWaiting);
 		while (passengersWaiting > 0)
 			wait();
 		waitingForBags = true;
+		currentFlight++;
 	}
 
 	/* (non-Javadoc)
@@ -56,26 +63,32 @@ public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerB
 	 */
 	@Override
 	public synchronized boolean tryToCollectABag(int passengerNumber, int flightNum) throws InterruptedException {
+		if (currentFlight != flightNum)
+			return false;
+
 		passengersWaiting++;
 		System.out.println(passengerNumber + " trying to collect a bag! \n");
 		Iterator<Integer> i;
 		
-		while (waitingForBags /*|| !conveyourBelt.isEmpty()||currentFlight == flightNum*/) {
+		while (waitingForBags || (!conveyourBelt.isEmpty())) {
 			i= conveyourBelt.iterator();
 			while (i.hasNext()) 
 				if (i.next() == passengerNumber) {
 					i.remove();
-					/*if ((!waitingForBags) && conveyourBelt.isEmpty()) 
-						currentFlight++; //last bag from currentFlight
-					System.out.println("currentFlight: " + currentFlight);*/
+					notifyAll();
 					passengersWaiting--;
+					//System.out.println("passengersWaiting: "+passengersWaiting);
+					if(passengersWaiting == 0)
+						notify();
 					return true;
 				}
 			wait();	
 		}
+		
 		passengersWaiting--;
-		//System.out.println("myFlight: " + flightNum);
-		//System.out.println("currentFlight: " + currentFlight +" returning FALSE");
+		if(passengersWaiting == 0)
+			notify();
+		//System.out.println("passengersWaiting: "+passengersWaiting);
 		return false;
 	}
 
