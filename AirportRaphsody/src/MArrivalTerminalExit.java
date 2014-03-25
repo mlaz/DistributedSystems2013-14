@@ -6,7 +6,7 @@ import java.util.Queue;
  */
 
 /**
- * @author Miguel Azevedo, Filipe Teixeira
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * 
  */
 public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone, IPassengerArrivalExitTransferZone {

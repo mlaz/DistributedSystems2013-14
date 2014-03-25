@@ -6,7 +6,7 @@ import java.util.LinkedList;
  */
 
 /**
- * @author Miguel Azevedo, Filipe Teixeira
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * 
  */
 public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerBaggageCollectionPoint {
