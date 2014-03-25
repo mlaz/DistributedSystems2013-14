@@ -14,6 +14,7 @@ class DriverInfo {
     private int[]  seatsIDs;
 
     public DriverInfo(String stat, int queueSize, int numSeats) {
+    	
         this.stat = stat;
         this.queueIDs = new int[queueSize];
         this.seatsIDs = new int[numSeats];

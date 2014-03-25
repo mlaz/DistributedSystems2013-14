@@ -21,5 +21,4 @@ public interface IDriverBus {
 	 * 
 	 */
 	int parkAndLetPassOff() throws InterruptedException;
-
 }

@@ -15,5 +15,4 @@ public interface IPassengerBaggageCollectionPoint {
 	 */
 	boolean tryToCollectABag(int passengerNumber, int flightNum)
 			throws InterruptedException;
-
 }

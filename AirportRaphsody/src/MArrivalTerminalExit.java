@@ -18,7 +18,6 @@ public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone,
 	private Queue<Integer> busQueue;
 	private boolean availableBus = false;
 	
-	
 	/**
 	 * @param t
 	 * @param genRep

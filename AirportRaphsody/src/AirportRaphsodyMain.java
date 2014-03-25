@@ -26,7 +26,6 @@ public class AirportRaphsodyMain {
 		
 		MGeneralRepository genRep = new MGeneralRepository(N);
 		
-
 		MBus bus = new MBus(T, genRep);
 		MArrivalTerminalExit arrivalTerminalExit = new MArrivalTerminalExit(K, N, T, genRep);
 		MBaggagePickupZone baggagePickupZone = new MBaggagePickupZone(genRep);

@@ -20,5 +20,4 @@ public interface IPassengerBus {
 	 * 
 	 */
 	void leaveTheBus() throws InterruptedException;
-
 }

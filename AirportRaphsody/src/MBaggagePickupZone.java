@@ -92,5 +92,4 @@ public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerB
 		return false;
 	}
 
-
 }

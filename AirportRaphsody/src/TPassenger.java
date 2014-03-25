@@ -58,7 +58,6 @@ public class TPassenger extends Thread {
 		while (running) {
 			switch (state) {
 			case AT_THE_DISEMBARKING_ZONE:
-				
 				try {
 					this.arrivalTerminal.whatSouldIDo(passengerNumber);
 				} catch (InterruptedException e) {

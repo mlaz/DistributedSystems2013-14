@@ -7,6 +7,7 @@
  *
  */
 public class Bag {
+	
 	private int passNumber;
 	private Boolean inTransit;
 	
