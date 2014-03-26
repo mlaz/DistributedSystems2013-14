@@ -7,6 +7,7 @@
 /**
  *
  * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 class DriverInfo {
     private TDriver.states stat;

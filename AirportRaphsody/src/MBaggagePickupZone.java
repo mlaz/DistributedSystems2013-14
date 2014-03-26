@@ -32,15 +32,16 @@ public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerB
 	 * @see IPorterBaggagePickupZone#placeBag(Bag)
 	 */
 	@Override
-	public synchronized void carryItToAppropriateStore(int passId) {
+	public synchronized boolean carryItToAppropriateStore(int passId) {
 		looseNextItem = !looseNextItem;
 		if (looseNextItem)
-			return;
+			return false;
 			
 		System.out.println("Bag from passenger: " + passId + " droped at BPZ.\n");
 		conveyourBelt.add((Integer) passId);
 		//waitingForBags = true;
 		notifyAll();
+		return true;
 	}
 
 	/* (non-Javadoc)

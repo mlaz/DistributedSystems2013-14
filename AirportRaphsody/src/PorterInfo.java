@@ -7,7 +7,7 @@
  */
 class PorterInfo {
     private TPorter.states stat;
-    private int collectedBaggaeg;
+    private int convBeltItems;
     private int storedBaggage;
 
     public PorterInfo(/*String state, int cb, int sr*/) {
@@ -20,12 +20,12 @@ class PorterInfo {
         this.stat = stat;
     }
 
-    public void setCb(int cb) {
-        this.collectedBaggaeg = cb;
+    public void addconvBeltItem() {
+        this.convBeltItems++;
     }
 
-    public void setSr(int sr) {
-        this.storedBaggage = sr;
+    public void addStoredBaggage() {
+        this.storedBaggage++;
     }
     
     @Override
@@ -45,6 +45,6 @@ class PorterInfo {
     		   stat = "ASTR";
     		   break;
     	  }
-        return "  " + stat + "  " + collectedBaggaeg + "  " + storedBaggage + " "  ;
+        return "  " + stat + "  " + convBeltItems + "  " + storedBaggage + " "  ;
     }
 }

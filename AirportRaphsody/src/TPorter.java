@@ -63,6 +63,7 @@ public class TPorter extends Thread {
 					nextState = states.WAITING_FOR_A_PLANE_TO_LAND;
 					break;
 				}
+				genRep.removeLuggageAtPlane();
 				
 				if (currentBag.isInTransit()){
 					nextState = states.AT_THE_STOREROOM;
@@ -74,7 +75,8 @@ public class TPorter extends Thread {
 				
 			case AT_THE_LUGGAGE_BELT_CONVEYOR:
 				System.out.println("state = AT_THE_LUGGAGE_BELT_CONVEYOR\n");
-				baggageBeltConveyor.carryItToAppropriateStore (currentBag.getPassNumber());
+				if (baggageBeltConveyor.carryItToAppropriateStore (currentBag.getPassNumber()))
+					genRep.incLuggageAtCB();
 				currentBag = null;
 				nextState = states.AT_THE_PLANES_HOLD;
 				break;
@@ -82,11 +84,13 @@ public class TPorter extends Thread {
 			case AT_THE_STOREROOM:
 				System.out.println("state = AT_THE_STOREROOM\n");
 				baggageStorage.carryItToAppropriateStore (currentBag);
+				genRep.incLuggageAtSR();
 				currentBag = null;
 				nextState = states.AT_THE_PLANES_HOLD;
 				break;
 			}	
 			state = nextState;
+			genRep.updatePorterState(state);
 		}
 		System.out.println("Porter Dying!\n");
 	}	

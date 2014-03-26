@@ -38,8 +38,8 @@ class PassengerInfo {
         return currentLuggage;
     }
 
-    public void setCurrentLuggage(int currentLuggage) {
-        this.currentLuggage = currentLuggage;
+    public void gotLuggage() {
+        this.currentLuggage++;
     }
 
     public int getStartingLuggage() {
