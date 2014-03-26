@@ -18,12 +18,14 @@ public class TPassenger extends Thread {
 		ENTERING_THE_DEPARTURE_TERMINAL
 	}
 	
-	private MGeneralRepository genRep;
+	private IPassengerGenRep genRep;
 	private IPassengerArrivalTerminal arrivalTerminal;
 	private IPassengerBaggageCollectionPoint luggageCollectionPoint;
 	private MBaggageReclaimGuichet baggageReclaimOffice;
 	private IPassengerArrivalExitTransferZone arrivalTerminalExit;
 	private IPassengerBus bus;
+	private MDepartureTerminalEntrace departureTerminalEntrace;
+
 	
 	private int passengerNumber;
 	private int flightNumber;
@@ -34,7 +36,7 @@ public class TPassenger extends Thread {
 			int remainingBags, 
 			boolean inTransit,
 			int flightNumber,
-			MGeneralRepository genRep) {
+			IPassengerGenRep genRep) {
 		this.genRep = genRep;
 		
 		this.passengerNumber = passengerNumber;
@@ -46,6 +48,7 @@ public class TPassenger extends Thread {
 		this.luggageCollectionPoint = genRep.getBaggagePickupZone();
 		this.baggageReclaimOffice = genRep.getBaggageReclaimGuichet();
 		this.arrivalTerminalExit = genRep.getArrivalTerminalExit();
+		this.departureTerminalEntrace = genRep.getDepartureTerminalEntrace();
 		this.bus = genRep.getBus();
 		this.flightNumber = flightNumber;
 		//System.out.println(passengerNumber + "fn"+ flightNumber+ "bags" + remainingBags );
@@ -145,12 +148,18 @@ public class TPassenger extends Thread {
 				
 			case ENTERING_THE_DEPARTURE_TERMINAL:
 				//System.out.println(passengerNumber + " ENTERING_THE_DEPARTURE_TERMINAL\n");
-				
+				try {
+					departureTerminalEntrace.prepareNextLeg();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				running = false;
 				break;
 			}	
 			state = nextState;
-			genRep.setPassengerStat(passengerNumber, state);
+			if (running)
+				genRep.setPassengerStat(passengerNumber, state);
 		}
 		System.out.println("Passenger #" + passengerNumber + " dying\n");
 	}
