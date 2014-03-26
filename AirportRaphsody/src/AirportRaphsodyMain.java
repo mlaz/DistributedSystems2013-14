@@ -24,7 +24,7 @@ public class AirportRaphsodyMain {
 		int M = 2; //maximum number of bags
 		int T = 3; //number of bus seat
 		
-		MGeneralRepository genRep = new MGeneralRepository(N, T, "/home/miguel/log1.log");
+		MGeneralRepository genRep = new MGeneralRepository(N, T, "log1.log");
 		//genRep.endSimulation();
 		//System.exit(0);
 		
