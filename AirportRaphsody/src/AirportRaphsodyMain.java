@@ -29,6 +29,7 @@ public class AirportRaphsodyMain {
 		//System.exit(0);
 		
 		MBus bus = new MBus(T, genRep);
+		MDepartureTerminalEntrace departureTerminalEntrace = new MDepartureTerminalEntrace(N, genRep);
 		MArrivalTerminalExit arrivalTerminalExit = new MArrivalTerminalExit(K, N, T, genRep);
 		MBaggagePickupZone baggagePickupZone = new MBaggagePickupZone(genRep);
 		MBaggageReclaimGuichet reclaimGuichet = new MBaggageReclaimGuichet(genRep);

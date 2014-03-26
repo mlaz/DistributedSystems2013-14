@@ -57,7 +57,6 @@ public class TPassenger extends Thread {
 		states nextState = state;
 		boolean running = true;
 		while (running) {
-			genRep.setPassengerStat(passengerNumber, state);
 			switch (state) {
 			case AT_THE_DISEMBARKING_ZONE:
 				try {
@@ -82,6 +81,7 @@ public class TPassenger extends Thread {
 					
 					while ( (remainingBags > 0) && luggageCollectionPoint.tryToCollectABag(passengerNumber, flightNumber) ) {
 						remainingBags--;
+						genRep.gotLuggage(passengerNumber);
 						System.out.println("Passenger #" + passengerNumber + " just got a bag\n");
 					}
 						
@@ -145,11 +145,12 @@ public class TPassenger extends Thread {
 				
 			case ENTERING_THE_DEPARTURE_TERMINAL:
 				//System.out.println(passengerNumber + " ENTERING_THE_DEPARTURE_TERMINAL\n");
-
+				
 				running = false;
 				break;
 			}	
 			state = nextState;
+			genRep.setPassengerStat(passengerNumber, state);
 		}
 		System.out.println("Passenger #" + passengerNumber + " dying\n");
 	}

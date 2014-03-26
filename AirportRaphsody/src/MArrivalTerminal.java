@@ -17,11 +17,9 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 	private boolean ongoingArrival;
 	private int passengersPerPlane;
 	private int remainingPassengers;
-	private MGeneralRepository genRep;
 	
 	public MArrivalTerminal(int nFlights, int nPassengers, int maxBags, MGeneralRepository genRep) {
 		
-		this.genRep = genRep;
 		genRep.setArrivalTerminal(this);
 		
 		//generating bags

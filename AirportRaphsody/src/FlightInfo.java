@@ -33,6 +33,10 @@ class FlightInfo {
     	numLuggage += nbags;
     }
     
+    public void removeABag () {
+    	numLuggage--;
+    }
+    
     public void updateFlight(int newID, int newLuggageCount) {
         this.flightID = newID;
         this.numLuggage = newLuggageCount;

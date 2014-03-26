@@ -2,8 +2,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * @author Filipe Teixeira <fmteixeira@ua.pt>
@@ -20,24 +18,24 @@ public class MGeneralRepository {
 	private MBaggageReclaimGuichet baggageReclaimGuichet;
 	private MBus bus;
 	private MTempBaggageStorage tempBaggageStorage;
-	
-    private Queue<String> log;
+	private MDepartureTerminalEntrace departureTerminalEntrace;
     
     private FlightInfo plane;
     private PorterInfo porter;
     private DriverInfo driver;
     private PassengerInfo[] passengers;
     private int registeredPassengers;
+    private boolean allPassReg;
    
     BufferedWriter bw;
         
 	public MGeneralRepository(int numPassengers, int nBusSeats, String path) {
 		passengers = null; //new PassengerInfo[numPassengers];
         registeredPassengers = 0;
-        log = new LinkedList<>();
         plane = null;
         this.numPassengers = numPassengers;
         this.nBusSeats = nBusSeats;
+        allPassReg = false;
         //
         File file = new File(path);
 
@@ -58,7 +56,6 @@ public class MGeneralRepository {
 		}
 		
 		printHeader();
-        
 	}
 	
 	public void endSimulation() {
@@ -88,34 +85,17 @@ public class MGeneralRepository {
             }
         }
         
-        /*
-        private void addLogEntry() {
-            String s = "";
-            
-            s += plane.toString();
-            s += porter.toString();
-            s += driver.toString();
-            s += '\n';
-            
-            for(int i=0 ; i<passengers.length ; i++) {
-                s += passengers[i].toString();
-            }
-            
-            log.add(s);
-        }
-        */
-        
         private void printLogEntry() {
             String s = "";
             
-            s += plane.toString();
+            s += (allPassReg) ? plane.toString() : "NLANDED ";
             s += porter.toString();
             s += driver.toString();
             s += '\n';
             
-            for(int i=0 ; i<passengers.length ; i++) {
-                s += passengers[i].toString();
-            }
+            if (allPassReg) //this avoids nullpointerexceptions during non-passenger threads state updates between flights
+            	for(int i=0 ; i<passengers.length ; i++) 
+            		s += passengers[i].toString();
             
             try {
 				bw.write(s + "\n");
@@ -125,29 +105,28 @@ public class MGeneralRepository {
 			}
         }
         
-        /* plane  */
-        //private void registerNewFlight(int flightID, int numLuggage) {
-         //   plane = new FlightInfo(flightID, numLuggage);
-        //}
-        
         /* porter */
         public synchronized void registerPorter() {
             porter = new PorterInfo();
-            //addLogEntry();
         }
         
-        public synchronized void setPorterState(TPorter.states newState) {
+        public synchronized void updatePorterState(TPorter.states newState) {
             porter.setStat(newState);
             printLogEntry();
         }
         
-        public synchronized void setLuggageAtCB(int cb) {
-            porter.setCb(cb);
+        public synchronized void incLuggageAtCB() {
+            porter.addconvBeltItem();
             printLogEntry();
         }
         
-        public synchronized void setLuggageAtSR(int sr) {
-            porter.setSr(sr);
+        public synchronized void incLuggageAtSR() {
+            porter.addStoredBaggage();
+            printLogEntry();
+        }
+        
+        public synchronized void removeLuggageAtPlane() {
+            plane.removeABag();
             printLogEntry();
         }
         
@@ -157,7 +136,7 @@ public class MGeneralRepository {
             //addLogEntry();
         }
         
-        public synchronized void setDriverState(TDriver.states newState) {
+        public synchronized void updateDriverState(TDriver.states newState) {
             driver.setStat(newState);
             printLogEntry();
         }
@@ -177,6 +156,7 @@ public class MGeneralRepository {
             
             if (plane != null){
             	if (plane.getFlightID() != planeId) {
+            		allPassReg = false;
             		plane = new FlightInfo(planeId);
             		passengers = new PassengerInfo[numPassengers];
             		registeredPassengers = 0;
@@ -189,6 +169,7 @@ public class MGeneralRepository {
             passengers[registeredPassengers] = new PassengerInfo(pID, inTransit, startingLuggage);
             registeredPassengers++;
             plane.addBaggage(startingLuggage);
+            allPassReg = (registeredPassengers == numPassengers);
         }
         
         public synchronized void setPassengerStat(int pID, TPassenger.states newStat) {
@@ -197,9 +178,9 @@ public class MGeneralRepository {
             printLogEntry();
         }
         
-        public synchronized void setPassengerCurrentLuggage(int pID, int currentLuggage) {
+        public synchronized void gotLuggage(int pID) {
             PassengerInfo p = findPassenger(pID);
-            p.setCurrentLuggage(currentLuggage);
+            p.gotLuggage();
             printLogEntry();
         }
         
@@ -296,6 +277,20 @@ public class MGeneralRepository {
 	 */
 	public void setTempBaggageStorage(MTempBaggageStorage tempBaggageStorage) {
 		this.tempBaggageStorage = tempBaggageStorage;
+	}
+
+	/**
+	 * @return the departureTerminalEntrace
+	 */
+	public MDepartureTerminalEntrace getDepartureTerminalEntrace() {
+		return departureTerminalEntrace;
+	}
+
+	/**
+	 * @param departureTerminalEntrace the departureTerminalEntrace to set
+	 */
+	public void setDepartureTerminalEntrace(MDepartureTerminalEntrace departureTerminalEntrace) {
+		this.departureTerminalEntrace = departureTerminalEntrace;
 	}
 
 }

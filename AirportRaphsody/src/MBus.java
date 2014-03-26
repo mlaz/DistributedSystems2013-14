@@ -12,7 +12,6 @@ public class MBus implements IDriverBus, IPassengerBus {
 	private Locations location = Locations.ARR_TERM;
 	private int nSeats;
 	private int occupiedSeats;
-	private MGeneralRepository genRep;
 	
 	/**
 	 * @param nSeats

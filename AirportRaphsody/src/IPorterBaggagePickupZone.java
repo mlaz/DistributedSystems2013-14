@@ -10,8 +10,9 @@ public interface IPorterBaggagePickupZone {
 
 	/**
 	 * @param currentBag
+	 * @return 
 	 */
-	void carryItToAppropriateStore(int passId);
+	boolean carryItToAppropriateStore(int passId);
 
 	/**
 	 * @throws InterruptedException 

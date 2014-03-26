@@ -85,6 +85,7 @@ public class TDriver extends Thread {
 				break;
 			}	
 			state = nextState;
+			genRep.updateDriverState(state);
 		}
 		System.out.println("Driver Dying!\n+++++++++++++++++++++++++++++++++++++++++++");
 	}
