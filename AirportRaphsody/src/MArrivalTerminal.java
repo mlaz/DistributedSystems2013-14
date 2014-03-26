@@ -56,8 +56,6 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 		if (ongoingArrival) {
 			while (remainingPassengers > 0)
 				wait();
-			//System.out.println("no more passengers\n");
-			//remainingPlanes--;
 			currentPlanesHold = flightQueue.poll();
 			remainingPassengers = passengersPerPlane;
 		}

@@ -8,7 +8,7 @@ import java.io.IOException;
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  *
  */
-public class MGeneralRepository {
+public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep, IPorterGenRep{
 	
 	private int numPassengers;
 	private int nBusSeats;

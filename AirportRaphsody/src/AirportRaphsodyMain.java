@@ -56,7 +56,7 @@ public class AirportRaphsodyMain {
 			}
 			
 			System.out.println("flight# " + flightNumber + " NPASSENGERS:" + N);
-	//starting threads
+			//starting threads
 			System.out.println("NEW airplane-----------------------------------------\n");
 			
 			for (passNumber = 0; passNumber < N; passNumber++) 
@@ -75,25 +75,7 @@ public class AirportRaphsodyMain {
 			
 			
 		}
-		/*
-		for(flightNumber = 0; flightNumber < K; flightNumber++){
-			//generating passengers
-			System.out.println("NEW airplane-----------------------------------------\n");
-			
-			for (passNumber = 0; passNumber < N; passNumber++) 
-				passengerList[flightNumber][passNumber].start();
-				
-				
-			for (passNumber = 0; passNumber < N; passNumber++)
-				try {
-					passengerList[flightNumber][passNumber].join();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			System.out.println("ALL Passengers Done-----------------------------------------\n");
-		}*/
+		
 		try {
 			porter.join();
 			driver.join();

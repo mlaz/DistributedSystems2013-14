@@ -17,12 +17,12 @@ public class TDriver extends Thread {
 	private IDriverArrivalTerminalTransferZone arrivalTerminalTransferZone;
 	private IDriverBus bus;
 	private int lastPassengers = 0;
-	private MGeneralRepository genRep;
+	private IDriverGenRep genRep;
 	
 	/**
 	 * @param genRep
 	 */
-	public TDriver(MGeneralRepository genRep) {
+	public TDriver(IDriverGenRep genRep) {
 		arrivalTerminalTransferZone = genRep.getArrivalTerminalExit();
 		bus = genRep.getBus();
 		this.genRep = genRep;
