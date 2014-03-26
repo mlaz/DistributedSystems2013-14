@@ -9,16 +9,15 @@
  * @author Filipe Teixeira <fmteixeira@ua.pt>
  */
 class DriverInfo {
-    private String stat;
+    private TDriver.states stat;
     private int[]  queueIDs;
     private int[]  seatsIDs;
 
-    public DriverInfo(String stat, int queueSize, int numSeats) {
+    public DriverInfo(int queueSize, int numSeats) {
     	
-        this.stat = stat;
         this.queueIDs = new int[queueSize];
         this.seatsIDs = new int[numSeats];
-        
+        this.stat = TDriver.states.PARKING_AT_THE_ARRIVAL_TERMINAL;
         for( int i=0 ; i<queueIDs.length ; i++ ) {
             queueIDs[i] = -1;
         }
@@ -28,7 +27,7 @@ class DriverInfo {
         }
     }
 
-    public void setStat(String stat) {
+    public void setStat(TDriver.states stat) {
         this.stat = stat;
     }
 
@@ -42,7 +41,24 @@ class DriverInfo {
     
     @Override
     public String toString() {
-        String s = stat + "  ";
+    	String stat;
+    	
+    	switch (this.stat) {
+    	 case PARKING_AT_THE_ARRIVAL_TERMINAL:
+    		 stat = "PAAT";
+    		 break;
+    	 case DRIVING_FORWARD:
+    		 stat = "DRFW";
+    		 break;
+    	 case PARKING_AT_THE_DEPARTURE_TERMINAL:
+    		 stat = "PADT";
+    		 break;
+    	 default:
+    		 stat = "DRBW";
+    		 break;
+    	}
+    	
+        String s ="  "+ stat + "  ";
         
         s += stringIDs(queueIDs);
         s += " ";

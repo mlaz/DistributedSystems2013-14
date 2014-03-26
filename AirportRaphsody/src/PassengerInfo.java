@@ -7,36 +7,30 @@
 /**
  *
  * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 class PassengerInfo {
     
     private int id;
-    private String stat;
-    private final String situation;
-    private final int    startingLuggage;
-    private int    currentLuggage;
+    private boolean inTransit;
+    private int startingLuggage;
+    
+    private TPassenger.states stat;
+    private int currentLuggage;
 
-    public PassengerInfo(int id, String stat, String situation, int startingLuggage) {
-        this.id              = id;
-        this.stat            = stat;
-        this.situation       = situation;
-        this.startingLuggage = startingLuggage;
-        this.currentLuggage  = 0;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
+    public PassengerInfo(int id, boolean inTransit, int startingLuggage) {
         this.id = id;
+        this.inTransit = inTransit;
+        this.startingLuggage = startingLuggage;
+        this.currentLuggage = 0;
+        this.stat = TPassenger.states.EXITING_THE_ARRIVAL_TERMINAL;
+    }
+
+    public int getId() { 
+    	return id;
     }
     
-    public String getStat() {
-        return stat;
-    }
-
-    public void setStat(String stat) {
+    public void setStat(TPassenger.states stat) {
         this.stat = stat;
     }
 
@@ -48,16 +42,41 @@ class PassengerInfo {
         this.currentLuggage = currentLuggage;
     }
 
-    public String getSituation() {
-        return situation;
-    }
-
     public int getStartingLuggage() {
         return startingLuggage;
     }
 
     @Override
     public String toString() {
+    	String situation = (inTransit) ? "TRT" : "FDT";
+    	String stat;
+    	switch (this.stat) {
+    	 case AT_THE_DISEMBARKING_ZONE:           
+    		stat= "ADZ";
+         	break;
+    
+    	 case AT_THE_LUGGAGE_COLLECTION_POINT:   
+    		 stat = "LCP";
+    		 break;
+    	 case AT_THE_BAGGAGE_RECLAIM_OFFICE:      
+    		 stat = "BRO";
+         	 break;
+    	 case EXITING_THE_ARRIVAL_TERMINAL:       
+    		 stat = "EAT";
+    	 	 break;
+    	 case AT_THE_ARRIVAL_TRANSFER_TERMINAL:   
+    		 stat = "ATT";
+         	 break;
+    	 case TERMINAL_TRANSFER:                  
+    		 stat = "TTF";
+         	 break;
+    	 case AT_THE_DEPARTURE_TRANSFER_TERMINAL: 
+    		 stat = "DTT";
+         	 break;
+    	 default:    
+    		 stat = "EDT";
+         	 break;
+    	}
         return stat + " " + situation + "  " + startingLuggage + "   " + currentLuggage + "  ";
     }
 }

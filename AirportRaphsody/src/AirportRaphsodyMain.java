@@ -24,7 +24,9 @@ public class AirportRaphsodyMain {
 		int M = 2; //maximum number of bags
 		int T = 3; //number of bus seat
 		
-		MGeneralRepository genRep = new MGeneralRepository(N);
+		MGeneralRepository genRep = new MGeneralRepository(N, T, "/home/miguel/log1.log");
+		//genRep.endSimulation();
+		//System.exit(0);
 		
 		MBus bus = new MBus(T, genRep);
 		MArrivalTerminalExit arrivalTerminalExit = new MArrivalTerminalExit(K, N, T, genRep);
@@ -51,9 +53,28 @@ public class AirportRaphsodyMain {
 				transit = !transit;
 				nbags = (nbags == M) ? 0 : nbags + 1;
 			}
+			
 			System.out.println("flight# " + flightNumber + " NPASSENGERS:" + N);
+	//starting threads
+			System.out.println("NEW airplane-----------------------------------------\n");
+			
+			for (passNumber = 0; passNumber < N; passNumber++) 
+				passengerList[flightNumber][passNumber].start();
+				
+				
+			for (passNumber = 0; passNumber < N; passNumber++)
+				try {
+					passengerList[flightNumber][passNumber].join();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			System.out.println("ALL Passengers Done-----------------------------------------\n");
+			
+			
 		}
-		
+		/*
 		for(flightNumber = 0; flightNumber < K; flightNumber++){
 			//generating passengers
 			System.out.println("NEW airplane-----------------------------------------\n");
@@ -71,7 +92,7 @@ public class AirportRaphsodyMain {
 				}
 
 			System.out.println("ALL Passengers Done-----------------------------------------\n");
-		}
+		}*/
 		try {
 			porter.join();
 			driver.join();
@@ -80,6 +101,9 @@ public class AirportRaphsodyMain {
 			e.printStackTrace();
 		}
 		System.out.println("ALL Threads Done-----------------------------------------\n");
+		
+		genRep.endSimulation();
+		System.exit(0);
 	}
 
 }

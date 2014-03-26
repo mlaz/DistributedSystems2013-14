@@ -6,11 +6,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  *
  */
 public class MGeneralRepository {
 	
+	private int numPassengers;
+	private int nBusSeats;
 	private MArrivalTerminal arrivalTerminal;
 	private MArrivalTerminalExit arrivalTerminalExit;
 	private MBaggagePickupZone baggagePickupZone;
@@ -18,30 +21,59 @@ public class MGeneralRepository {
 	private MBus bus;
 	private MTempBaggageStorage tempBaggageStorage;
 	
-        private LinkedList<String> log;
+    private Queue<String> log;
+    
+    private FlightInfo plane;
+    private PorterInfo porter;
+    private DriverInfo driver;
+    private PassengerInfo[] passengers;
+    private int registeredPassengers;
+   
+    BufferedWriter bw;
         
-        private FlightInfo plane;
-        private PorterInfo porter;
-        private DriverInfo driver;
-        private PassengerInfo[] passengers;
-        private int registeredPassengers;
+	public MGeneralRepository(int numPassengers, int nBusSeats, String path) {
+		passengers = null; //new PassengerInfo[numPassengers];
+        registeredPassengers = 0;
+        log = new LinkedList<>();
+        plane = null;
+        this.numPassengers = numPassengers;
+        this.nBusSeats = nBusSeats;
+        //
+        File file = new File(path);
+
+        if (!file.exists())
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+       
+		try {
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			bw = new BufferedWriter(fw);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		printHeader();
         
-	public MGeneralRepository(int numPassengers) {
-                passengers = new PassengerInfo[numPassengers];
-                registeredPassengers = 0;
-                log = new LinkedList<>();
+	}
+	
+	public void endSimulation() {
+		try {
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        System.out.println("Log written!");
 	}
         
-        public void saveToFile(String path) {
+        private void printHeader() {
             try {
-                File file = new File(path);
-
-                if (!file.exists()) {
-                    file.createNewFile();
-                }
-
-                FileWriter fw = new FileWriter(file.getAbsoluteFile());
-                BufferedWriter bw = new BufferedWriter(fw);
 
                 bw.write("             AIRPORT RHAPSODY - Description of the internal state of the problem\n");
                 bw.write("\n");
@@ -50,19 +82,13 @@ public class MGeneralRepository {
                 bw.write("                                                         PASSENGERS\n");
                 bw.write("St1 Si1 NR1 NA1 St2 Si2 NR2 NA2 St3 Si3 NR3 NA3 St4 Si4 NR4 NA4 St5 Si5 NR5 NA5 St6 Si6 NR6 NA6\n");
                 
-                
-                for(int i=0 ; i<log.size() ; i++ ) {
-                    bw.write(log.poll()+"\n");
-                }
-                bw.close();
-
-                System.out.println("Log written!");
-
             } catch (IOException e) {
+            	System.out.println("ERROR: Couldnt print header to logfile");
                 e.printStackTrace();
             }
         }
         
+        /*
         private void addLogEntry() {
             String s = "";
             
@@ -77,79 +103,104 @@ public class MGeneralRepository {
             
             log.add(s);
         }
+        */
         
-        /* plane  */
-        public synchronized void registerNewFlight(int flightID, int numLuggage) {
-            plane = new FlightInfo(flightID, numLuggage);
-            registeredPassengers = 0;
-            porter = new PorterInfo("----",0,0);
-            driver = new DriverInfo("----",0,0);
+        private void printLogEntry() {
+            String s = "";
+            
+            s += plane.toString();
+            s += porter.toString();
+            s += driver.toString();
+            s += '\n';
             
             for(int i=0 ; i<passengers.length ; i++) {
-                passengers[i] = new PassengerInfo(9, "---", "---", 0);
+                s += passengers[i].toString();
             }
-            addLogEntry();
+            
+            try {
+				bw.write(s + "\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
+        
+        /* plane  */
+        //private void registerNewFlight(int flightID, int numLuggage) {
+         //   plane = new FlightInfo(flightID, numLuggage);
+        //}
         
         /* porter */
         public synchronized void registerPorter() {
-            porter = new PorterInfo("WPTL",0,0);
-            addLogEntry();
+            porter = new PorterInfo();
+            //addLogEntry();
         }
         
-        public synchronized void setPorterState(String newState) {
+        public synchronized void setPorterState(TPorter.states newState) {
             porter.setStat(newState);
-            addLogEntry();
+            printLogEntry();
         }
         
         public synchronized void setLuggageAtCB(int cb) {
             porter.setCb(cb);
-            addLogEntry();
+            printLogEntry();
         }
         
         public synchronized void setLuggageAtSR(int sr) {
             porter.setSr(sr);
-            addLogEntry();
+            printLogEntry();
         }
         
         /* driver */
-        public synchronized void registerDriver(int queueSize, int numSeats) {
-            driver = new DriverInfo("PAAT", queueSize, numSeats);
-            addLogEntry();
+        public synchronized void registerDriver() {
+            driver = new DriverInfo(numPassengers, nBusSeats);
+            //addLogEntry();
         }
         
-        public synchronized void setDriverState(String newState) {
+        public synchronized void setDriverState(TDriver.states newState) {
             driver.setStat(newState);
-            addLogEntry();
+            printLogEntry();
         }
         
-        public synchronized void setDriverQueue(int[] queue) {
-            driver.setQueueIDs(queue);
-            addLogEntry();
-        }
+        //private void setDriverQueue(int[] queue) {
+       //     driver.setQueueIDs(queue);
+      //      addLogEntry();
+      //  }
         
         public synchronized void setDriverSeats(int[] seats) {
             driver.setSeatsIDs(seats);
-            addLogEntry();
+            printLogEntry();
         }
         
         /* passengers */
-        public synchronized void registerPassenger(int pID, String stat, String situation, int startingLuggage) {
-            passengers[registeredPassengers] = new PassengerInfo(pID, stat, situation, startingLuggage);
+        public synchronized void registerPassenger(int pID, int planeId, boolean inTransit, int startingLuggage) {
+            
+            if (plane != null){
+            	if (plane.getFlightID() != planeId) {
+            		plane = new FlightInfo(planeId);
+            		passengers = new PassengerInfo[numPassengers];
+            		registeredPassengers = 0;
+            	}
+            } else { 
+            	plane = new FlightInfo(planeId);
+            	passengers = new PassengerInfo[numPassengers];
+            }
+            
+            passengers[registeredPassengers] = new PassengerInfo(pID, inTransit, startingLuggage);
             registeredPassengers++;
-            addLogEntry();
+            plane.addBaggage(startingLuggage);
         }
         
-        public synchronized void setPassengerStat(int pID, String newStat) {
+        public synchronized void setPassengerStat(int pID, TPassenger.states newStat) {
             PassengerInfo p = findPassenger(pID);
             p.setStat(newStat);
-            addLogEntry();
+            printLogEntry();
         }
         
         public synchronized void setPassengerCurrentLuggage(int pID, int currentLuggage) {
             PassengerInfo p = findPassenger(pID);
             p.setCurrentLuggage(currentLuggage);
-            addLogEntry();
+            printLogEntry();
         }
         
         private PassengerInfo findPassenger(int pID) {
@@ -162,7 +213,7 @@ public class MGeneralRepository {
         }
         
         
-        
+        ///////////////////////////////////////////
 	/**
 	 * @return the arrivalTerminalExit
 	 */

@@ -7,7 +7,7 @@
  * 
  */
 public class TDriver extends Thread {
-	private enum states {
+	public enum states {
 		PARKING_AT_THE_ARRIVAL_TERMINAL, 
 		DRIVING_FORWARD,
 		PARKING_AT_THE_DEPARTURE_TERMINAL,
@@ -17,6 +17,7 @@ public class TDriver extends Thread {
 	private IDriverArrivalTerminalTransferZone arrivalTerminalTransferZone;
 	private IDriverBus bus;
 	private int lastPassengers = 0;
+	private MGeneralRepository genRep;
 	
 	/**
 	 * @param genRep
@@ -24,9 +25,12 @@ public class TDriver extends Thread {
 	public TDriver(MGeneralRepository genRep) {
 		arrivalTerminalTransferZone = genRep.getArrivalTerminalExit();
 		bus = genRep.getBus();
+		this.genRep = genRep;
+		genRep.registerDriver();
 	}
 
 	public void run () {
+	
 		states state = states.PARKING_AT_THE_ARRIVAL_TERMINAL;
 		states nextState = state;
 		boolean running = true;
