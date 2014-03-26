@@ -123,7 +123,7 @@ public class TPassenger extends Thread {
 				//System.out.println(passengerNumber + " TERMINAL_TRANSFER\n");
 
 				try {
-					if(!bus.enterTheBus())
+					if(!bus.enterTheBus(passengerNumber))
 						nextState = states.AT_THE_ARRIVAL_TRANSFER_TERMINAL;
 					else
 						nextState = states.AT_THE_DEPARTURE_TRANSFER_TERMINAL;
@@ -138,7 +138,7 @@ public class TPassenger extends Thread {
 				//System.out.println(passengerNumber + " AT_THE_DEPARTURE_TRANSFER_TERMINAL\n");
 
 				try {
-					bus.leaveTheBus();
+					bus.leaveTheBus(passengerNumber);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

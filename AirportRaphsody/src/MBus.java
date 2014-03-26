@@ -8,10 +8,12 @@
  */
 public class MBus implements IDriverBus, IPassengerBus {
 
+	private MGeneralRepository genRep;
 	private enum Locations {ARR_TERM, DEP_TERM} 
 	private Locations location = Locations.ARR_TERM;
 	private int nSeats;
 	private int occupiedSeats;
+	private int[] seats;
 	
 	/**
 	 * @param nSeats
@@ -21,6 +23,11 @@ public class MBus implements IDriverBus, IPassengerBus {
 		this.nSeats = nSeats;
 		occupiedSeats = 0;
 		location = Locations.ARR_TERM;
+		seats = new int[nSeats];
+		int i;
+		for(i = 0; i< nSeats; i++)
+			seats[i] = -1;
+		this.genRep = genRep;
 	}
 
 	/* (non-Javadoc)
@@ -40,10 +47,10 @@ public class MBus implements IDriverBus, IPassengerBus {
 	 */
 	@Override
 	public synchronized int parkAndLetPassOff() throws InterruptedException {
+		
 		int passengers = occupiedSeats;
 		location = Locations.DEP_TERM;
 		notifyAll();
-		
 		
 		while (occupiedSeats > 0)
 			wait();
@@ -56,9 +63,12 @@ public class MBus implements IDriverBus, IPassengerBus {
 	 * @see IPassengerBus#enterTheBus()
 	 */
 	@Override
-	public synchronized boolean enterTheBus() throws InterruptedException {
+	public synchronized boolean enterTheBus(int passNum) throws InterruptedException {
 		if (location != Locations.ARR_TERM)
 			return false;
+		
+		seats[occupiedSeats] = passNum;
+		genRep.updateDriverSeats(seats);
 		occupiedSeats++;
 		System.out.println("occupiedSeats:" + occupiedSeats);
 		if (occupiedSeats == nSeats)
@@ -73,11 +83,16 @@ public class MBus implements IDriverBus, IPassengerBus {
 	 * @see IPassengerBus#leaveTheBus()
 	 */
 	@Override
-	public synchronized void leaveTheBus() throws InterruptedException {
+	public synchronized void leaveTheBus(int passNum) throws InterruptedException {
 		
 		while (location != Locations.DEP_TERM)
 			wait();
 		
+		int i;
+		for (i = 0; i < nSeats; i++)
+			if (seats[i] == passNum)
+				seats[i] = -1;
+		genRep.updateDriverSeats(seats);
 		occupiedSeats--;
 		System.out.println("occupiedSeats:" + occupiedSeats);
 		if (occupiedSeats == 0)
