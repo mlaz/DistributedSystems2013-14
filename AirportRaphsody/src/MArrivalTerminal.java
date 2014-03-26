@@ -27,7 +27,7 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 		int j;
 		int k;
 		int nbags = maxBags;
-		Boolean transit = false;
+		Boolean transit = true;
 		Stack<Bag> planesHold;
 		flightQueue = new LinkedList <Stack<Bag>>();
 		for(k = 0; k < nFlights; k++) {

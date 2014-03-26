@@ -23,7 +23,7 @@ public class MDepartureTerminalEntrace {
 	private int caclNumPassengers(int N) {
 		int n = 0;
 		int passNumber;
-		Boolean transit = false;
+		Boolean transit = true;
 		for (passNumber = 0; passNumber < N; passNumber++) {
 			transit = !transit;
 			if (transit)

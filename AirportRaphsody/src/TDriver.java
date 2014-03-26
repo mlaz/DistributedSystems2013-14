@@ -30,7 +30,7 @@ public class TDriver extends Thread {
 	}
 
 	public void run () {
-	
+		
 		states state = states.PARKING_AT_THE_ARRIVAL_TERMINAL;
 		states nextState = state;
 		boolean running = true;
@@ -70,7 +70,9 @@ public class TDriver extends Thread {
 				//System.out.println("DRIVER: PARKING_AT_THE_DEPARTURE_TERMINAL");
 
 				try {
+					//lastPassengers = bus.parkAndLetPassOff();
 					lastPassengers = bus.parkAndLetPassOff();
+					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

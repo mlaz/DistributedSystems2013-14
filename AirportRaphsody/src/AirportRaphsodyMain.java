@@ -45,7 +45,7 @@ public class AirportRaphsodyMain {
 		int flightNumber;
 		int passNumber;
 		int nbags = M;
-		Boolean transit = false;
+		Boolean transit = true;
 		for(flightNumber = 0; flightNumber < K; flightNumber++){
 		//generating passengers 	
 			for (passNumber = 0; passNumber < N; passNumber++) {

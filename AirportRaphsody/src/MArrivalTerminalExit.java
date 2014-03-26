@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -17,6 +18,7 @@ public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone,
 	private int passengersToGo;
 	private Queue<Integer> busQueue;
 	private boolean availableBus = false;
+	private MGeneralRepository genRep;
 	
 	/**
 	 * @param t
@@ -27,6 +29,7 @@ public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone,
 		this.nSeats = nSeats;
 		busQueue = new LinkedList<Integer>();
 		totalPassengers = nAirplanes * nPassengers;
+		this.genRep = genRep;
 	}
 
 	/* (non-Javadoc)
@@ -37,14 +40,17 @@ public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone,
 		busQueue.add((Integer)passNumber);
 		if (busQueue.size() == nSeats)
 			notifyAll();
-		
+		genRep.updateDriverQueue(busQueue.toArray());
+
 		System.out.println("Passenger " + passNumber + " Qsize" + busQueue.size());
 		while ( (passNumber != busQueue.peek()) || (passengersToGo == 0) || (!availableBus) )
 			wait();
 		
 		passengersToGo--;
-		//passengersDone++;
 		busQueue.poll();
+		
+		genRep.updateDriverQueue(busQueue.toArray());
+		
 		if (passengersToGo == 0)
 			availableBus = false;
 		notifyAll();

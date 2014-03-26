@@ -2,6 +2,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * @author Filipe Teixeira <fmteixeira@ua.pt>
@@ -141,12 +142,23 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep, IPor
             printLogEntry();
         }
         
-        //private void setDriverQueue(int[] queue) {
-       //     driver.setQueueIDs(queue);
-      //      addLogEntry();
-      //  }
+        public synchronized void updateDriverQueue(Object[] queue) {
+        	int[] iqueue = new int[numPassengers];
+        	int i = 0;
+        	while (i < queue.length) {
+        		iqueue[i] = ((Integer)queue[i]).intValue();
+        		i++;
+        	}
+        	while (i < numPassengers) {
+        		iqueue[i] = -1;
+        		i++;
+        	}
+        	
+            driver.setQueueIDs(iqueue);
+            printLogEntry();
+        }
         
-        public synchronized void setDriverSeats(int[] seats) {
+        public synchronized void updateDriverSeats(int[] seats) {
             driver.setSeatsIDs(seats);
             printLogEntry();
         }
