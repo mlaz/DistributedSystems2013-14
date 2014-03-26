@@ -1,23 +1,19 @@
 
-import java.util.LinkedList;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//import java.util.LinkedList;
 
 /**
  *
  * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 class FlightInfo {
     private int flightID;
     private int numLuggage;
     
-    public FlightInfo(int flightID, int numLuggage) {
-        this.flightID      = flightID;
-        this.numLuggage    = numLuggage;
+    public FlightInfo(int flightID) {
+        this.flightID = flightID;
+        numLuggage = 0;
+        System.out.println("FlightId" + flightID);
     }
 
     @Override
@@ -31,6 +27,10 @@ class FlightInfo {
 
     public int getNumLuggage() {
         return numLuggage;
+    }
+    
+    public void addBaggage (int nbags) {
+    	numLuggage += nbags;
     }
     
     public void updateFlight(int newID, int newLuggageCount) {

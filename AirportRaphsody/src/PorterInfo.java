@@ -1,50 +1,50 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
+//import TPorter.states;
 /**
  *
  * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 class PorterInfo {
-    private String stat;
-    private int cb;
-    private int sr;
+    private TPorter.states stat;
+    private int collectedBaggaeg;
+    private int storedBaggage;
 
-    public PorterInfo(String state, int cb, int sr) {
-        this.stat = state;
-        this.cb   = cb;
-        this.sr   = sr;
+    public PorterInfo(/*String state, int cb, int sr*/) {
+        stat = TPorter.states.WAITING_FOR_A_PLANE_TO_LAND;
+        //this.cb   = cb;
+        //this.sr   = sr;
     }
 
-    public String getStat() {
-        return stat;
-    }
-
-    public int getCb() {
-        return cb;
-    }
-
-    public int getSr() {
-        return sr;
-    }
-
-    public void setStat(String stat) {
+    public void setStat(TPorter.states stat) {
         this.stat = stat;
     }
 
     public void setCb(int cb) {
-        this.cb = cb;
+        this.collectedBaggaeg = cb;
     }
 
     public void setSr(int sr) {
-        this.sr = sr;
+        this.storedBaggage = sr;
     }
     
     @Override
     public String toString() {
-        return " " + stat + "  " + cb + "  " + sr + " "  ;
+    	String stat;
+    	 switch (this.stat) {
+    	   case WAITING_FOR_A_PLANE_TO_LAND:  
+    		   stat = "WTPL";
+    		   break;
+    	   case AT_THE_PLANES_HOLD:           
+    		   stat = "APHL";
+    		   break;
+    	   case AT_THE_LUGGAGE_BELT_CONVEYOR:
+    		   stat = "ALBC";
+    		   break;
+    	   default:
+    		   stat = "ASTR";
+    		   break;
+    	  }
+        return "  " + stat + "  " + collectedBaggaeg + "  " + storedBaggage + " "  ;
     }
 }

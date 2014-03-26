@@ -7,7 +7,7 @@
  * 
  */
 public class TPorter extends Thread {
-	private enum states {
+	public enum states {
 		WAITING_FOR_A_PLANE_TO_LAND, 
 		AT_THE_PLANES_HOLD,
 		AT_THE_LUGGAGE_BELT_CONVEYOR,
@@ -17,6 +17,7 @@ public class TPorter extends Thread {
 	private IPorterArrivalTerminal arrivalTerminal;
 	private IPorterBaggagePickupZone baggageBeltConveyor;
 	private MTempBaggageStorage baggageStorage;
+	private MGeneralRepository genRep;
 	
 	
 	public TPorter(MGeneralRepository genRep) {
@@ -24,9 +25,12 @@ public class TPorter extends Thread {
 		this.arrivalTerminal = genRep.getArrivalTerminal();
 		this.baggageBeltConveyor = genRep.getBaggagePickupZone();
 		this.baggageStorage = genRep.getTempBaggageStorage();
+		this.genRep = genRep;
+		genRep.registerPorter();
 	}
 	
-	public void run () {
+	public void run () {		
+
 		states state = states.WAITING_FOR_A_PLANE_TO_LAND;
 		states nextState = state;
 		Bag currentBag = null;

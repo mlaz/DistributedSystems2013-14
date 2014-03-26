@@ -7,7 +7,7 @@
  * 
  */
 public class TPassenger extends Thread {
-	private enum states {
+	public enum states {
 		AT_THE_DISEMBARKING_ZONE, 
 		AT_THE_LUGGAGE_COLLECTION_POINT,
 		AT_THE_BAGGAGE_RECLAIM_OFFICE, 
@@ -48,14 +48,16 @@ public class TPassenger extends Thread {
 		this.arrivalTerminalExit = genRep.getArrivalTerminalExit();
 		this.bus = genRep.getBus();
 		this.flightNumber = flightNumber;
+		//System.out.println(passengerNumber + "fn"+ flightNumber+ "bags" + remainingBags );
+		genRep.registerPassenger(passengerNumber, flightNumber, inTransit, remainingBags);
 	}
 	
 	public void run() {
-		
 		states state = states.AT_THE_DISEMBARKING_ZONE;
 		states nextState = state;
 		boolean running = true;
 		while (running) {
+			genRep.setPassengerStat(passengerNumber, state);
 			switch (state) {
 			case AT_THE_DISEMBARKING_ZONE:
 				try {
