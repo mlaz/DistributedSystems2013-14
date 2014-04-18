@@ -52,7 +52,7 @@ public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerB
 		System.out.println("no more bags\n");
 		waitingForBags = false;
 		notifyAll();
-		System.out.println("passengersWaiting: "+passengersWaiting);
+		System.out.println("[PORTER] passengersWaiting: "+passengersWaiting);
 		while ((passengersWaiting > 0) || (!conveyourBelt.isEmpty()))
 			wait();
 		waitingForBags = true;
@@ -68,7 +68,7 @@ public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerB
 			return false;
 
 		passengersWaiting++;
-		System.out.println(passengerNumber + " trying to collect a bag! \n");
+		System.out.println("[" + passengerNumber + " tryToCollectBag] trying to collect a bag! \n");
 		Iterator<Integer> i;
 		
 		while (waitingForBags || (!conveyourBelt.isEmpty())) {

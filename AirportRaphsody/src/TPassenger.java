@@ -104,7 +104,7 @@ public class TPassenger extends Thread {
 				nextState = states.EXITING_THE_ARRIVAL_TERMINAL;
 				
 			case EXITING_THE_ARRIVAL_TERMINAL:
-				arrivalTerminalExit.goHome();
+				arrivalTerminalExit.goHome(passengerNumber);
 				running = false;
 				break;
 				
