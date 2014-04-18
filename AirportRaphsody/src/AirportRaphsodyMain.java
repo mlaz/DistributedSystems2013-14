@@ -1,9 +1,3 @@
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Stack;
-
-
-
 /**
  * 
  */
@@ -20,7 +14,7 @@ public class AirportRaphsodyMain {
 	public static void main(String[] args) {
             
 		int K = 5; //number of airplanes
-		int N = 6; //number of passengers per airplane
+		int N = 100; //number of passengers per airplane
 		int M = 2; //maximum number of bags
 		int T = 3; //number of bus seat
 		
@@ -28,7 +22,7 @@ public class AirportRaphsodyMain {
 		//genRep.endSimulation();
 		//System.exit(0);
 		
-		MBus bus = new MBus(T, genRep);
+		MBus bus = new MBus(T, 5000, genRep);
 		MDepartureTerminalEntrace departureTerminalEntrace = new MDepartureTerminalEntrace(N, genRep);
 		MArrivalTerminalExit arrivalTerminalExit = new MArrivalTerminalExit(K, N, T, genRep);
 		MBaggagePickupZone baggagePickupZone = new MBaggagePickupZone(genRep);
