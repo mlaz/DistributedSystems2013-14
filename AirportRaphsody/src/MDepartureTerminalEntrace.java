@@ -1,3 +1,7 @@
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * 
  */
@@ -9,10 +13,15 @@
 public class MDepartureTerminalEntrace {
 	private int remainingPassengers;
 	private int N;
+	private Lock lock;
+	private Condition cond;
+	
 	public MDepartureTerminalEntrace (int N, MGeneralRepository genRep) {
 		remainingPassengers = caclNumPassengers(N);
 		genRep.setDepartureTerminalEntrace(this);
 		this.N = N;
+		lock = new ReentrantLock();
+		cond = lock.newCondition();
 	}
 	
 	/**
@@ -32,14 +41,19 @@ public class MDepartureTerminalEntrace {
 		return n;
 	}
 	
-	public synchronized void prepareNextLeg() throws InterruptedException {
-		remainingPassengers--;
-		
-		if (remainingPassengers > 0)
-			wait();
-		else {
-			remainingPassengers = caclNumPassengers(N);
-			notifyAll();
+	public void prepareNextLeg() throws InterruptedException {
+		lock.lock();
+		try {
+			remainingPassengers--;
+			
+			if (remainingPassengers > 0) {
+				cond.await();
+			} else {
+				remainingPassengers = caclNumPassengers(N);
+				cond.signalAll();
+			}
+		} finally {
+			lock.unlock();
 		}
 	}
 

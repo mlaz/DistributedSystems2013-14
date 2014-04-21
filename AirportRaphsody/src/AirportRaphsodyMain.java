@@ -1,8 +1,4 @@
 /**
- * 
- */
-
-/**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  *
  */
@@ -12,23 +8,29 @@ public class AirportRaphsodyMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-            
-		int K = 5; //number of airplanes
-		int N = 100; //number of passengers per airplane
-		int M = 2; //maximum number of bags
-		int T = 3; //number of bus seat
+		if( args.length < 5) {
+			System.err.println("Wrong number of arguments.");
+			System.err.println("Usage: java AirportRaphsodyMain [numAirplanes] [numPassengersPerPlane] [maxBags] [numberBusSeats] [busTimer]");
+			System.exit(1);
+		}
+		
+		int K = Integer.parseInt(args[0]); 	//number of airplanes
+		int N = Integer.parseInt(args[1]); 	//number of passengers per airplane
+		int M = Integer.parseInt(args[2]); 	//maximum number of bags
+		int T = Integer.parseInt(args[3]); 	//number of bus seats
+		int busTimer = Integer.parseInt(args[4]); //time between bus travel
 		
 		MGeneralRepository genRep = new MGeneralRepository(N, T, "log1.log");
 		//genRep.endSimulation();
 		//System.exit(0);
 		
-		MBus bus = new MBus(T, 5000, genRep);
-		MDepartureTerminalEntrace departureTerminalEntrace = new MDepartureTerminalEntrace(N, genRep);
-		MArrivalTerminalExit arrivalTerminalExit = new MArrivalTerminalExit(K, N, T, genRep);
-		MBaggagePickupZone baggagePickupZone = new MBaggagePickupZone(genRep);
-		MBaggageReclaimGuichet reclaimGuichet = new MBaggageReclaimGuichet(genRep);
-		MTempBaggageStorage baggageStorage = new MTempBaggageStorage(genRep);
-		MArrivalTerminal arrivalTerminal = new MArrivalTerminal(K, N, M, genRep);	
+		new MBus(T, busTimer, genRep);
+		new MDepartureTerminalEntrace(N, genRep);
+		new MArrivalTerminalExit(K, N, T, genRep);
+		new MBaggagePickupZone(genRep);
+		new MBaggageReclaimGuichet(genRep);
+		new MTempBaggageStorage(genRep);
+		new MArrivalTerminal(K, N, M, genRep);	
 		
 		TPorter porter = new TPorter(genRep);
 		TDriver driver = new TDriver(genRep);
