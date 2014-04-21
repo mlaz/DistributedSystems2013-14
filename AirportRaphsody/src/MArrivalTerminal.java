@@ -1,9 +1,9 @@
 import java.util.LinkedList;
 import java.util.Queue;
-/**
- * 
- */
 import java.util.Stack;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
@@ -17,6 +17,8 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 	private boolean ongoingArrival;
 	private int passengersPerPlane;
 	private int remainingPassengers;
+	private Lock lock;
+	private Condition passengers;	//give a better name to this
 	
 	public MArrivalTerminal(int nFlights, int nPassengers, int maxBags, MGeneralRepository genRep) {
 		
@@ -45,6 +47,8 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 		
 		ongoingArrival = true;
 		passengersPerPlane = remainingPassengers = nPassengers;
+		lock = new ReentrantLock();
+		passengers = lock.newCondition();
 	}
 	
 	/** 
@@ -52,35 +56,57 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 	 * ()
 	 */
 	@Override
-	public synchronized boolean takeARest() throws InterruptedException {
-		if (ongoingArrival) {
-			while (remainingPassengers > 0)
-				wait();
-			currentPlanesHold = flightQueue.poll();
-			remainingPassengers = passengersPerPlane;
+	public boolean takeARest() throws InterruptedException {
+		lock.lock();
+		try {
+			if (ongoingArrival) {
+				
+				while (remainingPassengers > 0) {
+					passengers.await();
+				}
+				
+				currentPlanesHold = flightQueue.poll();
+				remainingPassengers = passengersPerPlane;
+			}
+			ongoingArrival = !(flightQueue.isEmpty());
+			
+			return !currentPlanesHold.isEmpty();
+			
+		} finally {
+			lock.unlock();
 		}
-		ongoingArrival = !(flightQueue.isEmpty());
-		return !currentPlanesHold.isEmpty();
 	}
 
 	/**
 	 * @see IPassengerArrivalTerminal#whatSouldIDo()
 	 */
 	@Override
-	public synchronized void whatSouldIDo(int passengerId) throws InterruptedException {
-		//System.out.println("What should I do?: "+ passengerId + "\n");
-		remainingPassengers--;
-		if (remainingPassengers == 0) {
-			ongoingArrival = false;
-			notify();
+	public void whatSouldIDo(int passengerId) throws InterruptedException {
+		lock.lock();
+		
+		try {
+			//System.out.println("What should I do?: "+ passengerId + "\n");
+			remainingPassengers--;
+			if (remainingPassengers == 0) {
+				ongoingArrival = false;
+				passengers.signal();
+			}
+			
+		} finally {
+			lock.unlock();
 		}
 	}
 	
 
-	public synchronized Bag tryToCollectABag () {
-		if (currentPlanesHold.isEmpty())
-			return null;
-		return currentPlanesHold.pop();
+	public Bag tryToCollectABag () {
+		lock.lock();
+		try {
+			if (currentPlanesHold.isEmpty())
+				return null;
+			return currentPlanesHold.pop();
+		} finally {
+			lock.unlock();
+		}
 	}
 
 }

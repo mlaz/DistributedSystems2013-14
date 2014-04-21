@@ -1,3 +1,6 @@
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * 
  */
@@ -8,18 +11,25 @@
  */
 public class MBaggageReclaimGuichet {
 
+	private Lock lock;
+	
 	/**
 	 * @param genRep
 	 */
 	public MBaggageReclaimGuichet(MGeneralRepository genRep) {
 		genRep.setBaggageReclaimGuichet(this);
+		lock = new ReentrantLock();
 	}
 
 	/**
 	 * 
 	 */
-	public synchronized void reclaimBags(int passengerNumber) {
-		// TODO Auto-generated method stub
-		System.out.println("Passenger #"+ passengerNumber + "reclaiming Bags.\n");
+	public void reclaimBags(int passengerNumber) {
+		lock.lock();
+		try{
+		System.out.printf("[%d] reclaiming Bags\n", passengerNumber);
+		} finally {
+			lock.unlock();
+		}
 	}
 }
