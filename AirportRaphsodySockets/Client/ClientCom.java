@@ -175,14 +175,11 @@ public class ClientCom extends Thread {
         try {
             fromServer = in.readObject();
         } catch (InvalidClassException e) {
-            System.out.println(Thread.currentThread().getName()
-                    + " - o objecto lido não é passível de desserialização!");
+            System.out.println(Thread.currentThread().getName() + " - o objecto lido não é passível de desserialização!");
             e.printStackTrace();
             System.exit(1);
         } catch (IOException e) {
-
-            System.out.println(Thread.currentThread().getName()
-                    + " - erro na leitura de um objecto do canal de entrada do socket de comunicação!");
+            System.out.println(Thread.currentThread().getName() + " - erro na leitura de um objecto do canal de entrada do socket de comunicação!");
             System.out.println(((Message) fromServer).toString());
             e.printStackTrace();
             System.exit(1);

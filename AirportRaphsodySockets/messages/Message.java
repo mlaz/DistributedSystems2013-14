@@ -2,11 +2,6 @@ package messages;
 
 import java.io.Serializable;
 
-import Driver.EDriverStates;
-import Passenger.EPassengerStates;
-import Porter.Bag;
-import Porter.EPorterStates;
-
 public class Message  implements Serializable {
 	
 	/**
@@ -113,12 +108,26 @@ public class Message  implements Serializable {
 		this.int1 = int1;
 		this.intArr = intArr;
 	}
+	/* INT INT */
+	public Message (int type, int int1, int int2) {
+		this.type = type;
+		this.int1 = int1;
+		this.int2 = int2;
+	}
 	/* INT INT BOOL */
 	public Message (int type, int int1, int int2, boolean bool ) {
 		this.type = type;
 		this.int1 = int1;
 		this.int2 = int2;
 		this.bool = bool;
+	}
+	/* INT INT INT*/
+	public Message (int type, int int1, int int2, int int3 ) {
+		this.type = type;
+		this.int1 = int1;
+		this.int2 = int2;
+		this.int3 = int3;
+		this.int4 = int4;
 	}
 	/* INT_INT_INT_INT_BOOL */
 	public Message (int type, int int1, int int2, int int3, int int4, boolean bool ) {

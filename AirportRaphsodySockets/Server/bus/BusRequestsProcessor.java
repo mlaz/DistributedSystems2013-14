@@ -30,8 +30,8 @@ public class BusRequestsProcessor implements IRequestProcessor {
 				fromServer = new Message(Message.ACK);
 				break;
 			case Message.PARK_LET_OFF:
-				bus.parkAndLetPassOff();
-				fromServer = new Message(Message.ACK);
+				int res = bus.parkAndLetPassOff();
+				fromServer = new Message(Message.INT, res);
 				break;
 			case Message.WAIT_FOR_PASSENGERS:
 				bus.waitingForPassengers();

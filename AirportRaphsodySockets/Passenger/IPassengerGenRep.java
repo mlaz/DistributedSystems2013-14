@@ -1,10 +1,5 @@
 package Passenger;
-import Server.baggageReclaimGuichet.MBaggageReclaimGuichet;
-import Server.departureTerminalEntrance.MDepartureTerminalEntrance;
 
-/**
- * 
- */
 
 /**
  * @author Miguel Azevedo, Filipe Teixeira
@@ -16,11 +11,11 @@ public interface IPassengerGenRep {
 
 	IPassengerBaggageCollectionPoint getBaggagePickupZone();
 
-	MBaggageReclaimGuichet getBaggageReclaimGuichet();
+	IPassengerBaggageReclaimGuichet getBaggageReclaimGuichet();
 
 	IPassengerArrivalExitTransferZone getArrivalTerminalExit();
 
-	MDepartureTerminalEntrance getDepartureTerminalEntrace();
+	IPassengerDepartureTerminalEntrance getDepartureTerminalEntrace();
 
 	IPassengerBus getBus();
 

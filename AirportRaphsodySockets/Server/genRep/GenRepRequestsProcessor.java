@@ -105,49 +105,49 @@ public class GenRepRequestsProcessor implements IRequestProcessor {
 			    fromServer = new Message(Message.ACK);
 			    break;
 			case Message.SET_ARRIVAL_TERMINAL:
-				port = fromClient.getInt1();
+				port = fromClient.getInt2();
 				host = fromClient.getString();
 			    genRep.setArrivalTerminal(new ServerInfo(port, host));
 			    fromServer = new Message(Message.ACK);
 			    break;
 			case Message.SET_ARRIVAL_TERMINAL_EXIT:
-				port = fromClient.getInt1();
+				port = fromClient.getInt2();
 				host = fromClient.getString();
 			    genRep.setArrivalTerminalExit(new ServerInfo(port, host));
 			    fromServer = new Message(Message.ACK);
 			    break;
 			case Message.SET_BAGGAGE_PICKUP_ZONE:
-				port = fromClient.getInt1();
+				port = fromClient.getInt2();
 				host = fromClient.getString();
 			    genRep.setBaggagePickupZone(new ServerInfo(port, host));
 			    fromServer = new Message(Message.ACK);
 			    break;
 			case Message.SET_BAGGAGE_RECLAIM_GUICHET:
-				port = fromClient.getInt1();
+				port = fromClient.getInt2();
 				host = fromClient.getString();
 			    genRep.setBaggageReclaimGuichet(new ServerInfo(port, host));
 			    fromServer = new Message(Message.ACK);
 			    break;
 			case Message.SET_BUS:
-				port = fromClient.getInt1();
+				port = fromClient.getInt2();
 				host = fromClient.getString();
 			    genRep.setBus(new ServerInfo(port, host));
 			    fromServer = new Message(Message.ACK);
 			    break;
 			case Message.SET_DEPARTURE_TERMINAL_ENTRANCE:
-				port = fromClient.getInt1();
+				port = fromClient.getInt2();
 				host = fromClient.getString();
 			    genRep.setDepartureTerminalEntrace(new ServerInfo(port, host));
 			    fromServer = new Message(Message.ACK);
 			    break;
 			case Message.SET_TEMP_BAGGAGE_STORAGE:
-				port = fromClient.getInt1();
+				port = fromClient.getInt2();
 				host = fromClient.getString();
-			    genRep.setArrivalTerminal(new ServerInfo(port, host));
+			    genRep.setTempBaggageStorage(new ServerInfo(port, host));
 			    fromServer = new Message(Message.ACK);
 			    break;
 			case Message.SET_PASSENGER_STAT:
-			    genRep.setPassengerStat(fromClient.getInt1(), EPassengerStates.valueOf(fromClient.getString()));
+			    genRep.setPassengerStat(fromClient.getInt2(), EPassengerStates.valueOf(fromClient.getString()));
 			    fromServer = new Message(Message.ACK);
 			    break;
 			case Message.UPDATE_DRIVER_QUEUE:
