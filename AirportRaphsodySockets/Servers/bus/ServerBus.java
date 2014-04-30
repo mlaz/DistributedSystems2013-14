@@ -7,7 +7,7 @@ import Servers.ServerCom;
 import Servers.ServerInfo;
 
 public class ServerBus {
-	private static int portNumber = 10005; //TODO change to right port
+	private static int portNumber = 22163;
 	private static String hostName;
 	private static ServerInfo genRepInfo;
 	
@@ -19,7 +19,7 @@ public class ServerBus {
 			args = new String[3];
 			args[0] = "localhost";
 			args[1] = "localhost";
-			args[2] = "10000";
+			args[2] = "22160";
 		}
 		/* obter parametros do problema */
 		hostName = args[0];

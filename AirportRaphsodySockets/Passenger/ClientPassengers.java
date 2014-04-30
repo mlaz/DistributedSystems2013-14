@@ -8,12 +8,12 @@ public class ClientPassengers {
 	private static ServerInfo genRepInfo;
 	
 	public static void main(String[] args) {
-		if (args.length != 3) {
+		if (args.length != 2) {
 			System.out.println("Usage: java ClientPassengers [genRepName] [genRepPort]");
 			// System.exit(1);
 			args = new String[2];
 			args[0] = "localhost";
-			args[1] = "10000";
+			args[1] = "22160";
 		}
 		
 		genRepInfo = new ServerInfo( Integer.parseInt(args[1]), args[0] );

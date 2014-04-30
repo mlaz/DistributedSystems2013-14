@@ -5,7 +5,7 @@ import Servers.ServerCom;
 import Servers.ServerInfo;
 
 public class ServerBaggagePickupZone {
-	private static int portNumber = 10003; //TODO change to right port
+	private static int portNumber = 22164;
 	private static String hostName;
 	private static ServerInfo genRepInfo;
 	
@@ -16,7 +16,7 @@ public class ServerBaggagePickupZone {
 			args = new String[3];
 			args[0] = "localhost";
 			args[1] = "localhost";
-			args[2] = "10000";
+			args[2] = "22160";
 		}
 		
 		/* obter parametros do problema */
