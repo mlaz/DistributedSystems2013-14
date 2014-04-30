@@ -4,17 +4,29 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class DepartureTerminalEntranceGenRepComm implements IDepartureTerminalEntranceGenRep {
 
 	private ServerInfo genRepInfo;
 	private ServerInfo departureTermEntranceInfo;
-	
-	public DepartureTerminalEntranceGenRepComm(ServerInfo genRepInfo, ServerInfo departureTermEntranceInfo) {
+
+    /**
+     *
+     * @param genRepInfo
+     * @param departureTermEntranceInfo
+     */
+    public DepartureTerminalEntranceGenRepComm(ServerInfo genRepInfo, ServerInfo departureTermEntranceInfo) {
 		this.genRepInfo = genRepInfo;
 		this.departureTermEntranceInfo = departureTermEntranceInfo;
 	}
 
-	@Override
+    /**
+     *
+     */
+    @Override
 	public void setDepartureTerminalEntrance() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;

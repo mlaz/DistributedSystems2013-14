@@ -4,12 +4,20 @@ import Servers.ServerInfo;
 import messages.Message;
 import Client.ClientCom;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommPassArrivalTerminal implements IPassengerArrivalTerminal {
 	private ServerInfo arrTermInfo;
 	
 	private String myDebugName = "PASS_ARR_TERM";
-	
-	public CommPassArrivalTerminal( ServerInfo arrTermInfo ) {
+
+    /**
+     *
+     * @param arrTermInfo
+     */
+    public CommPassArrivalTerminal( ServerInfo arrTermInfo ) {
 		this.arrTermInfo = arrTermInfo;
 	}
 	

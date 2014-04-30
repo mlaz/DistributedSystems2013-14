@@ -4,16 +4,28 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommDriverGenRep implements IDriverGenRep {
 	private ServerInfo genRepInfo;
 	
 	private String myDebugName = "DRIVER_GENREP";
-	
-	public CommDriverGenRep( ServerInfo genRepInfo ) {
+
+    /**
+     *
+     * @param genRepInfo
+     */
+    public CommDriverGenRep( ServerInfo genRepInfo ) {
 		this.genRepInfo = genRepInfo;
 	}
-	
-	@Override
+
+    /**
+     *
+     * @param state
+     */
+    @Override
 	public void updateDriverState(EDriverStates state) {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -41,7 +53,11 @@ public class CommDriverGenRep implements IDriverGenRep {
 		}
 	}
 
-	@Override
+    /**
+     *
+     * @return
+     */
+    @Override
 	public IDriverArrivalTerminalTransferZone getArrivalTerminalExit() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -72,7 +88,11 @@ public class CommDriverGenRep implements IDriverGenRep {
 		return new CommDriverArrivalTerminalTransferZone( arrTermExitInfo );
 	}
 
-	@Override
+    /**
+     *
+     * @return
+     */
+    @Override
 	public IDriverBus getBus() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -103,7 +123,10 @@ public class CommDriverGenRep implements IDriverGenRep {
 		return new CommDriverBus( busInfo );
 	}
 
-	@Override
+    /**
+     *
+     */
+    @Override
 	public void registerDriver() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -130,8 +153,11 @@ public class CommDriverGenRep implements IDriverGenRep {
 			System.exit(1);
 		}
 	}
-	
-	public void setDriverAsDead() {
+
+    /**
+     *
+     */
+    public void setDriverAsDead() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
 

@@ -21,7 +21,10 @@ public class TDriver extends Thread {
 		genRep.registerDriver();
 	}
 
-	public void run () {
+    /**
+     *
+     */
+    public void run () {
 		
 		EDriverStates state = EDriverStates.PARKING_AT_THE_ARRIVAL_TERMINAL;
 		EDriverStates nextState = state;

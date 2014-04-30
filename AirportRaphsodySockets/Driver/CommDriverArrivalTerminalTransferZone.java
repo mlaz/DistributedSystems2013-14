@@ -4,16 +4,27 @@ import Servers.ServerInfo;
 import messages.Message;
 import Client.ClientCom;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommDriverArrivalTerminalTransferZone implements IDriverArrivalTerminalTransferZone {
 	private ServerInfo arrTermExit;
 	
 	private String myDebugName = "DRIVER_ARR_TERM_EXIT";
-	
-	public CommDriverArrivalTerminalTransferZone( ServerInfo arrTermExit ) {
+
+    /**
+     *
+     * @param arrTermExit
+     */
+    public CommDriverArrivalTerminalTransferZone( ServerInfo arrTermExit ) {
 		this.arrTermExit = arrTermExit;
 	}
-	
-	@Override
+
+    /**
+     *
+     */
+    @Override
 	public void announcingDeparture() {
 		ClientCom con = new ClientCom(arrTermExit.getHostName(), arrTermExit.getPortNumber());
 		Message inMessage, outMessage;

@@ -3,15 +3,29 @@ package Servers.departureTerminalEntrance;
 import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
+/**
+ *
+ * @author miguel
+ */
 public class DepartureTerminalEntranceRequestsProcessor implements IRequestProcessor {
 	private final int[] validTypes = {Message.INT};
 	private MDepartureTerminalEntrance departEntrance;
-	
-	public DepartureTerminalEntranceRequestsProcessor(MDepartureTerminalEntrance departEntrance) {
+
+    /**
+     *
+     * @param departEntrance
+     */
+    public DepartureTerminalEntranceRequestsProcessor(MDepartureTerminalEntrance departEntrance) {
 		this.departEntrance = departEntrance;
 	}
-	
-	public Message processAndReply(Message fromClient) throws InterruptedException {
+
+    /**
+     *
+     * @param fromClient
+     * @return
+     * @throws InterruptedException
+     */
+    public Message processAndReply(Message fromClient) throws InterruptedException {
 		
 		fromClient.print();
 		

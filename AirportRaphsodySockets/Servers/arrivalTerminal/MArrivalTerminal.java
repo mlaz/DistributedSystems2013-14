@@ -23,8 +23,14 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 	private int remainingPassengers;
 	private Lock lock;
 	private Condition passengers;	//give a better name to this
-	
-	public MArrivalTerminal(int nFlights, int nPassengers, int maxBags) {
+
+    /**
+     *
+     * @param nFlights
+     * @param nPassengers
+     * @param maxBags
+     */
+    public MArrivalTerminal(int nFlights, int nPassengers, int maxBags) {
 		//generating bags
 		int i;
 		int j;
@@ -52,7 +58,9 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 		passengers = lock.newCondition();
 	}
 	
-	/** 
+	/**
+     * @return 
+     * @throws java.lang.InterruptedException
 	 * @see IPorterArrivalTerminal#takeARest
 	 * ()
 	 */
@@ -79,6 +87,7 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 	}
 
 	/**
+     * @throws java.lang.InterruptedException
 	 * @see IPassengerArrivalTerminal#whatSouldIDo()
 	 */
 	@Override
@@ -97,9 +106,12 @@ public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArriv
 			lock.unlock();
 		}
 	}
-	
 
-	public Bag tryToCollectABag () {
+    /**
+     *
+     * @return
+     */
+    public Bag tryToCollectABag () {
 		lock.lock();
 		try {
 			if (currentPlanesHold.isEmpty())

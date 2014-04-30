@@ -1,6 +1,15 @@
 package Passenger;
 
+/**
+ *
+ * @author miguel
+ */
 public interface IPassengerDepartureTerminalEntrance {
-	public void prepareNextLeg() throws InterruptedException;
+
+    /**
+     *
+     * @throws InterruptedException
+     */
+    public void prepareNextLeg() throws InterruptedException;
 
 }

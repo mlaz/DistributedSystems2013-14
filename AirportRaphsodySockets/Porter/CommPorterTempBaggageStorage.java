@@ -4,17 +4,29 @@ import Servers.ServerInfo;
 import messages.Message;
 import Client.ClientCom;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommPorterTempBaggageStorage implements IPorterTempBaggageStorage {
 	
 	private ServerInfo tempStorageInfo;
 	
 	private String myDebugName = "PORTER_TEMPSTORAGE";
-	
-	public CommPorterTempBaggageStorage(ServerInfo tempStorageInfo) {
+
+    /**
+     *
+     * @param tempStorageInfo
+     */
+    public CommPorterTempBaggageStorage(ServerInfo tempStorageInfo) {
 		this.tempStorageInfo = tempStorageInfo;
 	}
-	
-	@Override
+
+    /**
+     *
+     * @param currentBag
+     */
+    @Override
 	public void carryItToAppropriateStore(Bag currentBag) {
 		ClientCom con = new ClientCom(tempStorageInfo.getHostName(), tempStorageInfo.getPortNumber());
 		Message inMessage, outMessage;

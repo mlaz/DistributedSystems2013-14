@@ -4,17 +4,29 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommPassGenRep implements IPassengerGenRep {
 
 	private ServerInfo genRepInfo;
 	
 	private String myDebugName = "PASS_GENREP";
-	
-	public CommPassGenRep( ServerInfo genRepInfo ) {
+
+    /**
+     *
+     * @param genRepInfo
+     */
+    public CommPassGenRep( ServerInfo genRepInfo ) {
 		this.genRepInfo = genRepInfo;
 	}
-	
-	@Override
+
+    /**
+     *
+     * @return
+     */
+    @Override
 	public IPassengerArrivalTerminal getArrivalTerminal() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -44,7 +56,11 @@ public class CommPassGenRep implements IPassengerGenRep {
 		return new CommPassArrivalTerminal( arrTerm );
 	}
 
-	@Override
+    /**
+     *
+     * @return
+     */
+    @Override
 	public IPassengerBaggageCollectionPoint getBaggagePickupZone() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -74,7 +90,11 @@ public class CommPassGenRep implements IPassengerGenRep {
 		return new CommPassBaggageCollectionPoint( collectionInfo );
 	}
 
-	@Override
+    /**
+     *
+     * @return
+     */
+    @Override
 	public IPassengerBaggageReclaimGuichet getBaggageReclaimGuichet() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -104,7 +124,11 @@ public class CommPassGenRep implements IPassengerGenRep {
 		return new CommPassBaggageReclaimGuichet( reclaimInfo );
 	}
 
-	@Override
+    /**
+     *
+     * @return
+     */
+    @Override
 	public IPassengerArrivalExitTransferZone getArrivalTerminalExit() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -133,7 +157,11 @@ public class CommPassGenRep implements IPassengerGenRep {
 		ServerInfo exitInfo = new ServerInfo( inMessage.getInt1(), inMessage.getString() );
 		return new CommPassArrivalExitTransferZone( exitInfo );	}
 
-	@Override
+    /**
+     *
+     * @return
+     */
+    @Override
 	public IPassengerDepartureTerminalEntrance getDepartureTerminalEntrace() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -163,7 +191,11 @@ public class CommPassGenRep implements IPassengerGenRep {
 		return new CommPassDepartureTerminalEntrance( departureInfo );
 	}
 
-	@Override
+    /**
+     *
+     * @return
+     */
+    @Override
 	public IPassengerBus getBus() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -193,7 +225,14 @@ public class CommPassGenRep implements IPassengerGenRep {
 		return new CommPassBus( busInfo );
 	}
 
-	@Override
+    /**
+     *
+     * @param passengerNumber
+     * @param flightNumber
+     * @param inTransit
+     * @param remainingBags
+     */
+    @Override
 	public void registerPassenger(int passengerNumber, int flightNumber, boolean inTransit, int remainingBags) {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -221,7 +260,11 @@ public class CommPassGenRep implements IPassengerGenRep {
 		}
 	}
 
-	@Override
+    /**
+     *
+     * @param passengerNumber
+     */
+    @Override
 	public void gotLuggage(int passengerNumber) {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -249,7 +292,12 @@ public class CommPassGenRep implements IPassengerGenRep {
 		}		
 	}
 
-	@Override
+    /**
+     *
+     * @param passengerNumber
+     * @param state
+     */
+    @Override
 	public void setPassengerStat(int passengerNumber, EPassengerStates state) {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;

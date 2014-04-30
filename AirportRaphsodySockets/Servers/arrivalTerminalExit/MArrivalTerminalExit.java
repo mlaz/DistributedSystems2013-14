@@ -24,8 +24,10 @@ public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone,
 	private Condition busReady;
 	
 	/**
-	 * @param t
+     * @param nAirplanes
 	 * @param genRep
+     * @param nPassengers
+     * @param nSeats
 	 */
 	public MArrivalTerminalExit(int nAirplanes, int nPassengers, int nSeats, IArrivalTerminalExitGenRep genRep) {
 		this.nSeats = nSeats;
@@ -127,6 +129,7 @@ public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone,
 
 	/**
 	 * 
+     * @param passengerNumber
 	 */
 	public void goHome(int passengerNumber) {
 		lock.lock();
@@ -143,7 +146,10 @@ public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone,
 		}
 	}
 
-	@Override
+    /**
+     *
+     */
+    @Override
 	public void announcingDeparture() {
 		lock.lock();
 		try {

@@ -1,7 +1,19 @@
 package Servers.bus;
 
+/**
+ *
+ * @author miguel
+ */
 public interface IBusGenRep {
-	void setBus();
 
-	void updateDriverSeats(int[] seats);
+    /**
+     *
+     */
+    void setBus();
+
+    /**
+     *
+     * @param seats
+     */
+    void updateDriverSeats(int[] seats);
 }

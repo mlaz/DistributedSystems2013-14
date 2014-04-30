@@ -219,6 +219,11 @@ public class ClientCom extends Thread {
         }
     }
 
+    /**
+     *
+     * @param outMessage
+     * @return
+     */
     public Message performCommunication(Message outMessage) {
 
         Message inMessage;

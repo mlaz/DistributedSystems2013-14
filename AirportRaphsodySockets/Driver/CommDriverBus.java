@@ -4,12 +4,20 @@ import Servers.ServerInfo;
 import Client.ClientCom;
 import messages.Message;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommDriverBus implements IDriverBus {
 	private ServerInfo busInfo;
 
 	private String myDebugName = "DRIVER_BUS";
-	
-	public CommDriverBus( ServerInfo busInfo ) {
+
+    /**
+     *
+     * @param busInfo
+     */
+    public CommDriverBus( ServerInfo busInfo ) {
 		this.busInfo = busInfo;
 	}
 	

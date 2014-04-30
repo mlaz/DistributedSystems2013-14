@@ -4,15 +4,28 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommPassBaggageReclaimGuichet implements IPassengerBaggageReclaimGuichet {
 	private ServerInfo reclaimGuichetInfo;
 	
 	private String myDebugName = "PASS_RECLAIM";
-	
-	public CommPassBaggageReclaimGuichet( ServerInfo reclaimGuichetInfo ) {
+
+    /**
+     *
+     * @param reclaimGuichetInfo
+     */
+    public CommPassBaggageReclaimGuichet( ServerInfo reclaimGuichetInfo ) {
 		this.reclaimGuichetInfo = reclaimGuichetInfo;
 	}
-	@Override
+
+    /**
+     *
+     * @param passengerNumber
+     */
+    @Override
 	public void reclaimBags(int passengerNumber) {
 		ClientCom con = new ClientCom(reclaimGuichetInfo.getHostName(), reclaimGuichetInfo.getPortNumber());
 		Message inMessage, outMessage;

@@ -29,6 +29,8 @@ public class MBus implements IDriverBus, IPassengerBus {
 	
 	/**
 	 * @param nSeats
+     * @param busDepartureInterval
+     * @param genRep
 	 */
 	public MBus(int nSeats,int busDepartureInterval, IBusGenRep genRep) {
 		this.nSeats = nSeats;

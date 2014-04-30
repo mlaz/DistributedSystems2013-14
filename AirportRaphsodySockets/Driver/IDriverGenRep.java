@@ -1,15 +1,37 @@
 package Driver;
 
+/**
+ *
+ * @author miguel
+ */
 public interface IDriverGenRep {
 
-	void updateDriverState(EDriverStates state);
+    /**
+     *
+     * @param state
+     */
+    void updateDriverState(EDriverStates state);
 
-	IDriverArrivalTerminalTransferZone getArrivalTerminalExit();
+    /**
+     *
+     * @return
+     */
+    IDriverArrivalTerminalTransferZone getArrivalTerminalExit();
 
-	IDriverBus getBus();
+    /**
+     *
+     * @return
+     */
+    IDriverBus getBus();
 
-	void registerDriver();
+    /**
+     *
+     */
+    void registerDriver();
 
-	void setDriverAsDead();
+    /**
+     *
+     */
+    void setDriverAsDead();
 
 }

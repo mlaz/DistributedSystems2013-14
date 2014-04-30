@@ -3,12 +3,20 @@ package Servers.genRep;
 import Servers.ClientMonitor;
 import Servers.ServerCom;
 
+/**
+ *
+ * @author miguel
+ */
 public class ServerGenRep {
 
 	private static int portNumber = 22160;
 	private static String logFile;
-	
-	public static void main(String[] args) {
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
 
 		for( String arg : args ) {
 			System.out.println(arg);

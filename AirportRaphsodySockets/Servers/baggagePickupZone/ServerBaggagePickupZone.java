@@ -4,12 +4,20 @@ import Servers.ClientMonitor;
 import Servers.ServerCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class ServerBaggagePickupZone {
 	private static int portNumber = 22164;
 	private static String hostName;
 	private static ServerInfo genRepInfo;
-	
-	public static void main(String[] args) {
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
 		if (args.length != 3) {
 			System.out.println("Usage: java ServerArrivalTerminal [thisMachineName] [genRepName] [genRepPort]");
 			// System.exit(1);

@@ -3,14 +3,33 @@ package Servers.clientsInterfaces;
 import Servers.EDriverStates;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public interface IDriverGenRep {
 
-	void updateDriverState(EDriverStates state);
+    /**
+     *
+     * @param state
+     */
+    void updateDriverState(EDriverStates state);
 
-	ServerInfo getArrivalTerminalExit();
+    /**
+     *
+     * @return
+     */
+    ServerInfo getArrivalTerminalExit();
 
-	ServerInfo getBus();
+    /**
+     *
+     * @return
+     */
+    ServerInfo getBus();
 
-	void registerDriver();
+    /**
+     *
+     */
+    void registerDriver();
 
 }

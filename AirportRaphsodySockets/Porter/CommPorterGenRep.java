@@ -4,16 +4,28 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommPorterGenRep implements IPorterGenRep {
 	private ServerInfo genRepInfo;
 	
 	private String myDebugName = "PORTER_GENREP";
-	
-	public CommPorterGenRep( ServerInfo genRepInfo ) {
+
+    /**
+     *
+     * @param genRepInfo
+     */
+    public CommPorterGenRep( ServerInfo genRepInfo ) {
 		this.genRepInfo = genRepInfo;
 	}
-	
-	@Override
+
+    /**
+     *
+     * @return
+     */
+    @Override
 	public IPorterArrivalTerminal getArrivalTerminal() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -43,7 +55,11 @@ public class CommPorterGenRep implements IPorterGenRep {
 		return new CommPorterArrivalTerminal( arrTermInfo );
 	}
 
-	@Override
+    /**
+     *
+     * @return
+     */
+    @Override
 	public IPorterBaggagePickupZone getBaggagePickupZone() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -73,7 +89,11 @@ public class CommPorterGenRep implements IPorterGenRep {
 		return new CommPorterBaggagePickupZone( baggagePickupInfo );
 	}
 
-	@Override
+    /**
+     *
+     * @return
+     */
+    @Override
 	public IPorterTempBaggageStorage getTempBaggageStorage() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -103,7 +123,10 @@ public class CommPorterGenRep implements IPorterGenRep {
 		return new CommPorterTempBaggageStorage( tempStorageInfo );
 	}
 
-	@Override
+    /**
+     *
+     */
+    @Override
 	public void registerPorter() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -131,7 +154,10 @@ public class CommPorterGenRep implements IPorterGenRep {
 		}
 	}
 
-	@Override
+    /**
+     *
+     */
+    @Override
 	public void removeLuggageAtPlane() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -159,7 +185,10 @@ public class CommPorterGenRep implements IPorterGenRep {
 		}	
 	}
 
-	@Override
+    /**
+     *
+     */
+    @Override
 	public void incLuggageAtCB() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -188,7 +217,10 @@ public class CommPorterGenRep implements IPorterGenRep {
 		
 	}
 
-	@Override
+    /**
+     *
+     */
+    @Override
 	public void incLuggageAtSR() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -216,7 +248,11 @@ public class CommPorterGenRep implements IPorterGenRep {
 		}
 	}
 
-	@Override
+    /**
+     *
+     * @param state
+     */
+    @Override
 	public void updatePorterState(EPorterStates state) {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -244,7 +280,10 @@ public class CommPorterGenRep implements IPorterGenRep {
 		}
 	}
 
-	public void setPorterAsDead() {
+    /**
+     *
+     */
+    public void setPorterAsDead() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
 

@@ -17,7 +17,6 @@ public class MBaggageReclaimGuichet implements IPassengerBaggageReclaimGuichet {
 	private Lock lock;
 	
 	/**
-	 * @param genRep
 	 */
 	public MBaggageReclaimGuichet() {
 		lock = new ReentrantLock();
@@ -25,6 +24,7 @@ public class MBaggageReclaimGuichet implements IPassengerBaggageReclaimGuichet {
 
 	/**
 	 * 
+     * @param passengerNumber
 	 */
 	public void reclaimBags(int passengerNumber) {
 		lock.lock();

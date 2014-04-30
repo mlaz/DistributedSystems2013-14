@@ -4,12 +4,20 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommPassBaggageCollectionPoint implements IPassengerBaggageCollectionPoint {
 	private ServerInfo baggagePickup;
 	
 	private String myDebugName = "PASS_PICKUP";
-	
-	public CommPassBaggageCollectionPoint( ServerInfo baggagePickup ) {
+
+    /**
+     *
+     * @param baggagePickup
+     */
+    public CommPassBaggageCollectionPoint( ServerInfo baggagePickup ) {
 		this.baggagePickup = baggagePickup;
 	}
 	

@@ -4,15 +4,28 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommPassDepartureTerminalEntrance implements IPassengerDepartureTerminalEntrance {
 	private ServerInfo deptTermInfo;
 	
 	private String myDebugName = "PASS_DEPARTURE";
-	
-	public CommPassDepartureTerminalEntrance( ServerInfo deptTermInfo ) {
+
+    /**
+     *
+     * @param deptTermInfo
+     */
+    public CommPassDepartureTerminalEntrance( ServerInfo deptTermInfo ) {
 		this.deptTermInfo = deptTermInfo;
 	}
-	@Override
+
+    /**
+     *
+     * @throws InterruptedException
+     */
+    @Override
 	public void prepareNextLeg() throws InterruptedException {
 		ClientCom con = new ClientCom(deptTermInfo.getHostName(), deptTermInfo.getPortNumber());
 		Message inMessage, outMessage;

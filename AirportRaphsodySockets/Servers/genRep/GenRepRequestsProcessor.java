@@ -7,15 +7,29 @@ import Servers.EPorterStates;
 import Servers.ServerInfo;
 import Servers.clientsInterfaces.IRequestProcessor;
 
+/**
+ *
+ * @author miguel
+ */
 public class GenRepRequestsProcessor implements IRequestProcessor {
 	private final int[] validTypes = {Message.INT, Message.INT_INT, Message.INT_INT_STR, Message.INT_STR, Message.INT_INT_INT_INT_BOOL, Message.INT_INTARR};
 	private MGeneralRepository genRep;
-	
-	public GenRepRequestsProcessor( MGeneralRepository genRep) {
+
+    /**
+     *
+     * @param genRep
+     */
+    public GenRepRequestsProcessor( MGeneralRepository genRep) {
 		this.genRep = genRep; 
 	}
-	
-	public Message processAndReply(Message fromClient) throws InterruptedException {
+
+    /**
+     *
+     * @param fromClient
+     * @return
+     * @throws InterruptedException
+     */
+    public Message processAndReply(Message fromClient) throws InterruptedException {
 		System.out.println("GEN REP RECIEVED:");
 		fromClient.print();
 		

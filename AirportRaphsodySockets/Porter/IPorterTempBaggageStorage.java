@@ -1,5 +1,14 @@
 package Porter;
 
+/**
+ *
+ * @author miguel
+ */
 public interface IPorterTempBaggageStorage {
-	void carryItToAppropriateStore(Bag currentBag);
+
+    /**
+     *
+     * @param currentBag
+     */
+    void carryItToAppropriateStore(Bag currentBag);
 }

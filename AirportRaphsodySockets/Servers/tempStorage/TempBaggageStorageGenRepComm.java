@@ -4,16 +4,28 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class TempBaggageStorageGenRepComm implements ITempBaggageStorageGenRep {
 	private ServerInfo genRepInfo;
 	private ServerInfo tempBaggageInfo;
-	
-	public TempBaggageStorageGenRepComm(ServerInfo genRepInfo, ServerInfo tempBaggageInfo) {
+
+    /**
+     *
+     * @param genRepInfo
+     * @param tempBaggageInfo
+     */
+    public TempBaggageStorageGenRepComm(ServerInfo genRepInfo, ServerInfo tempBaggageInfo) {
 		this.genRepInfo = genRepInfo;
 		this.tempBaggageInfo = tempBaggageInfo;
 	}
 
-	@Override
+    /**
+     *
+     */
+    @Override
 	public void setTempStorage() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;

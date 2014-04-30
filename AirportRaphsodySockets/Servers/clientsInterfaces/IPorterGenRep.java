@@ -12,20 +12,48 @@ import Servers.ServerInfo;
  */
 public interface IPorterGenRep {
 
-	ServerInfo getArrivalTerminal();
+    /**
+     *
+     * @return
+     */
+    ServerInfo getArrivalTerminal();
 
-	ServerInfo getBaggagePickupZone();
+    /**
+     *
+     * @return
+     */
+    ServerInfo getBaggagePickupZone();
 
-	ServerInfo getTempBaggageStorage();
+    /**
+     *
+     * @return
+     */
+    ServerInfo getTempBaggageStorage();
 
-	void registerPorter();
+    /**
+     *
+     */
+    void registerPorter();
 
-	void removeLuggageAtPlane();
+    /**
+     *
+     */
+    void removeLuggageAtPlane();
 
-	void incLuggageAtCB();
+    /**
+     *
+     */
+    void incLuggageAtCB();
 
-	void incLuggageAtSR();
+    /**
+     *
+     */
+    void incLuggageAtSR();
 
-	void updatePorterState(EPorterStates state);
+    /**
+     *
+     * @param state
+     */
+    void updatePorterState(EPorterStates state);
 
 }

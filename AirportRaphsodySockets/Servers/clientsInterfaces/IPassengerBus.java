@@ -10,6 +10,7 @@ package Servers.clientsInterfaces;
 public interface IPassengerBus {
 
 	/**
+     * @param passNum
 	 * @return 
 	 * @throws InterruptedException 
 	 * 
@@ -17,6 +18,7 @@ public interface IPassengerBus {
 	boolean enterTheBus(int passNum) throws InterruptedException;
 	
 	/**
+     * @param passNum
 	 * @throws InterruptedException 
 	 * 
 	 */

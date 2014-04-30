@@ -3,16 +3,30 @@ package Servers.baggagePickupZone;
 import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
+/**
+ *
+ * @author miguel
+ */
 public class BaggagePickupZoneRequestsProcessor implements IRequestProcessor {
 
 	private final int[] validTypes = {Message.INT, Message.INT_INT, Message.INT_INT_INT};
 	private MBaggagePickupZone baggagePickup;
-	
-	public BaggagePickupZoneRequestsProcessor( MBaggagePickupZone baggagePickup ) {
+
+    /**
+     *
+     * @param baggagePickup
+     */
+    public BaggagePickupZoneRequestsProcessor( MBaggagePickupZone baggagePickup ) {
 		this.baggagePickup = baggagePickup; 
 	}
-	
-	public Message processAndReply(Message fromClient) throws InterruptedException {
+
+    /**
+     *
+     * @param fromClient
+     * @return
+     * @throws InterruptedException
+     */
+    public Message processAndReply(Message fromClient) throws InterruptedException {
 		
 		fromClient.print();
 		

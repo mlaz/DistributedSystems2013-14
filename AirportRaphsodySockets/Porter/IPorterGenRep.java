@@ -6,22 +6,53 @@ package Porter;
  */
 public interface IPorterGenRep {
 
-	IPorterArrivalTerminal getArrivalTerminal();
+    /**
+     *
+     * @return
+     */
+    IPorterArrivalTerminal getArrivalTerminal();
 
-	IPorterBaggagePickupZone getBaggagePickupZone();
+    /**
+     *
+     * @return
+     */
+    IPorterBaggagePickupZone getBaggagePickupZone();
 
-	IPorterTempBaggageStorage getTempBaggageStorage();
+    /**
+     *
+     * @return
+     */
+    IPorterTempBaggageStorage getTempBaggageStorage();
 
-	void registerPorter();
+    /**
+     *
+     */
+    void registerPorter();
 
-	void removeLuggageAtPlane();
+    /**
+     *
+     */
+    void removeLuggageAtPlane();
 
-	void incLuggageAtCB();
+    /**
+     *
+     */
+    void incLuggageAtCB();
 
-	void incLuggageAtSR();
+    /**
+     *
+     */
+    void incLuggageAtSR();
 
-	void updatePorterState(EPorterStates state);
+    /**
+     *
+     * @param state
+     */
+    void updatePorterState(EPorterStates state);
 
-	void setPorterAsDead();
+    /**
+     *
+     */
+    void setPorterAsDead();
 
 }
