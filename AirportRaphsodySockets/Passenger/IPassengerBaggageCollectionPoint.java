@@ -11,6 +11,7 @@ public interface IPassengerBaggageCollectionPoint {
 
 	/**
 	 * @param passengerNumber 
+     * @param flightNum 
 	 * @return
 	 * @throws InterruptedException 
 	 */

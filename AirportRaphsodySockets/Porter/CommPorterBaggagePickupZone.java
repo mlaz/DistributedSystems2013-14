@@ -4,12 +4,20 @@ import Servers.ServerInfo;
 import messages.Message;
 import Client.ClientCom;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommPorterBaggagePickupZone implements IPorterBaggagePickupZone {
 	private ServerInfo baggagePickupInfo;
 	
 	private String myDebugName = "PORTER_PICKUP";
-	
-	public CommPorterBaggagePickupZone( ServerInfo baggagePickupInfo ) {
+
+    /**
+     *
+     * @param baggagePickupInfo
+     */
+    public CommPorterBaggagePickupZone( ServerInfo baggagePickupInfo ) {
 		this.baggagePickupInfo = baggagePickupInfo;
 	}
 	

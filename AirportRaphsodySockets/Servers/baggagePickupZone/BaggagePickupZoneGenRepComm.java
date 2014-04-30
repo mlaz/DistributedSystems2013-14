@@ -4,17 +4,29 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class BaggagePickupZoneGenRepComm implements IBaggagePickupZoneGenRep {
 
 	private ServerInfo genRepInfo;
 	private ServerInfo baggagePickupInfo;
-	
-	public BaggagePickupZoneGenRepComm(ServerInfo genRepInfo, ServerInfo baggagePickupInfo) {
+
+    /**
+     *
+     * @param genRepInfo
+     * @param baggagePickupInfo
+     */
+    public BaggagePickupZoneGenRepComm(ServerInfo genRepInfo, ServerInfo baggagePickupInfo) {
 		this.genRepInfo = genRepInfo;
 		this.baggagePickupInfo = baggagePickupInfo;
 	}
 
-	@Override
+    /**
+     *
+     */
+    @Override
 	public void setBaggagePickupZone() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;

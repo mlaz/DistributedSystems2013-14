@@ -2,17 +2,30 @@ package Servers.arrivalTerminalExit;
 import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
+/**
+ *
+ * @author miguel
+ */
 public class ArrivalTerminalExitRequestsProcessor implements IRequestProcessor {
 
 	private final int[] validTypes = {Message.INT, Message.INT_INT};
 	private MArrivalTerminalExit arrTermExit;
-	
-	
-	public ArrivalTerminalExitRequestsProcessor(MArrivalTerminalExit arrTermExit) {
+
+    /**
+     *
+     * @param arrTermExit
+     */
+    public ArrivalTerminalExitRequestsProcessor(MArrivalTerminalExit arrTermExit) {
 		this.arrTermExit = arrTermExit;
 	}	
 
-	public Message processAndReply(Message fromClient) throws InterruptedException {
+    /**
+     *
+     * @param fromClient
+     * @return
+     * @throws InterruptedException
+     */
+    public Message processAndReply(Message fromClient) throws InterruptedException {
 		
 		fromClient.print();
 		

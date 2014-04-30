@@ -9,8 +9,18 @@ package Porter;
  *
  */
 public interface IPorterArrivalTerminal {
-	
-	public boolean takeARest () throws InterruptedException;
-	public Bag tryToCollectABag ();
+
+    /**
+     *
+     * @return
+     * @throws InterruptedException
+     */
+    public boolean takeARest () throws InterruptedException;
+
+    /**
+     *
+     * @return
+     */
+    public Bag tryToCollectABag ();
 
 }

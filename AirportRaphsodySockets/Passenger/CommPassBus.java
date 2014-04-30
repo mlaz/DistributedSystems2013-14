@@ -4,13 +4,21 @@ import Servers.ServerInfo;
 import messages.Message;
 import Client.ClientCom;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommPassBus implements IPassengerBus{
 
 	private ServerInfo busInfo;
 	
 	private String myDebugName;
-	
-	public CommPassBus (ServerInfo busInfo) {
+
+    /**
+     *
+     * @param busInfo
+     */
+    public CommPassBus (ServerInfo busInfo) {
 		this.busInfo = busInfo;
 	}
 	

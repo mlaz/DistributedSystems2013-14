@@ -17,7 +17,6 @@ public interface IDriverBus {
 
 	/**
 	 * @return 
-	 * @throws x 
 	 * @throws InterruptedException 
 	 * 
 	 */

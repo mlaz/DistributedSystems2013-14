@@ -4,17 +4,29 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class BaggageReclaimGuichetGenRepComm implements IBaggageReclaimGuichetGenRep {
 
 	private ServerInfo genRepInfo;
 	private ServerInfo baggageRelaimInfo;
-	
-	public BaggageReclaimGuichetGenRepComm(ServerInfo genRepInfo, ServerInfo baggageReclaimInfo) {
+
+    /**
+     *
+     * @param genRepInfo
+     * @param baggageReclaimInfo
+     */
+    public BaggageReclaimGuichetGenRepComm(ServerInfo genRepInfo, ServerInfo baggageReclaimInfo) {
 		this.genRepInfo = genRepInfo;
 		this.baggageRelaimInfo = baggageReclaimInfo;
 	}
 
-	@Override
+    /**
+     *
+     */
+    @Override
 	public void setBaggageReclaimGuichet() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;

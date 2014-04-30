@@ -9,9 +9,13 @@ package Driver;
  */
 public interface IDriverArrivalTerminalTransferZone {
 
-	void announcingDeparture();
+    /**
+     *
+     */
+    void announcingDeparture();
 
 	/**
+     * @param lastPassengers
 	 * @return 
 	 * @throws InterruptedException 
 	 * 

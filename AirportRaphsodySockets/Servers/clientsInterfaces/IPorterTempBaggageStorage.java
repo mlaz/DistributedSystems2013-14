@@ -2,6 +2,15 @@ package Servers.clientsInterfaces;
 
 import Servers.Bag;
 
+/**
+ *
+ * @author miguel
+ */
 public interface IPorterTempBaggageStorage {
-	void carryItToAppropriateStore(Bag currentBag);
+
+    /**
+     *
+     * @param currentBag
+     */
+    void carryItToAppropriateStore(Bag currentBag);
 }

@@ -18,8 +18,12 @@ public class MDepartureTerminalEntrance implements IPassengerDepartureTreminalEn
 	private int totalPassengers;
 	private Lock lock;
 	private Condition cond;
-	
-	public MDepartureTerminalEntrance (int totalPassengers) {
+
+    /**
+     *
+     * @param totalPassengers
+     */
+    public MDepartureTerminalEntrance (int totalPassengers) {
 		remainingPassengers = caclNumPassengers(totalPassengers);
 		this.totalPassengers = totalPassengers;
 		lock = new ReentrantLock();
@@ -42,8 +46,12 @@ public class MDepartureTerminalEntrance implements IPassengerDepartureTreminalEn
 		}
 		return n;
 	}
-	
-	public void prepareNextLeg() throws InterruptedException {
+
+    /**
+     *
+     * @throws InterruptedException
+     */
+    public void prepareNextLeg() throws InterruptedException {
 		lock.lock();
 		try {
 			remainingPassengers--;

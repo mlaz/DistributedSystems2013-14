@@ -10,9 +10,12 @@ public class TPorter extends Thread {
 	private IPorterBaggagePickupZone baggageBeltConveyor;
 	private IPorterTempBaggageStorage baggageStorage;
 	private IPorterGenRep genRep;
-	
-	
-	public TPorter(IPorterGenRep genRep) {
+
+    /**
+     *
+     * @param genRep
+     */
+    public TPorter(IPorterGenRep genRep) {
 
 		this.arrivalTerminal 	 = genRep.getArrivalTerminal();
 		this.baggageBeltConveyor = genRep.getBaggagePickupZone();
@@ -20,8 +23,11 @@ public class TPorter extends Thread {
 		this.genRep 		 	 = genRep;
 		genRep.registerPorter();
 	}
-	
-	public void run () {		
+
+    /**
+     *
+     */
+    public void run () {		
 
 		EPorterStates state = EPorterStates.WAITING_FOR_A_PLANE_TO_LAND;
 		EPorterStates nextState = state;

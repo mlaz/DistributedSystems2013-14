@@ -4,16 +4,30 @@ import Servers.Bag;
 import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
+/**
+ *
+ * @author miguel
+ */
 public class TempBaggageStorageRequestsProcessor implements IRequestProcessor {
 	private final int[] validTypes = {Message.INT_INT_BOOL};
 
 	private MTempBaggageStorage tempStorage;
-	
-	public TempBaggageStorageRequestsProcessor(MTempBaggageStorage tempStorage) {
+
+    /**
+     *
+     * @param tempStorage
+     */
+    public TempBaggageStorageRequestsProcessor(MTempBaggageStorage tempStorage) {
 		this.tempStorage = tempStorage;
 	}
 
-	public Message processAndReply(Message fromClient) throws InterruptedException {
+    /**
+     *
+     * @param fromClient
+     * @return
+     * @throws InterruptedException
+     */
+    public Message processAndReply(Message fromClient) throws InterruptedException {
 		
 		fromClient.print();
 		

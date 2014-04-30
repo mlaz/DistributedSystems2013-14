@@ -2,8 +2,17 @@ package Porter;
 
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class ClientPorter {
-	public static void main(String[] args) {
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
 		if (args.length != 2) {
 			System.out.println("Usage: java ClientPorter [genRepName] [genRepPort]");
 			// System.exit(1);

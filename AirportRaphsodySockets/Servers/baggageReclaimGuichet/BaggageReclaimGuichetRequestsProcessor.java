@@ -3,15 +3,29 @@ package Servers.baggageReclaimGuichet;
 import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
+/**
+ *
+ * @author miguel
+ */
 public class BaggageReclaimGuichetRequestsProcessor implements IRequestProcessor {
 	private final int[] validTypes = {Message.INT_INT};
 	private MBaggageReclaimGuichet reclaimGuichet;
-	
-	public BaggageReclaimGuichetRequestsProcessor(MBaggageReclaimGuichet reclaimGuichet) {
+
+    /**
+     *
+     * @param reclaimGuichet
+     */
+    public BaggageReclaimGuichetRequestsProcessor(MBaggageReclaimGuichet reclaimGuichet) {
 		this.reclaimGuichet = reclaimGuichet; 
 	}
-	
-	public Message processAndReply(Message fromClient) throws InterruptedException {
+
+    /**
+     *
+     * @param fromClient
+     * @return
+     * @throws InterruptedException
+     */
+    public Message processAndReply(Message fromClient) throws InterruptedException {
 		
 		fromClient.print();
 		

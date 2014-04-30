@@ -3,15 +3,29 @@ package Servers.bus;
 import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
+/**
+ *
+ * @author miguel
+ */
 public class BusRequestsProcessor implements IRequestProcessor {
 	private final int[] validTypes = {Message.INT, Message.INT_INT};
 	private MBus bus;
-	
-	public BusRequestsProcessor( MBus bus ) {
+
+    /**
+     *
+     * @param bus
+     */
+    public BusRequestsProcessor( MBus bus ) {
 		this.bus = bus; 
 	}
-	
-	public Message processAndReply(Message fromClient) throws InterruptedException {
+
+    /**
+     *
+     * @param fromClient
+     * @return
+     * @throws InterruptedException
+     */
+    public Message processAndReply(Message fromClient) throws InterruptedException {
 		
 		fromClient.print();
 		

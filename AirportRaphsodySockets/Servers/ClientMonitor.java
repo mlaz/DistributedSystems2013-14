@@ -3,16 +3,28 @@ package Servers;
 import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
+/**
+ *
+ * @author miguel
+ */
 public class ClientMonitor extends Thread {
 	
 	private ServerCom comm;
 	private IRequestProcessor reqProcessor;
-	
-	public ClientMonitor(ServerCom comm, IRequestProcessor reqProcessor) {
+
+    /**
+     *
+     * @param comm
+     * @param reqProcessor
+     */
+    public ClientMonitor(ServerCom comm, IRequestProcessor reqProcessor) {
         this.comm = comm;
         this.reqProcessor = reqProcessor;
     }
 
+    /**
+     *
+     */
     @Override
     public void run() {
         Message fromClient = null;

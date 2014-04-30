@@ -4,16 +4,28 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class ArrivalTerminalExitGenRepComm implements IArrivalTerminalExitGenRep {
 	private ServerInfo genRepInfo;
 	private ServerInfo arrTermExitInfo;
-	
-	public ArrivalTerminalExitGenRepComm(ServerInfo genRepInfo, ServerInfo serverInfo) {
+
+    /**
+     *
+     * @param genRepInfo
+     * @param serverInfo
+     */
+    public ArrivalTerminalExitGenRepComm(ServerInfo genRepInfo, ServerInfo serverInfo) {
 		this.genRepInfo = genRepInfo;
 		this.arrTermExitInfo = serverInfo;
 	}
-	
-	@Override
+
+    /**
+     *
+     */
+    @Override
 	public void setArrivalTerminalExit() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -36,7 +48,11 @@ public class ArrivalTerminalExitGenRepComm implements IArrivalTerminalExitGenRep
 		}
 	}
 
-	@Override
+    /**
+     *
+     * @param busQueue
+     */
+    @Override
 	public void updateDriverQueue(int[] busQueue) {
 
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());

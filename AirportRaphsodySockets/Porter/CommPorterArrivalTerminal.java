@@ -4,16 +4,29 @@ import Servers.ServerInfo;
 import messages.Message;
 import Client.ClientCom;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommPorterArrivalTerminal implements IPorterArrivalTerminal {
 	private ServerInfo arrTermInfo;
 	
 	private String myDebugName = "PORTER_ARR_TERM";
-	
-	public CommPorterArrivalTerminal( ServerInfo arrTermInfo ) {
+
+    /**
+     *
+     * @param arrTermInfo
+     */
+    public CommPorterArrivalTerminal( ServerInfo arrTermInfo ) {
 		this.arrTermInfo = arrTermInfo;
 	}
-	
-	@Override
+
+    /**
+     *
+     * @return
+     * @throws InterruptedException
+     */
+    @Override
 	public boolean takeARest() throws InterruptedException {
 		ClientCom con = new ClientCom(arrTermInfo.getHostName(), arrTermInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -43,7 +56,11 @@ public class CommPorterArrivalTerminal implements IPorterArrivalTerminal {
 		return inMessage.getBool();
 	}
 
-	@Override
+    /**
+     *
+     * @return
+     */
+    @Override
 	public Bag tryToCollectABag() {
 		ClientCom con = new ClientCom(arrTermInfo.getHostName(), arrTermInfo.getPortNumber());
 		Message inMessage, outMessage;

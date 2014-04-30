@@ -14,6 +14,10 @@ public interface IPassengerArrivalExitTransferZone {
 	 * @throws InterruptedException
 	 */
 	void takeABus(int passNumber) throws InterruptedException;
-	
-	void goHome(int passNumber);
+
+    /**
+     *
+     * @param passNumber
+     */
+    void goHome(int passNumber);
 }

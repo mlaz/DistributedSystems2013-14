@@ -19,6 +19,11 @@ public class DriverInfo {
     private int[]  seatsIDs;
     private boolean dead;
     
+    /**
+     *
+     * @param queueSize
+     * @param numSeats
+     */
     public DriverInfo(int queueSize, int numSeats) {
     	
         this.queueIDs = new int[queueSize];
@@ -35,27 +40,49 @@ public class DriverInfo {
         dead = false;
     }
 
+    /**
+     *
+     * @param stat
+     */
     public void setStat(EDriverStates stat) {
         this.stat = stat;
     }
 
+    /**
+     *
+     * @param queueIDs
+     */
     public void setQueueIDs(int[] queueIDs) {
         this.queueIDs = queueIDs;
     }
 
+    /**
+     *
+     * @param seatsIDs
+     */
     public void setSeatsIDs(int[] seatsIDs) {
         this.seatsIDs = seatsIDs;
     }
-    
-    
+
+    /**
+     *
+     */
     public void setAsDead() {
     	dead = true;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean isDead() {
     	return dead;
     }
     
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
     	String stat;

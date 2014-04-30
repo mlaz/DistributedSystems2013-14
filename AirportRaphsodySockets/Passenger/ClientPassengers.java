@@ -4,10 +4,18 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class ClientPassengers {
 	private static ServerInfo genRepInfo;
-	
-	public static void main(String[] args) {
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
 		if (args.length != 2) {
 			System.out.println("Usage: java ClientPassengers [genRepName] [genRepPort]");
 			// System.exit(1);

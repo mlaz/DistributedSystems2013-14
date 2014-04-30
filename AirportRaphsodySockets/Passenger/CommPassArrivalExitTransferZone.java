@@ -4,11 +4,19 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class CommPassArrivalExitTransferZone implements IPassengerArrivalExitTransferZone {
 	private ServerInfo arrTermExitInfo;
 	private String myDebugName = "PARR_ARR_TERM_EXIT";
-	
-	public CommPassArrivalExitTransferZone( ServerInfo arrTermExitInfo ) {
+
+    /**
+     *
+     * @param arrTermExitInfo
+     */
+    public CommPassArrivalExitTransferZone( ServerInfo arrTermExitInfo ) {
 		this.arrTermExitInfo = arrTermExitInfo;
 	}
 	
@@ -40,7 +48,11 @@ public class CommPassArrivalExitTransferZone implements IPassengerArrivalExitTra
 		}
 	}
 
-	@Override
+    /**
+     *
+     * @param passNumber
+     */
+    @Override
 	public void goHome(int passNumber) {
 		ClientCom con = new ClientCom(arrTermExitInfo.getHostName(), arrTermExitInfo.getPortNumber());
 		Message inMessage, outMessage;

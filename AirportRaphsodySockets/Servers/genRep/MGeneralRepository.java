@@ -48,9 +48,17 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 	private Condition porterDead;
 	private Condition driverDead;
 	BufferedWriter bw;
-	
 
-	public MGeneralRepository(int numPassengers, int nBusSeats, int busTimer, int numFlights, int maxBags, String path) {
+    /**
+     *
+     * @param numPassengers
+     * @param nBusSeats
+     * @param busTimer
+     * @param numFlights
+     * @param maxBags
+     * @param path
+     */
+    public MGeneralRepository(int numPassengers, int nBusSeats, int busTimer, int numFlights, int maxBags, String path) {
 		passengers = null; // new PassengerInfo[numPassengers];
 		registeredPassengers = 0;
 		plane = null;
@@ -87,7 +95,10 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		printHeader();
 	}
 
-	public void endSimulation() {
+    /**
+     *
+     */
+    public void endSimulation() {
 		try {
 			bw.close();
 		} catch (IOException e) {
@@ -136,6 +147,11 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 	}
 
 	/* porter */
+
+    /**
+     *
+     */
+    
 	public void registerPorter() {
 		lock.lock();
 		try {
@@ -145,7 +161,11 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		}
 	}
 
-	public void updatePorterState(EPorterStates newState) {
+    /**
+     *
+     * @param newState
+     */
+    public void updatePorterState(EPorterStates newState) {
 		lock.lock();
 		try {
 			porter.setStat(newState);
@@ -155,7 +175,10 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		}
 	}
 
-	public void incLuggageAtCB() {
+    /**
+     *
+     */
+    public void incLuggageAtCB() {
 		lock.lock();
 		try {
 			porter.addconvBeltItem();
@@ -165,7 +188,10 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		}
 	}
 
-	public void incLuggageAtSR() {
+    /**
+     *
+     */
+    public void incLuggageAtSR() {
 		lock.lock();
 		try {
 			porter.addStoredBaggage();
@@ -175,7 +201,10 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		}
 	}
 
-	public void removeLuggageAtPlane() {
+    /**
+     *
+     */
+    public void removeLuggageAtPlane() {
 		lock.lock();
 		try {
 			plane.removeABag();
@@ -186,6 +215,11 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 	}
 
 	/* driver */
+
+    /**
+     *
+     */
+    
 	public void registerDriver() {
 		lock.lock();
 		try {
@@ -196,7 +230,11 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		}
 	}
 
-	public void updateDriverState(EDriverStates newState) {
+    /**
+     *
+     * @param newState
+     */
+    public void updateDriverState(EDriverStates newState) {
 		lock.lock();
 		try {
 			driver.setStat(newState);
@@ -206,7 +244,11 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		}
 	}
 
-	public void updateDriverQueue(int[] queue) {
+    /**
+     *
+     * @param queue
+     */
+    public void updateDriverQueue(int[] queue) {
 		lock.lock();
 		try {
 			int[] iqueue = new int[numPassengers];
@@ -226,8 +268,12 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 			lock.unlock();
 		}
 	}
-	
-	public void updateDriverSeats(int[] seats) {
+
+    /**
+     *
+     * @param seats
+     */
+    public void updateDriverSeats(int[] seats) {
 		lock.lock();
 		try {
 			driver.setSeatsIDs(seats);
@@ -238,6 +284,15 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 	}
 
 	/* passengers */
+
+    /**
+     *
+     * @param pID
+     * @param planeId
+     * @param inTransit
+     * @param startingLuggage
+     */
+    
 	public void registerPassenger(int pID, int planeId, boolean inTransit,
 			int startingLuggage) {
 
@@ -265,7 +320,12 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		}
 	}
 
-	public void setPassengerStat(int pID, EPassengerStates newStat) {
+    /**
+     *
+     * @param pID
+     * @param newStat
+     */
+    public void setPassengerStat(int pID, EPassengerStates newStat) {
 		lock.lock();
 		try {
 			PassengerInfo p = findPassenger(pID);
@@ -276,7 +336,11 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		}
 	}
 
-	public void gotLuggage(int pID) {
+    /**
+     *
+     * @param pID
+     */
+    public void gotLuggage(int pID) {
 		lock.lock();
 		try {
 			PassengerInfo p = findPassenger(pID);
@@ -401,28 +465,51 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 	public void setDepartureTerminalEntrace(ServerInfo departureTerminalEntrace) {
 		this.departureTerminalEntrace = departureTerminalEntrace;
 	}
-	
-	public int getBusTimer() {
+
+    /**
+     *
+     * @return
+     */
+    public int getBusTimer() {
 		return busTimer;
 	}
 
-	public int getNumFlights() {
+    /**
+     *
+     * @return
+     */
+    public int getNumFlights() {
 		return numFlights;
 	}
 
-	public int getNumPassengers() {
+    /**
+     *
+     * @return
+     */
+    public int getNumPassengers() {
 		return numPassengers;
 	}
-	
-	public int getMaxBags() {
+
+    /**
+     *
+     * @return
+     */
+    public int getMaxBags() {
 		return maxBags;
 	}
-	
-	public int getNumBusSeats() {
+
+    /**
+     *
+     * @return
+     */
+    public int getNumBusSeats() {
 		return nBusSeats;
 	}
 
-	public void setPorterAsDead() {
+    /**
+     *
+     */
+    public void setPorterAsDead() {
 		lock.lock();
 		try {
 			porter.setAsDead();
@@ -432,7 +519,10 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		}
 	}
 
-	public void setDriverAsDead() {
+    /**
+     *
+     */
+    public void setDriverAsDead() {
 		lock.lock();
 		try {
 			driver.setAsDead();
@@ -442,7 +532,10 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		}
 	}
 
-	public void waitForDriverToDie() {
+    /**
+     *
+     */
+    public void waitForDriverToDie() {
 		lock.lock();
 		try {
 			while(!driver.isDead()) {
@@ -455,7 +548,10 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		}
 	}
 
-	public void waitForPorterToDie() {
+    /**
+     *
+     */
+    public void waitForPorterToDie() {
 		lock.lock();
 		try {
 			while(!porter.isDead()) {

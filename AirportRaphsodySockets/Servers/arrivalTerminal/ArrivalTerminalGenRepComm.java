@@ -3,17 +3,29 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class ArrivalTerminalGenRepComm implements IArrivalTerminalGenRep {
 
 	private ServerInfo genRepInfo;
 	private ServerInfo arrTermInfo;
-	
-	public ArrivalTerminalGenRepComm(ServerInfo genRepInfo, ServerInfo arrTermInfo) {
+
+    /**
+     *
+     * @param genRepInfo
+     * @param arrTermInfo
+     */
+    public ArrivalTerminalGenRepComm(ServerInfo genRepInfo, ServerInfo arrTermInfo) {
 		this.genRepInfo = genRepInfo;
 		this.arrTermInfo = arrTermInfo;
 	}
 
-	@Override
+    /**
+     *
+     */
+    @Override
 	public void setArrivalTerminal() {
 
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());

@@ -3,16 +3,30 @@ import Servers.Bag;
 import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
+/**
+ *
+ * @author miguel
+ */
 public class ArrivalTerminalRequestsProcessor implements IRequestProcessor {
 	
 	private final int[] validTypes = {Message.INT, Message.INT_INT};
 	private MArrivalTerminal arrivalTerminal;
-	
-	public ArrivalTerminalRequestsProcessor( MArrivalTerminal arrivalTerminal ) {
+
+    /**
+     *
+     * @param arrivalTerminal
+     */
+    public ArrivalTerminalRequestsProcessor( MArrivalTerminal arrivalTerminal ) {
 		this.arrivalTerminal = arrivalTerminal; 
 	}
-	
-	public Message processAndReply(Message fromClient) throws InterruptedException {
+
+    /**
+     *
+     * @param fromClient
+     * @return
+     * @throws InterruptedException
+     */
+    public Message processAndReply(Message fromClient) throws InterruptedException {
 		
 		fromClient.print();
 		

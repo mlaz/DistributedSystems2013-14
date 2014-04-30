@@ -2,8 +2,17 @@ package Driver;
 
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class ClientDriver {
-	public static void main(String[] args) {
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
 		if (args.length != 2) {
 			System.out.println("Usage: java ClientDriver [genRepName] [genRepPort]");
 			// System.exit(1);

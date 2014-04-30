@@ -10,7 +10,7 @@ package Porter;
 public interface IPorterBaggagePickupZone {
 
 	/**
-	 * @param currentBag
+     * @param passId
 	 * @return 
 	 */
 	boolean carryItToAppropriateStore(int passId);

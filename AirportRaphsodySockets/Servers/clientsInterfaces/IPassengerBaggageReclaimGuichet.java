@@ -1,5 +1,14 @@
 package Servers.clientsInterfaces;
 
+/**
+ *
+ * @author miguel
+ */
 public interface IPassengerBaggageReclaimGuichet {
-	public void reclaimBags(int passengerNumber);
+
+    /**
+     *
+     * @param passengerNumber
+     */
+    public void reclaimBags(int passengerNumber);
 }

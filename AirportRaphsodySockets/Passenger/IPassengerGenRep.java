@@ -7,23 +7,63 @@ package Passenger;
  */
 public interface IPassengerGenRep {
 
-	IPassengerArrivalTerminal getArrivalTerminal();
+    /**
+     *
+     * @return
+     */
+    IPassengerArrivalTerminal getArrivalTerminal();
 
-	IPassengerBaggageCollectionPoint getBaggagePickupZone();
+    /**
+     *
+     * @return
+     */
+    IPassengerBaggageCollectionPoint getBaggagePickupZone();
 
-	IPassengerBaggageReclaimGuichet getBaggageReclaimGuichet();
+    /**
+     *
+     * @return
+     */
+    IPassengerBaggageReclaimGuichet getBaggageReclaimGuichet();
 
-	IPassengerArrivalExitTransferZone getArrivalTerminalExit();
+    /**
+     *
+     * @return
+     */
+    IPassengerArrivalExitTransferZone getArrivalTerminalExit();
 
-	IPassengerDepartureTerminalEntrance getDepartureTerminalEntrace();
+    /**
+     *
+     * @return
+     */
+    IPassengerDepartureTerminalEntrance getDepartureTerminalEntrace();
 
-	IPassengerBus getBus();
+    /**
+     *
+     * @return
+     */
+    IPassengerBus getBus();
 
-	void registerPassenger(int passengerNumber, int flightNumber,
+    /**
+     *
+     * @param passengerNumber
+     * @param flightNumber
+     * @param inTransit
+     * @param remainingBags
+     */
+    void registerPassenger(int passengerNumber, int flightNumber,
 			boolean inTransit, int remainingBags);
 
-	void gotLuggage(int passengerNumber);
+    /**
+     *
+     * @param passengerNumber
+     */
+    void gotLuggage(int passengerNumber);
 
-	void setPassengerStat(int passengerNumber, EPassengerStates state);
+    /**
+     *
+     * @param passengerNumber
+     * @param state
+     */
+    void setPassengerStat(int passengerNumber, EPassengerStates state);
 
 }

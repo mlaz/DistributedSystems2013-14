@@ -13,7 +13,10 @@ public class MTempBaggageStorage implements IPorterTempBaggageStorage {
 	private int storedBags;
 	private Lock lock;
 
-	public MTempBaggageStorage() {
+    /**
+     *
+     */
+    public MTempBaggageStorage() {
 		storedBags = 0;
 		lock = new ReentrantLock();
 	}

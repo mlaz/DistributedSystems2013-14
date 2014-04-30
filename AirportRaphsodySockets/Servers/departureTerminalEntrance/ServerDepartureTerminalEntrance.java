@@ -6,12 +6,20 @@ import Servers.ClientMonitor;
 import Servers.ServerCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class ServerDepartureTerminalEntrance {
 	private static int portNumber = 22166;
 	private static String hostName;
 	private static ServerInfo genRepInfo;
-	
-	public static void main(String[] args) {
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
 		if (args.length != 3) {
 			System.out.println("Usage: java ServerDepartureTerminalEntrance [thisMachineName] [genRepName] [genRepPort]");
 			// System.exit(1);

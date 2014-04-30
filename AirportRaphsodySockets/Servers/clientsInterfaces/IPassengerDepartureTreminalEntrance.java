@@ -1,5 +1,14 @@
 package Servers.clientsInterfaces;
 
+/**
+ *
+ * @author miguel
+ */
 public interface IPassengerDepartureTreminalEntrance {
-	public void prepareNextLeg() throws InterruptedException;
+
+    /**
+     *
+     * @throws InterruptedException
+     */
+    public void prepareNextLeg() throws InterruptedException;
 }

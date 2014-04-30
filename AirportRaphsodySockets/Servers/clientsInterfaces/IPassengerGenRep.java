@@ -12,23 +12,63 @@ import Servers.ServerInfo;
  */
 public interface IPassengerGenRep {
 
-	ServerInfo getArrivalTerminal();
+    /**
+     *
+     * @return
+     */
+    ServerInfo getArrivalTerminal();
 
-	ServerInfo getBaggagePickupZone();
+    /**
+     *
+     * @return
+     */
+    ServerInfo getBaggagePickupZone();
 
-	ServerInfo getBaggageReclaimGuichet();
+    /**
+     *
+     * @return
+     */
+    ServerInfo getBaggageReclaimGuichet();
 
-	ServerInfo getArrivalTerminalExit();
+    /**
+     *
+     * @return
+     */
+    ServerInfo getArrivalTerminalExit();
 
-	ServerInfo getDepartureTerminalEntrace();
+    /**
+     *
+     * @return
+     */
+    ServerInfo getDepartureTerminalEntrace();
 
-	ServerInfo getBus();
+    /**
+     *
+     * @return
+     */
+    ServerInfo getBus();
 
-	void registerPassenger(int passengerNumber, int flightNumber,
+    /**
+     *
+     * @param passengerNumber
+     * @param flightNumber
+     * @param inTransit
+     * @param remainingBags
+     */
+    void registerPassenger(int passengerNumber, int flightNumber,
 			boolean inTransit, int remainingBags);
 
-	void gotLuggage(int passengerNumber);
+    /**
+     *
+     * @param passengerNumber
+     */
+    void gotLuggage(int passengerNumber);
 
-	void setPassengerStat(int passengerNumber, EPassengerStates state);
+    /**
+     *
+     * @param passengerNumber
+     * @param state
+     */
+    void setPassengerStat(int passengerNumber, EPassengerStates state);
 
 }

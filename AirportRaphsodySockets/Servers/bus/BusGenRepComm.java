@@ -4,16 +4,28 @@ import messages.Message;
 import Client.ClientCom;
 import Servers.ServerInfo;
 
+/**
+ *
+ * @author miguel
+ */
 public class BusGenRepComm implements IBusGenRep {
 	private ServerInfo genRepInfo;
 	private ServerInfo busInfo;
-	
-	public BusGenRepComm(ServerInfo genRepInfo, ServerInfo busInfo) {
+
+    /**
+     *
+     * @param genRepInfo
+     * @param busInfo
+     */
+    public BusGenRepComm(ServerInfo genRepInfo, ServerInfo busInfo) {
 		this.genRepInfo = genRepInfo;
 		this.busInfo = busInfo;
 	}
 
-	@Override
+    /**
+     *
+     */
+    @Override
 	public void setBus() {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;
@@ -36,7 +48,11 @@ public class BusGenRepComm implements IBusGenRep {
 		}
 	}
 
-	@Override
+    /**
+     *
+     * @param seats
+     */
+    @Override
 	public void updateDriverSeats(int[] seats) {
 		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
 		Message inMessage, outMessage;

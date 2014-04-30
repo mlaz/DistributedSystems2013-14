@@ -25,7 +25,10 @@ public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerB
 	private Lock lock;
 	private Condition cond;
 
-	public MBaggagePickupZone() {
+    /**
+     *
+     */
+    public MBaggagePickupZone() {
 		conveyourBelt = new LinkedList<Integer>();
 		looseNextItem = false;
 		passengersWaiting = 0;

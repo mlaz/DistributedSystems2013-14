@@ -24,7 +24,15 @@ public class TPassenger extends Thread {
 	private int remainingBags;
 	private boolean inTransit;
 
-	public TPassenger(int passengerNumber, 
+    /**
+     *
+     * @param passengerNumber
+     * @param remainingBags
+     * @param inTransit
+     * @param flightNumber
+     * @param genRep
+     */
+    public TPassenger(int passengerNumber, 
 			int remainingBags, 
 			boolean inTransit,
 			int flightNumber,
@@ -46,8 +54,11 @@ public class TPassenger extends Thread {
 		//System.out.println(passengerNumber + "fn"+ flightNumber+ "bags" + remainingBags );
 		genRep.registerPassenger(passengerNumber, flightNumber, inTransit, remainingBags);
 	}
-	
-	public void run() {
+
+    /**
+     *
+     */
+    public void run() {
 		EPassengerStates state = EPassengerStates.AT_THE_DISEMBARKING_ZONE;
 		EPassengerStates nextState = state;
 		boolean running = true;
