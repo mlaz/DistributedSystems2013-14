@@ -2,7 +2,7 @@ package Passenger;
 
 import messages.Message;
 import Client.ClientCom;
-import Server.ServerInfo;
+import Servers.ServerInfo;
 
 public class ClientPassengers {
 	private static ServerInfo genRepInfo;
@@ -54,9 +54,62 @@ public class ClientPassengers {
 		                }
 		        System.out.println("ALL Passengers Done-----------------------------------------\n");
 		}
+		
+		// WAIT FOR PORTER AND DRIVER TO DIE
+		System.out.print("Waiting for porter to die... ");
+		waitForPorterToDie();
+		System.out.println(" Dead!");
+		System.out.print("Waiting for driver to die... ");
+		waitForDriverToDie();
+		System.out.println(" Dead!");
+		
         System.out.println("ALL Threads Done-----------------------------------------\n");
         endSimulation();
         System.exit(0);
+	}
+	
+	private static void waitForPorterToDie() {
+		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
+	    Message inMessage, outMessage;
+
+	    while (!con.open()) {
+	        try {
+	            Thread.sleep((long) (10));
+	        } catch (InterruptedException e) {
+	        }
+	    }
+
+	    outMessage = new Message(Message.INT, Message.WAIT_FOR_PORTER_TO_DIE);
+	    con.writeObject(outMessage);
+	    inMessage = (Message) con.readObject();
+	    con.close();
+
+	    if (inMessage.getType() != Message.ACK) {
+	        System.out.println("Invalid message type!");
+	        System.exit(1);
+	    }
+	}
+	
+	private static void waitForDriverToDie() {
+		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
+	    Message inMessage, outMessage;
+
+	    while (!con.open()) {
+	        try {
+	            Thread.sleep((long) (10));
+	        } catch (InterruptedException e) {
+	        }
+	    }
+
+	    outMessage = new Message(Message.INT, Message.WAIT_FOR_DRIVER_TO_DIE);
+	    con.writeObject(outMessage);
+	    inMessage = (Message) con.readObject();
+	    con.close();
+
+	    if (inMessage.getType() != Message.ACK) {
+	        System.out.println("Invalid message type!");
+	        System.exit(1);
+	    }
 	}
 	
 	private static void endSimulation() {

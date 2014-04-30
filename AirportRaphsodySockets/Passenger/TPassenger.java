@@ -40,7 +40,7 @@ public class TPassenger extends Thread {
 		this.luggageCollectionPoint = genRep.getBaggagePickupZone();
 		this.baggageReclaimOffice = genRep.getBaggageReclaimGuichet();
 		this.arrivalTerminalExit = genRep.getArrivalTerminalExit();
-		this.departureTerminalEntrace = (IPassengerDepartureTerminalEntrance) genRep.getDepartureTerminalEntrace();
+		this.departureTerminalEntrace = genRep.getDepartureTerminalEntrace();
 		this.bus = genRep.getBus();
 		this.flightNumber = flightNumber;
 		//System.out.println(passengerNumber + "fn"+ flightNumber+ "bags" + remainingBags );

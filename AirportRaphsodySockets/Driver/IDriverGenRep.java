@@ -10,4 +10,6 @@ public interface IDriverGenRep {
 
 	void registerDriver();
 
+	void setDriverAsDead();
+
 }

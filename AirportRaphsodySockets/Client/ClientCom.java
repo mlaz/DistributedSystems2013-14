@@ -17,7 +17,7 @@ public class ClientCom extends Thread {
      *
      * @serialField commSocket
      */
-    private Socket commSocket = null;
+    public Socket commSocket = null;
     /**
      * Nome do sistema computacional onde está localizado o servidor
      *

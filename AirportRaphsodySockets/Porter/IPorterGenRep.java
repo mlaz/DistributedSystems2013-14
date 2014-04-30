@@ -22,4 +22,6 @@ public interface IPorterGenRep {
 
 	void updatePorterState(EPorterStates state);
 
+	void setPorterAsDead();
+
 }
