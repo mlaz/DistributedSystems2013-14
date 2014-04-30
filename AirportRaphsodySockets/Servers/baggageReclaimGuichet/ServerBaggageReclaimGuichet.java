@@ -5,7 +5,7 @@ import Servers.ServerCom;
 import Servers.ServerInfo;
 
 public class ServerBaggageReclaimGuichet {
-	private static int portNumber = 10004; //TODO change to right port
+	private static int portNumber = 22165;
 	private static String hostName;
 	private static ServerInfo genRepInfo;
 	
@@ -17,7 +17,7 @@ public class ServerBaggageReclaimGuichet {
 			args = new String[3];
 			args[0] = "localhost";
 			args[1] = "localhost";
-			args[2] = "10000";
+			args[2] = "22160";
 		}
 		/* obter parametros do problema */
 		hostName = args[0];
@@ -32,7 +32,7 @@ public class ServerBaggageReclaimGuichet {
         server.start();
         BaggageReclaimGuichetRequestsProcessor reqProcessor = new BaggageReclaimGuichetRequestsProcessor(reclaimGuichet);
         
-        System.out.println("Arrival Terminal service is listening on port " + portNumber + "...");
+        System.out.println("Baggage Reclaim Guichet service is listening on port " + portNumber + "...");
         
 		/* iniciar processamento de serviçoes */
         ServerCom comm;

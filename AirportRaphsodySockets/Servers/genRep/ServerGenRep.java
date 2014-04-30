@@ -5,12 +5,16 @@ import Servers.ServerCom;
 
 public class ServerGenRep {
 
-	private static int portNumber = 10000;	//TODO change to right port
+	private static int portNumber = 22160;
 	private static String logFile;
 	
 	public static void main(String[] args) {
 
-		if (args.length != 5) {
+		for( String arg : args ) {
+			System.out.println(arg);
+		}
+		
+		if (args.length != 6) {
 			System.out.println("Usage: java ServerGenRep [logFile] [numFlights] [numPassengers] [numBusSeats] [maxBags] [busTimer_in_ms]");
 			// System.exit(1);
 			args = new String[6];
@@ -21,7 +25,7 @@ public class ServerGenRep {
 			args[4] = "2";
 			args[5] = "2000";
 		}
-
+		
 		/* obter parametros do problema */
 		logFile	 			= args[0];
 		int numFlights 		= Integer.parseInt(args[1]);
