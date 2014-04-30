@@ -1,6 +1,6 @@
 package Driver;
 
-import Server.ServerInfo;
+import Servers.ServerInfo;
 
 public class ClientDriver {
 	public static void main(String[] args) {
@@ -19,6 +19,7 @@ public class ClientDriver {
 		
 		try {
 			driver.join();
+			genRep.setDriverAsDead();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

@@ -72,6 +72,10 @@ public class Message  implements Serializable {
 	public static final int ENTER_THE_BUS 					= 49;
 	public static final int LEAVE_THE_BUS 					= 50;
 	public static final int PREPARE_NEXT_LEG 				= 51;
+	public static final int	SET_PORTER_AS_DEAD				= 52;
+	public static final int SET_DRIVER_AS_DEAD				= 53;
+	public static final int WAIT_FOR_PORTER_TO_DIE					= 54;
+	public static final int WAIT_FOR_DRIVER_TO_DIE					= 55;
 	
 	/*************** Possible Objects ***************/
 	private int type;
@@ -127,7 +131,6 @@ public class Message  implements Serializable {
 		this.int1 = int1;
 		this.int2 = int2;
 		this.int3 = int3;
-		this.int4 = int4;
 	}
 	/* INT_INT_INT_INT_BOOL */
 	public Message (int type, int int1, int int2, int int3, int int4, boolean bool ) {
@@ -185,5 +188,199 @@ public class Message  implements Serializable {
 	public boolean getBool() {
 		return bool;
 	}
+	
+	public String toString() {
+		String msg = "MESSAGE --------\nTYPE: ";
+		switch(type) {
+	    	case ACK:
+	    		msg += "ACK\n";
+	    		break;
+	        case INT:
+	        	msg += "INT\n";
+	        	msg += "    INT1: "+this.getInt1() + "    if action = ";
+	        	msg += addAction(this.getInt1()) + '\n';
+	        	break;
+	        case INT_INT:
+	        	msg += "INT_INT\n";
+	        	msg += "    INT1: "+this.getInt1() + "    if action = ";
+	        	msg += addAction(this.getInt1()) + '\n';
+	        	msg += "    INT2: "+this.getInt2() + '\n';
+	        	break;
+	        case INT_INT_INT:
+	        	msg += "INT_INT_INT\n";
+	        	msg += "    INT1: "+this.getInt1() + "    if action = ";
+	        	msg += addAction(this.getInt1()) + '\n';
+	        	msg += "    INT2: "+this.getInt2() + '\n';
+	        	msg += "    INT3: "+this.getInt3() + '\n';
+	        	break;
+	        case BOOL:
+	        	msg += "BOOL\n";
+	        	msg += "    BOOL: "+this.getBool() + '\n';
+	        	break;
+	        case INT_BOOL:
+	        	msg += "INT_BOOL\n";
+	        	msg += "    INT1: "+this.getInt1() + "    if action = ";
+	        	msg += addAction(this.getInt1()) + '\n';
+	        	msg += "    BOOL: "+this.getBool() + '\n';
+	        	break;
+	        case INT_INT_STR:
+	        	msg += "INT_INT_STR\n";
+	        	msg += "    INT1: "+this.getInt1() + "    if action = ";
+	        	msg += addAction(this.getInt1()) + '\n';
+	        	msg += "    INT2: "+this.getInt2() + '\n';
+	        	msg += "    STR : "+this.getString() + '\n';
+	        	break;
+	        case INT_STR:
+	        	msg += "INT_STR\n";
+	        	msg += "    INT1: "+this.getInt1() + "    if action = ";
+	        	msg += addAction(this.getInt1()) + '\n';
+	        	msg += "    STR : "+this.getString() + '\n';
+	        	break;
+	        case INT_INT_BOOL:
+	        	msg += "INT_INT_BOOL\n";
+	        	msg += "    INT1: "+this.getInt1() + "    if action = ";
+	        	msg += addAction(this.getInt1()) + '\n';
+	        	msg += "    INT2: "+this.getInt2() + '\n';
+	        	msg += "    BOOL: "+this.getBool() + '\n';
+	        	break;
+	        case INT_INT_INT_INT_BOOL:
+	        	msg += "INT_INT_INT_INT_BOOL\n";
+	        	msg += "    INT1: "+this.getInt1() + "    if action = ";
+	        	msg += addAction(this.getInt1()) + '\n';
+	        	msg += "    INT2: "+this.getInt2() + '\n';
+	        	msg += "    INT3: "+this.getInt3() + '\n';
+	        	msg += "    INT4: "+this.getInt4() + '\n';
+	        	msg += "    BOOL: "+this.getBool() + '\n';
+	        	break;
+	        case INT_INTARR:
+	        	msg += "INT_INTARR\n";
+	        	msg += "    INT1: "+this.getInt1() + "    if action = ";
+	        	msg += addAction(this.getInt1()) + '\n';
+	        	msg += "    INTA: [";
+	        	for(int i=0 ; i<intArr.length ; i++) {
+	        		msg += intArr[i] + "  ";
+	        	}
+	        	msg += "]" + '\n';
+	        	break;
+		}
+		
+		return msg;
+	}
+	
+	private String addAction(int action) {
+		switch( action ) {
+			case WAIT_FOR_PASSENGERS:
+			    return ("WAIT_FOR_PASSENGERS");
+			case PARK_LET_OFF:
+			    return ("PARK_LET_OFF");
+			case TAKE_A_REST:
+			    return ("TAKE_A_REST");
+			case WHAT_SHOULD_I_DO:
+			    return ("WHAT_SHOULD_I_DO");
+			case TRY_TO_COLLECT_BAG:
+			    return ("TRY_TO_COLLECT_BAG");
+			case GET_NUM_FLIGHTS:
+			    return ("GET_NUM_FLIGHTS");
+			case GET_NUM_PASSENGERS:
+			    return ("GET_NUM_PASSENGERS");
+			case GET_MAX_BAGS:
+			    return ("GET_MAX_BAGS");
+			case GET_GENREP_PORT:
+			    return ("GET_GENREP_PORT");
+			case GET_GENREP_HOST:
+			    return ("GET_GENREP_HOST");
+			case SET_ARRIVAL_TERMINAL:
+			    return ("SET_ARRIVAL_TERMINAL");
+			case GET_NUM_SEATS:
+			    return ("GET_NUM_SEATS");
+			case TAKE_A_BUS:
+			    return ("TAKE_A_BUS");
+			case GO_HOME:
+			    return ("GO_HOME");
+			case ANNOUNCING_BUS_BOARDING:
+			    return ("ANNOUNCING_BUS_BOARDING");
+			case ANNOUNCING_BUS_DEPARTURE:
+			    return ("ANNOUNCING_BUS_DEPARTURE");
+			case END_SIMULATION:
+			    return ("END_SIMULATION");
+			case GET_ARRIVAL_TERMINAL:
+			    return ("GET_ARRIVAL_TERMINAL");
+			case GET_ARRIVAL_TERMINAL_EXIT:
+			    return ("GET_ARRIVAL_TERMINAL_EXIT");
+			case GET_BAGGAGE_PICKUP_ZONE:
+			    return ("GET_BAGGAGE_PICKUP_ZONE");
+			case GET_BAGGAGE_RECLAIM_GUICHET:
+			    return ("GET_BAGGAGE_RECLAIM_GUICHET");
+			case GET_BUS:
+			    return ("GET_BUS");
+			case GET_DEPARTURE_TERMINAL_ENTRANCE:
+			    return ("GET_DEPARTURE_TERMINAL_ENTRANCE");
+			case GET_TEMP_BAGGAGE_STORAGE:
+			    return ("GET_TEMP_BAGGAGE_STORAGE");
+			case GOT_LUGGAGE:
+			    return ("GOT_LUGGAGE");
+			case INC_LUGGAGE_AT_CB:
+			    return ("INC_LUGGAGE_AT_CB");
+			case INC_LUGGAGE_AT_SR:
+			    return ("INC_LUGGAGE_AT_SR");
+			case REGISTER_DRIVER:
+			    return ("REGISTER_DRIVER");
+			case REGISTER_PASSENGER:
+			    return ("REGISTER_PASSENGER");
+			case REGISTER_PORTER:
+			    return ("REGISTER_PORTER");
+			case REMOVE_LUGGAGE_AT_PLANE:
+			    return ("REMOVE_LUGGAGE_AT_PLANE");
+			case SET_ARRIVAL_TERMINAL_EXIT:
+			    return ("SET_ARRIVAL_TERMINAL_EXIT");
+			case SET_BAGGAGE_PICKUP_ZONE:
+			    return ("SET_BAGGAGE_PICKUP_ZONE");
+			case SET_BAGGAGE_RECLAIM_GUICHET:
+			    return ("SET_BAGGAGE_RECLAIM_GUICHET");
+			case SET_BUS:
+			    return ("SET_BUS");
+			case SET_DEPARTURE_TERMINAL_ENTRANCE:
+			    return ("SET_DEPARTURE_TERMINAL_ENTRANCE");
+			case SET_PASSENGER_STAT:
+			    return ("SET_PASSENGER_STAT");
+			case SET_TEMP_BAGGAGE_STORAGE:
+			    return ("SET_TEMP_BAGGAGE_STORAGE");
+			case UPDATE_DRIVER_QUEUE:
+			    return ("UPDATE_DRIVER_QUEUE");
+			case UPDATE_DRIVER_SEATS:
+			    return ("UPDATE_DRIVER_SEATS");
+			case UPDATE_DRIVER_STATE:
+			    return ("UPDATE_DRIVER_STATE");
+			case UPDATE_PORTER_STATE:
+			    return ("UPDATE_PORTER_STATE");
+			case CARRY_IT_TO_APPROPRIATE_STORAGE:
+			    return ("CARRY_IT_TO_APPROPRIATE_STORAGE");
+			case NO_MORE_BAGS_TO_COLLECT:
+			    return ("NO_MORE_BAGS_TO_COLLECT");
+			case RECLAIM_BAGS:
+			    return ("RECLAIM_BAGS");
+			case GET_BUS_DEPARTURE_INTERVAL:
+			    return ("GET_BUS_DEPARTURE_INTERVAL");
+			case ENTER_THE_BUS:
+			    return ("ENTER_THE_BUS");
+			case LEAVE_THE_BUS:
+			    return ("LEAVE_THE_BUS");
+			case PREPARE_NEXT_LEG:
+			    return ("PREPARE_NEXT_LEG");
+			case SET_PORTER_AS_DEAD:
+				return ("SET_PORTER_AS_DEAD:");
+			case WAIT_FOR_PORTER_TO_DIE:
+				return ("WAIT_FOR_PORTER_TO_DIE");
+			case SET_DRIVER_AS_DEAD:
+				return ("SET_DRIVER_AS_DEAD");
+			case WAIT_FOR_DRIVER_TO_DIE:
+				return ("WAIT_FOR_DRIVER_TO_DIE");
+			default:
+				return ("UNKOWN ACTION");
+		}
+	}
 
+	public void print() {
+		System.out.println(this.toString());
+	}
 }

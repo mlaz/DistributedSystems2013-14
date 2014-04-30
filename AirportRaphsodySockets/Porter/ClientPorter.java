@@ -1,6 +1,6 @@
 package Porter;
 
-import Server.ServerInfo;
+import Servers.ServerInfo;
 
 public class ClientPorter {
 	public static void main(String[] args) {
@@ -19,6 +19,7 @@ public class ClientPorter {
 		
 		try {
 			porter.join();
+			genRep.setPorterAsDead();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

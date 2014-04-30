@@ -2,10 +2,11 @@ package Passenger;
 
 import messages.Message;
 import Client.ClientCom;
-import Server.ServerInfo;
+import Servers.ServerInfo;
 
 public class CommPassArrivalExitTransferZone implements IPassengerArrivalExitTransferZone {
 	private ServerInfo arrTermExitInfo;
+	private String myDebugName = "PARR_ARR_TERM_EXIT";
 	
 	public CommPassArrivalExitTransferZone( ServerInfo arrTermExitInfo ) {
 		this.arrTermExitInfo = arrTermExitInfo;
@@ -24,10 +25,15 @@ public class CommPassArrivalExitTransferZone implements IPassengerArrivalExitTra
 		}
 
 		outMessage = new Message(Message.INT_INT, Message.TAKE_A_BUS, passNumber);
+		
+		printMessageSummary(outMessage, con, arrTermExitInfo, true);
+		
 		con.writeObject(outMessage);
 		inMessage = (Message) con.readObject();
 		con.close();
 
+		printMessageSummary(inMessage, con, arrTermExitInfo, false);
+		
 		if (inMessage.getType() != Message.ACK) {
 			System.out.println("Invalid message type!");
 			System.exit(1);
@@ -47,14 +53,27 @@ public class CommPassArrivalExitTransferZone implements IPassengerArrivalExitTra
 		}
 
 		outMessage = new Message(Message.INT_INT, Message.GO_HOME, passNumber);
+		
+		printMessageSummary(outMessage, con, arrTermExitInfo, true);
+		
 		con.writeObject(outMessage);
 		inMessage = (Message) con.readObject();
 		con.close();
 
+		printMessageSummary(inMessage, con, arrTermExitInfo, false);
+		
 		if (inMessage.getType() != Message.ACK) {
 			System.out.println("Invalid message type!");
 			System.exit(1);
 		}
 	}
-
+	
+	private void printMessageSummary(Message m, ClientCom con, ServerInfo id, boolean outMessage) {
+		if( outMessage ) {
+			System.out.println(myDebugName+" ("+con.commSocket.getLocalPort()+") sending message to " + id.getHostName() + ":"+id.getPortNumber());
+		} else {
+			System.out.println(myDebugName+" ("+con.commSocket.getLocalPort()+") received message from " + id.getHostName() + ":"+id.getPortNumber());
+		}
+		m.print();
+	}
 }

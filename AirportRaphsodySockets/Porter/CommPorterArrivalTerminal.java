@@ -1,11 +1,13 @@
 package Porter;
 
-import Server.ServerInfo;
+import Servers.ServerInfo;
 import messages.Message;
 import Client.ClientCom;
 
 public class CommPorterArrivalTerminal implements IPorterArrivalTerminal {
 	private ServerInfo arrTermInfo;
+	
+	private String myDebugName = "PORTER_ARR_TERM";
 	
 	public CommPorterArrivalTerminal( ServerInfo arrTermInfo ) {
 		this.arrTermInfo = arrTermInfo;
@@ -24,10 +26,15 @@ public class CommPorterArrivalTerminal implements IPorterArrivalTerminal {
 		}
 
 		outMessage = new Message(Message.INT, Message.TAKE_A_REST);
+		
+		printMessageSummary(outMessage, con, arrTermInfo, true);
+		
 		con.writeObject(outMessage);
 		inMessage = (Message) con.readObject();
 		con.close();
 
+		printMessageSummary(inMessage, con, arrTermInfo, false);
+		
 		if (inMessage.getType() != Message.BOOL) {
 			System.out.println("Invalid message type!");
 			System.exit(1);
@@ -49,16 +56,32 @@ public class CommPorterArrivalTerminal implements IPorterArrivalTerminal {
 		}
 
 		outMessage = new Message(Message.INT, Message.TRY_TO_COLLECT_BAG);
+		
+		printMessageSummary(outMessage, con, arrTermInfo, true);
+		
 		con.writeObject(outMessage);
 		inMessage = (Message) con.readObject();
 		con.close();
 
+		printMessageSummary(inMessage, con, arrTermInfo, false);
+		
 		if (inMessage.getType() != Message.INT_BOOL) {
 			System.out.println("Invalid message type!");
 			System.exit(1);
 		}
-		
-		return new Bag(inMessage.getInt1(), inMessage.getBool());
+		if( inMessage.getInt1() == -1 ) {
+			return null;
+		} else {
+			return new Bag(inMessage.getInt1(), inMessage.getBool());
+		}
 	}
-
+	
+	private void printMessageSummary(Message m, ClientCom con, ServerInfo id, boolean outMessage) {
+		if( outMessage ) {
+			System.out.println(myDebugName+" ("+con.commSocket.getLocalPort()+") sending message to " + id.getHostName() + ":"+id.getPortNumber());
+		} else {
+			System.out.println(myDebugName+" ("+con.commSocket.getLocalPort()+") received message from " + id.getHostName() + ":"+id.getPortNumber());
+		}
+		m.print();
+	}
 }

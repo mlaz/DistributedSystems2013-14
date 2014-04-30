@@ -2,10 +2,12 @@ package Passenger;
 
 import messages.Message;
 import Client.ClientCom;
-import Server.ServerInfo;
+import Servers.ServerInfo;
 
 public class CommPassDepartureTerminalEntrance implements IPassengerDepartureTerminalEntrance {
 	private ServerInfo deptTermInfo;
+	
+	private String myDebugName = "PASS_DEPARTURE";
 	
 	public CommPassDepartureTerminalEntrance( ServerInfo deptTermInfo ) {
 		this.deptTermInfo = deptTermInfo;
@@ -23,14 +25,27 @@ public class CommPassDepartureTerminalEntrance implements IPassengerDepartureTer
 		}
 
 		outMessage = new Message(Message.INT, Message.PREPARE_NEXT_LEG);
+		
+		printMessageSummary(outMessage, con, deptTermInfo, true);
+		
 		con.writeObject(outMessage);
 		inMessage = (Message) con.readObject();
 		con.close();
 
+		printMessageSummary(inMessage, con, deptTermInfo, false);
+		
 		if (inMessage.getType() != Message.ACK) {
 			System.out.println("Invalid message type!");
 			System.exit(1);
 		}
 	}
 
+	private void printMessageSummary(Message m, ClientCom con, ServerInfo id, boolean outMessage) {
+		if( outMessage ) {
+			System.out.println(myDebugName+" ("+con.commSocket.getLocalPort()+") sending message to " + id.getHostName() + ":"+id.getPortNumber());
+		} else {
+			System.out.println(myDebugName+" ("+con.commSocket.getLocalPort()+") received message from " + id.getHostName() + ":"+id.getPortNumber());
+		}
+		m.print();
+	}
 }
