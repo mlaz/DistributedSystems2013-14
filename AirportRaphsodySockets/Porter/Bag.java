@@ -5,7 +5,7 @@ package Porter;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- *
+ * Classe Bag representa uma mala e toda a informaçao que lhe é adjacente
  */
 public class Bag {
 	

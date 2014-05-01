@@ -1,7 +1,7 @@
 package Servers;
 
 /**
- *
+ * Classe que guarda as informações dos servidores na rede hostname e porto
  * @author miguel
  */
 public class ServerInfo {

@@ -5,7 +5,7 @@ import Client.ClientCom;
 import Servers.ServerInfo;
 
 /**
- *
+ * Classe CommDriverGenRep: classe de comunicação entre as threads de passageiro (TPassenger) e o repositório geral de informação (MGenRep) de forma distribuida
  * @author miguel
  */
 public class CommPassGenRep implements IPassengerGenRep {

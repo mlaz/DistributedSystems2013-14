@@ -2,7 +2,7 @@ package Porter;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * 
+ * Classe TPassanger: classe de implementação da thread de passageiro
  */
 public class TPorter extends Thread {
 	
@@ -12,7 +12,7 @@ public class TPorter extends Thread {
 	private IPorterGenRep genRep;
 
     /**
-     *
+     * Construtor da Classe
      * @param genRep
      */
     public TPorter(IPorterGenRep genRep) {
@@ -25,7 +25,7 @@ public class TPorter extends Thread {
 	}
 
     /**
-     *
+     * Implementação da máquina de estados da thread
      */
     public void run () {		
 

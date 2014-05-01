@@ -5,7 +5,7 @@ import Client.ClientCom;
 import messages.Message;
 
 /**
- *
+ * Classe CommDriverBus: classe de comunicação entre as threads de condutor do autocarro (TDriver) e o autocarro (MBus) de forma distribuida
  * @author miguel
  */
 public class CommDriverBus implements IDriverBus {

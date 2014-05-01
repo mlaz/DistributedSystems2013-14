@@ -1,7 +1,7 @@
 package Passenger;
 
 /**
- *
+ * Enumerado com todos os estados da thread TPassenger
  * @author miguel
  */
 public enum EPassengerStates {

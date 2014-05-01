@@ -1,7 +1,7 @@
 package Porter;
 
 /**
- *
+ * Enumerado com todos os estados da thread TPorter
  * @author miguel
  */
 public enum EPorterStates {

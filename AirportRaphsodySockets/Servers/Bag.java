@@ -2,7 +2,7 @@ package Servers;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- *
+ * Classe que descreve o objecto mala com todos os dados que lhe sao adjacentes
  */
 public class Bag {
 	

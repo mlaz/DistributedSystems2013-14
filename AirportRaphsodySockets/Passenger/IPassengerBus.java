@@ -5,7 +5,7 @@ package Passenger;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- *
+ * Interface para interação entre a thread de passageiro (TPassenger) e o autocarro (MBus) 
  */
 public interface IPassengerBus {
 

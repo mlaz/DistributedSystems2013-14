@@ -5,7 +5,7 @@ import messages.Message;
 import Client.ClientCom;
 
 /**
- *
+ * Classe CommDriverGenRep: classe de comunicação entre as threads de passageiro (TPassenger) o autocarro (MBus) de forma distribuida
  * @author miguel
  */
 public class CommPassBus implements IPassengerBus{

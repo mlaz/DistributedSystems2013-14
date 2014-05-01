@@ -5,7 +5,7 @@ import Client.ClientCom;
 import Servers.ServerInfo;
 
 /**
- *
+ * Classe CommPorterGenRep: classe de comunicação entre a thread de bagageiro (TPorter) e o repositório geral (MGenRep) de forma distribuida
  * @author miguel
  */
 public class CommPorterGenRep implements IPorterGenRep {

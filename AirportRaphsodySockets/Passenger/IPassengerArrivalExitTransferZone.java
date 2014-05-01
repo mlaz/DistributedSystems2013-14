@@ -5,7 +5,7 @@ package Passenger;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- *
+ * Interface para interação entre a thread de passageiro (TPassenger) e a zona de transferencia do terminal de chagada (MArrivalTerminalExitTransferZone) 
  */
 public interface IPassengerArrivalExitTransferZone {
 

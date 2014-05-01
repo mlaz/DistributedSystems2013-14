@@ -5,7 +5,7 @@ package Passenger;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- *
+ * Interface para interação entre a thread de condutor (TDriver) e a zona de recolha de bagagens (MBaggageCollectionZone) 
  */
 public interface IPassengerBaggageCollectionPoint {
 

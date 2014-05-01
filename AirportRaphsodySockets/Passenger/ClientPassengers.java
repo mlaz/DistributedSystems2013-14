@@ -5,7 +5,7 @@ import Client.ClientCom;
 import Servers.ServerInfo;
 
 /**
- *
+ * Classe ClientDriver: classe para lançar todas as threads TPassenger
  * @author miguel
  */
 public class ClientPassengers {
@@ -13,7 +13,7 @@ public class ClientPassengers {
 
     /**
      *
-     * @param args
+     * @param args  [genRepName] [genRepPort]
      */
     public static void main(String[] args) {
 		if (args.length != 2) {

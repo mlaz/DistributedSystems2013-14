@@ -6,7 +6,7 @@ package Porter;
 
 /**
  * @author miguel
- *
+ * Interface para interação entre a thread de bagageiro (TPorter) e o terminal de chagada (MArrivalTerminal) 
  */
 public interface IPorterArrivalTerminal {
 
