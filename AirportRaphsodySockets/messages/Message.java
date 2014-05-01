@@ -3,22 +3,26 @@ package messages;
 import java.io.Serializable;
 
 /**
- *
+ * Classe que define as mensagens enviadas e recebidas pelas entidades.
+ * Contem dois conjuntos de constantes importantes.
+ * O primeiro conjunto define o tipo da mensagem (os campos que a mesma contem)
+ * O segundo define a accao que mensagem indica que deve ser executada.
+ * O tipo da mensagem e obrigatorio! A acção so é utilizada se necessário.
  * @author miguel
  */
 public class Message  implements Serializable {
-	
+
 	/**
 	 * AUTO-GENERATED
 	 */
 	private static final long serialVersionUID = 9026264442617704395L;
-	
+
 	/* Types - defines the EXTRA data fields the message has, BESIDES the type */
 
     /**
      *
      */
-    
+
 	public static final int ACK			= 0;
 
     /**
@@ -70,8 +74,12 @@ public class Message  implements Serializable {
      *
      */
     public static final int INT_INTARR	= 12;
-	
+
 	/******************* Actions ********************/
+    /**
+     *
+     */
+
 	public static final int WAIT_FOR_PASSENGERS				= 1;
 
     /**
@@ -333,7 +341,7 @@ public class Message  implements Serializable {
      *
      */
     public static final int WAIT_FOR_DRIVER_TO_DIE					= 55;
-	
+
 	/*************** Possible Objects ***************/
 	private int type;
 	private int int1, int2, int3, int4;
@@ -341,34 +349,38 @@ public class Message  implements Serializable {
 	private boolean bool;
 	private String str;
 
-	/***************** Constructors
-     * @param type *****************/
+	/***************** Constructors *****************/
+    /**
+     * Instancia uma mensagem que contem apenas um campo, o tipo.
+     * E utilizado apenas para ACK.
+     * @param type
+     */
 	/* ACK */
 	public Message ( int type ) {
 		this.type = type;
 	}
-	
+
 	/* INT */
 
     /**
-     *
+     * Instancia uma mensagem com um tipo e um valor inteiro, que pode, ou não, ser uma acção.
      * @param type
      * @param int1
      */
-    
+
 	public Message (int type, int int1 ) {
 		this.type = type;
 		this.int1 = int1;
 	}
-	
+
 	/* BOOL */
 
     /**
-     *
+     * Instancia uma mensagem com um tipo e um valor booleano
      * @param type
      * @param bool
      */
-    
+
 	public Message (int type, boolean bool ) {
 		this.type = type;
 		this.bool = bool;
@@ -376,12 +388,12 @@ public class Message  implements Serializable {
 	/* INT BOOL */
 
     /**
-     *
+     * Instancia uma mensagem com um tipo, uma valor inteiro e um valor booleano.
      * @param type
      * @param int1
      * @param bool
      */
-    
+
 	public Message (int type, int int1, boolean bool ) {
 		this.type = type;
 		this.int1 = int1;
@@ -389,7 +401,7 @@ public class Message  implements Serializable {
 	}
 
     /**
-     *
+     * Instancia uma mensagem com um tipo, um valor inteiro e um array de inteiros.
      * @param type
      * @param int1
      * @param intArr
@@ -402,12 +414,12 @@ public class Message  implements Serializable {
 	/* INT INT */
 
     /**
-     *
+     * Instancia uma mensagem com um tipo e dois valores inteiros.
      * @param type
      * @param int1
      * @param int2
      */
-    
+
 	public Message (int type, int int1, int int2) {
 		this.type = type;
 		this.int1 = int1;
@@ -416,13 +428,13 @@ public class Message  implements Serializable {
 	/* INT INT BOOL */
 
     /**
-     *
+     * Instancia uma mensagem com um tipo, dois valores inteiros e um valor booleano.
      * @param type
      * @param int1
      * @param int2
      * @param bool
      */
-    
+
 	public Message (int type, int int1, int int2, boolean bool ) {
 		this.type = type;
 		this.int1 = int1;
@@ -432,13 +444,13 @@ public class Message  implements Serializable {
 	/* INT INT INT*/
 
     /**
-     *
+     * Instancia uma mensagem com um tipo e três valores inteiros.
      * @param type
      * @param int1
      * @param int2
      * @param int3
      */
-    
+
 	public Message (int type, int int1, int int2, int int3 ) {
 		this.type = type;
 		this.int1 = int1;
@@ -448,7 +460,7 @@ public class Message  implements Serializable {
 	/* INT_INT_INT_INT_BOOL */
 
     /**
-     *
+     * Instancia uma mensagem com um tipo, quatro valores inteiros e um valor boleano.
      * @param type
      * @param int1
      * @param int2
@@ -456,7 +468,7 @@ public class Message  implements Serializable {
      * @param int4
      * @param bool
      */
-    
+
 	public Message (int type, int int1, int int2, int int3, int int4, boolean bool ) {
 		this.type = type;
 		this.int1 = int1;
@@ -468,37 +480,39 @@ public class Message  implements Serializable {
 	/* INT STR */
 
     /**
-     *
+     * Instancia uma mensagem com um tipo, um valor inteiro e uma String.
      * @param type
      * @param int1
      * @param str
      */
-    
+
 	public Message (int type, int int1, String str ) {
 		this.type = type;
 		this.int1 = int1;
 		this.str  = str;
 	}
-	
+
 	/* INT_INT_STR */
 
     /**
-     *
+     * Instancia uma mensagem com um tipo, dois valores inteiros e uma String.
      * @param type
      * @param int1
      * @param int2
      * @param str
      */
-    
+
 	public Message ( int type, int int1, int int2, String str ) {
 		this.type = type;
 		this.int1 = int1;
 		this.int2 = int2;
 		this.str  = str;
 	}
-	
-	/******************* Getters
-     * @return  ********************/
+
+	/******************* Getters  ********************/
+    /**
+     * @return
+     */
 	public int getType() {
 		return type;
 	}
@@ -637,10 +651,10 @@ public class Message  implements Serializable {
 	        	msg += "]" + '\n';
 	        	break;
 		}
-		
+
 		return msg;
 	}
-	
+
 	private String addAction(int action) {
 		switch( action ) {
 			case WAIT_FOR_PASSENGERS:
