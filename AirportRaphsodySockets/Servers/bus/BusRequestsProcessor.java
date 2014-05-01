@@ -4,7 +4,7 @@ import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
 /**
- *
+ * Classe Para processameto de mensagens para o monitor MBus
  * @author miguel
  */
 public class BusRequestsProcessor implements IRequestProcessor {

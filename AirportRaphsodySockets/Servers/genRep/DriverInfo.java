@@ -9,7 +9,7 @@ import Servers.EDriverStates;
  */
 
 /**
- *
+ * Classe para logging de informação das threads TDriver
  * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */

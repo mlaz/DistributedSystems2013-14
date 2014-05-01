@@ -10,7 +10,7 @@ import Passenger.IPassengerBaggageReclaimGuichet;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * 
+ * Monitor do guichet de reclamação de bagagens 
  */
 public class MBaggageReclaimGuichet implements IPassengerBaggageReclaimGuichet {
 

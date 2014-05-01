@@ -4,7 +4,7 @@ import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
 /**
- *
+ * Classe Para processameto de mensagens para o monitor MBaggageReclaimGuichet
  * @author miguel
  */
 public class BaggageReclaimGuichetRequestsProcessor implements IRequestProcessor {

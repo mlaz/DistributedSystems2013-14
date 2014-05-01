@@ -7,7 +7,7 @@ import Servers.clientsInterfaces.IPorterTempBaggageStorage;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * 
+ * Monitor para o depósito temporário de bagagens
  */
 public class MTempBaggageStorage implements IPorterTempBaggageStorage {
 	private int storedBags;

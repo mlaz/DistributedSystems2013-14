@@ -4,7 +4,7 @@ import Client.ClientCom;
 import Servers.ServerInfo;
 
 /**
- *
+ * Classe para comunicação remota com o monitor MArrivalTerminal
  * @author miguel
  */
 public class ArrivalTerminalGenRepComm implements IArrivalTerminalGenRep {

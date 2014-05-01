@@ -3,7 +3,7 @@ package Servers.genRep;
 //import java.util.LinkedList;
 
 /**
- *
+ * Classe para logging de informação de cada voo
  * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */

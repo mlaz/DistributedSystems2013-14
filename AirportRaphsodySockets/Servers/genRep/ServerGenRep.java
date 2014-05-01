@@ -4,7 +4,7 @@ import Servers.ClientMonitor;
 import Servers.ServerCom;
 
 /**
- *
+ * Classe de servidor com replicação para receção de pedidos ao monior por parte das threads(clientes)
  * @author miguel
  */
 public class ServerGenRep {

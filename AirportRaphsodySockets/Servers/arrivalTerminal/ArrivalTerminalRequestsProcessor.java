@@ -4,7 +4,7 @@ import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
 /**
- *
+ * Classe Para processameto de mensagens para o monitor MArrivalTerminal
  * @author miguel
  */
 public class ArrivalTerminalRequestsProcessor implements IRequestProcessor {
