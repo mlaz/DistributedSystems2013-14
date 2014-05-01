@@ -5,7 +5,7 @@ import messages.Message;
 import Client.ClientCom;
 
 /**
- *
+ * Classe CommPorterArrivalTerminal: classe de comunicação entre a thread de bagageiro (TPorter) e a zona de deposito temporário de bagagens (MTempBaggageStorage) de forma distribuida
  * @author miguel
  */
 public class CommPorterTempBaggageStorage implements IPorterTempBaggageStorage {

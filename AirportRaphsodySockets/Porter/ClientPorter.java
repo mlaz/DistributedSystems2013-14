@@ -3,14 +3,14 @@ package Porter;
 import Servers.ServerInfo;
 
 /**
- *
+ * Classe ClientDriver: classe para lançar a thread TPorter
  * @author miguel
  */
 public class ClientPorter {
 
     /**
      *
-     * @param args
+     * @param args [genRepName] [genRepPort]
      */
     public static void main(String[] args) {
 		if (args.length != 2) {

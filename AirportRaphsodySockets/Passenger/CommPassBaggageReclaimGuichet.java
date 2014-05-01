@@ -5,7 +5,7 @@ import Client.ClientCom;
 import Servers.ServerInfo;
 
 /**
- *
+ * Classe CommDriverGenRep: classe de comunicação entre as threads de passageiro (TPassenger) o guichet de reclmação de bagagens (MBaggageReclaimGuichet) de forma distribuida
  * @author miguel
  */
 public class CommPassBaggageReclaimGuichet implements IPassengerBaggageReclaimGuichet {

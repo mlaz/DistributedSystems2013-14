@@ -1,7 +1,7 @@
 package Servers;
 
 /**
- *
+ * Enumerado com todos os estados da thread TDriver
  * @author miguel
  */
 public enum EDriverStates {

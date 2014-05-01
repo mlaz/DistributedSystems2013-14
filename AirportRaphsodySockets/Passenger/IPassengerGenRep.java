@@ -3,7 +3,7 @@ package Passenger;
 
 /**
  * @author Miguel Azevedo, Filipe Teixeira
- *
+ * Interface para interação entre a thread de passageiro (TPassenger) e a entrada do terminal de partida (MDepartureTerminalEntrance) 
  */
 public interface IPassengerGenRep {
 

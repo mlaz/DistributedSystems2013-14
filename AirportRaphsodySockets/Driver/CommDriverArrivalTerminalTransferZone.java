@@ -5,7 +5,8 @@ import messages.Message;
 import Client.ClientCom;
 
 /**
- *
+ * Classe ComDriverArrivalTerminalTransferZone: classe de comunicação entre o condutor (TDriver) e ArrivalTerminalTransferZone de forma destrubuida
+ * 
  * @author miguel
  */
 public class CommDriverArrivalTerminalTransferZone implements IDriverArrivalTerminalTransferZone {

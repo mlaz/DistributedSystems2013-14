@@ -4,7 +4,7 @@ import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
 /**
- *
+ * Thread criada pelos monitores para responder ao pedidos que sao feitos pelas restantes threads (passageiro bagageiro e condutor)
  * @author miguel
  */
 public class ClientMonitor extends Thread {

@@ -1,7 +1,7 @@
 package Passenger;
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- *
+ * Interface para interação entre a thread de condutor (TDriver) e o terminal de chagada (MArrivalTerminal) 
  */
 public interface IPassengerArrivalTerminal {
 

@@ -6,7 +6,7 @@ package Passenger;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * 
+ * Classe TPassanger: classe de implementação da thread de passageiro
  */
 public class TPassenger extends Thread {
 	
@@ -25,7 +25,7 @@ public class TPassenger extends Thread {
 	private boolean inTransit;
 
     /**
-     *
+     * Construtor da classe
      * @param passengerNumber
      * @param remainingBags
      * @param inTransit
@@ -56,7 +56,7 @@ public class TPassenger extends Thread {
 	}
 
     /**
-     *
+     * Implementação da máquina de estados
      */
     public void run() {
 		EPassengerStates state = EPassengerStates.AT_THE_DISEMBARKING_ZONE;

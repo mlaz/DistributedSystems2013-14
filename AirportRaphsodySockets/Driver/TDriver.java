@@ -2,7 +2,7 @@ package Driver;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * 
+ * Classe TDriver: classe de implementação da thread de condutor de autocarro
  */
 public class TDriver extends Thread {
 	
@@ -13,6 +13,7 @@ public class TDriver extends Thread {
 	
 	/**
 	 * @param genRep
+	 * Construtor da classe TDriver
 	 */
 	public TDriver(IDriverGenRep genRep) {
 		arrivalTerminalTransferZone = genRep.getArrivalTerminalExit();
@@ -22,7 +23,7 @@ public class TDriver extends Thread {
 	}
 
     /**
-     *
+     * Implementação da máquina de estados da thread
      */
     public void run () {
 		

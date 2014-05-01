@@ -5,7 +5,7 @@ import messages.Message;
 import Client.ClientCom;
 
 /**
- *
+ * Classe CommPorterBaggagePickupZone: classe de comunicação entre a thread de bagageiro (TPorter) e a zona de recolha de bagagem (MBaggagePickupZone) de forma distribuida
  * @author miguel
  */
 public class CommPorterBaggagePickupZone implements IPorterBaggagePickupZone {

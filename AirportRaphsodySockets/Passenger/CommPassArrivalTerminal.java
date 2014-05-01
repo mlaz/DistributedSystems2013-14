@@ -5,7 +5,7 @@ import messages.Message;
 import Client.ClientCom;
 
 /**
- *
+ * Classe CommDriverGenRep: classe de comunicação entre as threads de passageiro (TPassenger) e o terminal de chegada (MArrivalTerminal) de forma distribuida
  * @author miguel
  */
 public class CommPassArrivalTerminal implements IPassengerArrivalTerminal {

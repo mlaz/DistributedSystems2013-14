@@ -5,7 +5,7 @@ import Client.ClientCom;
 import Servers.ServerInfo;
 
 /**
- *
+ * Classe CommDriverGenRep: classe de comunicação entre as threads de passageiro (TPassenger) e a zona de recolha de bagagens (MBaggageCollectionPoint) de forma distribuida
  * @author miguel
  */
 public class CommPassBaggageCollectionPoint implements IPassengerBaggageCollectionPoint {
