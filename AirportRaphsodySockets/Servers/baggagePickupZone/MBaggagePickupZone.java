@@ -14,7 +14,7 @@ import Porter.IPorterBaggagePickupZone;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * 
+ * Monitor da zona de recolha de bagagens 
  */
 public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerBaggageCollectionPoint {
 	private boolean looseNextItem;

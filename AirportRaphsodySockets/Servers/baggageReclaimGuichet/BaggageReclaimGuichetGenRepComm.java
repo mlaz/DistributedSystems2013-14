@@ -5,7 +5,7 @@ import Client.ClientCom;
 import Servers.ServerInfo;
 
 /**
- *
+ * Classe para comunicação remota entre o monitor MBaggageReclaimGuichet e MGenRep
  * @author miguel
  */
 public class BaggageReclaimGuichetGenRepComm implements IBaggageReclaimGuichetGenRep {

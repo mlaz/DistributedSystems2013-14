@@ -10,6 +10,7 @@ import Passenger.IPassengerBus;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
+ * Monitor do autocarro
  */
 public class MBus implements IDriverBus, IPassengerBus {
 

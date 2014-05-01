@@ -8,7 +8,7 @@ import Servers.ServerInfo;
 import Servers.clientsInterfaces.IRequestProcessor;
 
 /**
- *
+ * Classe Para processameto de mensagens para o monitor MGenRep
  * @author miguel
  */
 public class GenRepRequestsProcessor implements IRequestProcessor {

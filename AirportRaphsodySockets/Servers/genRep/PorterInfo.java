@@ -4,7 +4,7 @@ import Servers.EPorterStates;
 
 //import TPorter.states;
 /**
- *
+ * Classe para logging de informação da thread do bagageiro
  * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */

@@ -5,7 +5,7 @@ import Client.ClientCom;
 import Servers.ServerInfo;
 
 /**
- *
+ * Classe para comunicação remota entre o monitor MDepartureTerminalEntrance e MGenRep
  * @author miguel
  */
 public class DepartureTerminalEntranceGenRepComm implements IDepartureTerminalEntranceGenRep {

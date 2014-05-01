@@ -4,7 +4,7 @@ import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
 /**
- *
+ * Classe Para processameto de mensagens para o monitor MBaggagePickupZone
  * @author miguel
  */
 public class BaggagePickupZoneRequestsProcessor implements IRequestProcessor {

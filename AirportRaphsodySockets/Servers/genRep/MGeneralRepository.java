@@ -18,7 +18,7 @@ import Servers.clientsInterfaces.IPorterGenRep;
 /**
  * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * 
+ * Monitor do repositório geral de informação
  */
 public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		IPorterGenRep {

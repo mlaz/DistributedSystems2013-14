@@ -5,7 +5,7 @@ import Servers.clientsInterfaces.IRequestProcessor;
 import messages.Message;
 
 /**
- *
+ * Classe Para processameto de mensagens para o monitor MTempBaggageStorage
  * @author miguel
  */
 public class TempBaggageStorageRequestsProcessor implements IRequestProcessor {

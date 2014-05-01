@@ -7,7 +7,7 @@ import Servers.ServerCom;
 import Servers.ServerInfo;
 
 /**
- *
+ * Classe de servidor com replicação para receção de pedidos ao monior por parte das threads(clientes)
  * @author miguel
  */
 public class ServerArrivalTerminal {

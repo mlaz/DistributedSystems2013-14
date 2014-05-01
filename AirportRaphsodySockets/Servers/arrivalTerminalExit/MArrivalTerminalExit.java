@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import Servers.clientsInterfaces.*;
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * 
+ * Monitor da saida do terminal de chegada
  */
 public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone, IPassengerArrivalExitTransferZone {
 

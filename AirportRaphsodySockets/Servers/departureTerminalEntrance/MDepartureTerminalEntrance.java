@@ -11,7 +11,7 @@ import Servers.clientsInterfaces.IPassengerDepartureTreminalEntrance;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * 
+ * Monitor da entrada do terminal de partida
  */
 public class MDepartureTerminalEntrance implements IPassengerDepartureTreminalEntrance {
 	private int remainingPassengers;

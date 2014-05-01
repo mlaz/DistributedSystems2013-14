@@ -3,7 +3,7 @@ package Servers.genRep;
 import Servers.EPassengerStates;
 
 /**
- *
+ * Classe para logging de informação de cada passageiro
  * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */

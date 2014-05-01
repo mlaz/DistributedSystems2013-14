@@ -12,7 +12,7 @@ import Servers.clientsInterfaces.IPorterArrivalTerminal;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * 
+ * Monitor terminal de chegada
  */
 public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArrivalTerminal {
 
