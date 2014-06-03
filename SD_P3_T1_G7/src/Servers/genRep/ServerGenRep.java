@@ -1,0 +1,105 @@
+package Servers.genRep;
+
+import java.rmi.AccessException;
+import java.rmi.AlreadyBoundException;
+import java.rmi.RMISecurityManager;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+
+import Servers.clientsInterfaces.IDriverGenRep;
+import Servers.clientsInterfaces.IPassengerGenRep;
+import Servers.clientsInterfaces.IPorterGenRep;
+
+/**
+ * Classe de servidor com replicação para receção de pedidos ao monior por parte das threads(clientes)
+ * @author miguel
+ */
+public class ServerGenRep {
+
+	private static int portNumber = 22160;
+	private static int rmiPort	  = 22159;	//TODO this is wrong
+	private static String logFile;
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+
+		for( String arg : args ) {
+			System.out.println(arg);
+		}
+		
+		if (args.length != 6) { 
+			System.out.println("Usage: java ServerGenRep [logFile] [numFlights] [numPassengers] [numBusSeats] [maxBags] [busTimer_in_ms]");
+			// System.exit(1);
+			args = new String[6];
+			args[0] = "log2.log";
+			args[1] = "5";
+			args[2] = "1";
+			args[3] = "3";
+			args[4] = "2";
+			args[5] = "2000";
+		}
+		
+		/* obter parametros do problema */
+		logFile	 			= args[0];
+		int numFlights 		= Integer.parseInt(args[1]);
+		int numPassengers 	= Integer.parseInt(args[2]);
+		int numSeats 		= Integer.parseInt(args[3]);
+		int maxBags 		= Integer.parseInt(args[4]);
+		int busTimer 		= Integer.parseInt(args[5]);		
+		
+		/* instanciar o gestor de seguran�a */
+		//if( System.getSecurityManager(  ) == null ) {
+		//	System.setSecurityManager( new RMISecurityManager() );
+		//}
+		
+		/* establecer o servico */
+		MGeneralRepository genRep = new MGeneralRepository(numPassengers, numSeats, busTimer, numFlights, maxBags, logFile);
+		
+		Remote remGenRep = null;
+		try {
+			remGenRep = UnicastRemoteObject.exportObject( genRep, 0 );
+		} catch (RemoteException e) {
+			System.err.println("Error creating the GenRep stub");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		System.out.println( "GenRep stub created" );
+		
+		Registry registry = null;
+		
+		try {
+			registry = LocateRegistry.createRegistry(rmiPort);
+		} catch( RemoteException e ) {
+			System.err.println( "Error creating the RMI registry: " + e.getMessage() );
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		System.out.println( "RMI registry created" );
+		
+		try {
+			registry.bind( "genRep", remGenRep );
+		} catch (AccessException e) {
+			System.err.println( "Registry access error" );
+			e.printStackTrace();
+			System.exit(1);
+		} catch (RemoteException e) {
+			System.err.println( "Error registering the GenRep" );
+			e.printStackTrace();
+			System.exit(1);
+		} catch (AlreadyBoundException e) {
+			System.err.println( "GenRep is already registered" );
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		System.out.println( "GenRep is ready!" );
+	}
+}
