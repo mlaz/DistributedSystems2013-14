@@ -16,9 +16,7 @@ import Utils.RmiUtils;
  */
 public class ServerArrivalTerminal {
 	private static int portNumber = 22161;
-//	private static String hostName;
-//	private static ServerInfo genRepInfo;
-	private static String usage = "Usage: java ServerArrivalTerminal [thisMachineName] [genRepName] [genRepPort]";
+	private static String usage = "Usage: java ServerArrivalTerminal [RMIRegName] [RMIRegPort]";
 	
     /**
      *
@@ -26,28 +24,29 @@ public class ServerArrivalTerminal {
      */
     public static void main(String[] args) {
 		
-		if (args.length != 3) {
+		if (args.length != 2) {
 			System.out.println(usage);
 			// System.exit(1);
-			args = new String[3];
+			args = new String[2];
 			args[0] = "localhost";
-			args[1] = "localhost";
-			args[2] = "22168";
+			args[1] = "22168";
 		}
 		/* obter parametros do problema */
 		
 		/* get the RMI registry */
 		Registry rmiReg = null;
 		try {
-			rmiReg = RmiUtils.getRMIReg( args[1], Integer.parseInt(args[2]), usage );
+			rmiReg = RmiUtils.getRMIReg( args[0], Integer.parseInt(args[1]), usage );
 		} catch (NumberFormatException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
+			System.exit(1);
 		} catch (RemoteException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
+			System.exit(1);
 		}
-		System.out.println("RMI registry located!");
+		System.out.println("RMI registry located");
 		
 		IGenRep genRep = null;
 		try {
@@ -72,7 +71,7 @@ public class ServerArrivalTerminal {
 		int numPassengers = 0;
 		int maxBags = 0;	
 		try {
-			numFlights = genRep.getNumFlights();
+			numFlights 	  = genRep.getNumFlights();
 			numPassengers = genRep.getNumPassengers();
 			maxBags		  = genRep.getMaxBags();	
 		} catch (RemoteException e1) {
@@ -92,6 +91,8 @@ public class ServerArrivalTerminal {
 			System.exit(1);
 		}
 		
+		System.out.println("Arrival Termina stub created");
+		
 		try {
 			rmiReg.bind(RmiUtils.arrivalTerminalId, arrivalTerminalInter);
 		} catch (RemoteException | AlreadyBoundException e) {
@@ -100,7 +101,7 @@ public class ServerArrivalTerminal {
 			System.exit(1);
 		}
 		
-        System.out.println("Arrival Terminal service is listening on port " + portNumber + "...");
+        System.out.println("Arrival Terminal binded to RMI registry (port " + portNumber + ")");
         
 	}
 

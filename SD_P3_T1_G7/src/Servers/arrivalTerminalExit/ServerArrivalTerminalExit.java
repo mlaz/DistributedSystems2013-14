@@ -16,8 +16,8 @@ import Utils.RmiUtils;
  */
 public class ServerArrivalTerminalExit {
 
-	private static int portNumber = 22162;
-	final static String usage = "Usage: java ServerArrivalTerminalExit [thisMachineName] [genRepName] [genRepPort]";
+	private static final int portNumber = 22162;
+	private static final String usage 	= "Usage: java ServerArrivalTerminalExit [RMIRegName] [RmiRegPort]";
 
     /**
      *
@@ -26,18 +26,17 @@ public class ServerArrivalTerminalExit {
     public static void main(String[] args) {
 
 		if (args.length != 3) {
-			System.out.println("Usage: java ServerArrivalTerminalExit [thisMachineName] [genRepName] [genRepPort]");
+			System.out.println(usage);
 			// System.exit(1);
 			args = new String[3];
 			args[0] = "localhost";
-			args[1] = "localhost";
-			args[2] = "22168";
+			args[1] = "22168";
 		}
 
 		/* get the RMI registry */
 		Registry rmiReg = null;
 		try {
-			rmiReg = RmiUtils.getRMIReg( args[1], Integer.parseInt(args[2]), usage );
+			rmiReg = RmiUtils.getRMIReg( args[0], Integer.parseInt(args[1]), usage );
 		} catch (NumberFormatException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -45,7 +44,7 @@ public class ServerArrivalTerminalExit {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		System.out.println("RMI registry located!");
+		System.out.println("RMI registry located");
 		
 		IGenRep genRep = null;
 		try {
@@ -53,27 +52,31 @@ public class ServerArrivalTerminalExit {
 		} catch (AccessException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.exit(1);
 		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.exit(1);
 		} catch (NotBoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.exit(1);
 		}
-		/* obter parametros do problema */
 		
+		System.out.println("GenRep accessed");
+		
+		/* obter parametros do problema */
 		int numFlights = 0;
 		int numPassengers = 0;
 		int numSeats = 0;
 		try {
-			numFlights = genRep.getNumFlights();
+			numFlights 	  = genRep.getNumFlights();
 			numPassengers = genRep.getNumPassengers();
-			numSeats = genRep.getNumBusSeats();
+			numSeats 	  = genRep.getNumBusSeats();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 		/* establecer o serviço */
 		MArrivalTerminalExit arrivalTerminalExit = new MArrivalTerminalExit(numFlights, numPassengers, numSeats, genRep);
@@ -86,6 +89,8 @@ public class ServerArrivalTerminalExit {
 			System.exit(1);
 		}
 		
+		System.out.println("Arrival Terminal Exit stub created");
+		
 		try {
 			rmiReg.bind(RmiUtils.arrivalTerminalTransferZoneId, arrivalTerminalExitInter);
 		} catch (RemoteException | AlreadyBoundException e) {
@@ -94,6 +99,6 @@ public class ServerArrivalTerminalExit {
 			System.exit(1);
 		}
 		
-        System.out.println("Arrival Terminal Exit service is listening on port " + portNumber + "...");
+        System.out.println("Arrival Terminal Exit binded to RMI registry (port " + portNumber + ")");
 	}
 }
