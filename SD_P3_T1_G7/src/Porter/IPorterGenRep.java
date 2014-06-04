@@ -8,24 +8,6 @@ public interface IPorterGenRep {
 
     /**
      *
-     * @return
-     */
-    IPorterArrivalTerminal getArrivalTerminal();
-
-    /**
-     *
-     * @return
-     */
-    IPorterBaggagePickupZone getBaggagePickupZone();
-
-    /**
-     *
-     * @return
-     */
-    IPorterTempBaggageStorage getTempBaggageStorage();
-
-    /**
-     *
      */
     void registerPorter();
 

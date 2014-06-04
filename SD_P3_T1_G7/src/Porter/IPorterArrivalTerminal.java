@@ -1,5 +1,7 @@
 package Porter;
 
+import Utils.Bag;
+
 /**
  *  IPorteArrivalTerminal - interface
  */

@@ -1,5 +1,7 @@
 package Porter;
 
+import Utils.Bag;
+
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Classe TPassanger: classe de implementação da thread de passageiro
@@ -15,11 +17,14 @@ public class TPorter extends Thread {
      * Construtor da Classe
      * @param genRep
      */
-    public TPorter(IPorterGenRep genRep) {
+    public TPorter(IPorterGenRep genRep, 
+    			IPorterArrivalTerminal arrivalTerminal, 
+    			IPorterBaggagePickupZone baggageBeltConveyor, 
+    			IPorterTempBaggageStorage baggageStorage) {
 
-		this.arrivalTerminal 	 = genRep.getArrivalTerminal();
-		this.baggageBeltConveyor = genRep.getBaggagePickupZone();
-		this.baggageStorage 	 = genRep.getTempBaggageStorage();
+		this.arrivalTerminal 	 = arrivalTerminal;
+		this.baggageBeltConveyor = baggageBeltConveyor;
+		this.baggageStorage 	 = baggageStorage;
 		this.genRep 		 	 = genRep;
 		genRep.registerPorter();
 	}

@@ -9,9 +9,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-import Servers.clientsInterfaces.IDriverGenRep;
-import Servers.clientsInterfaces.IPassengerGenRep;
-import Servers.clientsInterfaces.IPorterGenRep;
 
 /**
  * Classe de servidor com replicação para receção de pedidos ao monior por parte das threads(clientes)
@@ -20,7 +17,7 @@ import Servers.clientsInterfaces.IPorterGenRep;
 public class ServerGenRep {
 
 	private static int portNumber = 22160;
-	private static int rmiPort	  = 22159;	//TODO this is wrong
+	private static int rmiPort	  = 22168;	//TODO this is wrong
 	private static String logFile;
 
     /**

@@ -1,6 +1,6 @@
 package Servers.genRep;
 
-import Servers.EPassengerStates;
+import Passenger.EPassengerStates;
 
 /**
  * Classe para logging de informação de cada passageiro

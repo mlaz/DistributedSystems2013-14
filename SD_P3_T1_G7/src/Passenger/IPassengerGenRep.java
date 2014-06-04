@@ -9,42 +9,6 @@ public interface IPassengerGenRep {
 
     /**
      *
-     * @return
-     */
-    IPassengerArrivalTerminal getArrivalTerminal();
-
-    /**
-     *
-     * @return
-     */
-    IPassengerBaggageCollectionPoint getBaggagePickupZone();
-
-    /**
-     *
-     * @return
-     */
-    IPassengerBaggageReclaimGuichet getBaggageReclaimGuichet();
-
-    /**
-     *
-     * @return
-     */
-    IPassengerArrivalExitTransferZone getArrivalTerminalExit();
-
-    /**
-     *
-     * @return
-     */
-    IPassengerDepartureTerminalEntrance getDepartureTerminalEntrace();
-
-    /**
-     *
-     * @return
-     */
-    IPassengerBus getBus();
-
-    /**
-     *
      * @param passengerNumber
      * @param flightNumber
      * @param inTransit

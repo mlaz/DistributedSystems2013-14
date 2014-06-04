@@ -7,9 +7,9 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import Servers.Bag;
-import Servers.clientsInterfaces.IPassengerArrivalTerminal;
-import Servers.clientsInterfaces.IPorterArrivalTerminal;
+import Utils.Bag;
+import Passenger.IPassengerArrivalTerminal;
+import Porter.IPorterArrivalTerminal;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
