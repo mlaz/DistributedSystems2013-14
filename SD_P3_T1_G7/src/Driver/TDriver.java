@@ -43,8 +43,13 @@ public class TDriver extends Thread {
 				//System.out.println("DRIVER: PARKING_AT_THE_ARRIVAL_TERMINAL");
 				try {
 					
-					if (!(running = arrivalTerminalTransferZone.announcingBusBoaring(lastPassengers)))
-						break;
+					try {
+						if (!(running = arrivalTerminalTransferZone.announcingBusBoaring(lastPassengers)))
+							break;
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					lastPassengers = 0;
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block

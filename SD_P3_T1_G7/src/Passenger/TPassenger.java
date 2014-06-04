@@ -118,18 +118,33 @@ public class TPassenger extends Thread {
 				break;
 				
 			case AT_THE_BAGGAGE_RECLAIM_OFFICE:
-				baggageReclaimOffice.reclaimBags(passengerNumber);
+				try {
+					baggageReclaimOffice.reclaimBags(passengerNumber);
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				nextState = EPassengerStates.EXITING_THE_ARRIVAL_TERMINAL;
 				
 			case EXITING_THE_ARRIVAL_TERMINAL:
-				arrivalTerminalExit.goHome(passengerNumber);
+				try {
+					arrivalTerminalExit.goHome(passengerNumber);
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				running = false;
 				break;
 				
 			case AT_THE_ARRIVAL_TRANSFER_TERMINAL:
 				//System.out.println(passengerNumber + " AT_THE_ARRIVAL_TRANSFER_TERMINAL\n");
 				try {
-					arrivalTerminalExit.takeABus(passengerNumber);
+					try {
+						arrivalTerminalExit.takeABus(passengerNumber);
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -156,7 +171,12 @@ public class TPassenger extends Thread {
 				//System.out.println(passengerNumber + " AT_THE_DEPARTURE_TRANSFER_TERMINAL\n");
 
 				try {
-					bus.leaveTheBus(passengerNumber);
+					try {
+						bus.leaveTheBus(passengerNumber);
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
