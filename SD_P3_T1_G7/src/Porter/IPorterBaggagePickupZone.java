@@ -1,4 +1,6 @@
 package Porter;
+
+import java.rmi.RemoteException;
 /**
  * 
  */
@@ -13,11 +15,11 @@ public interface IPorterBaggagePickupZone {
      * @param passId
 	 * @return 
 	 */
-	boolean carryItToAppropriateStore(int passId);
+	boolean carryItToAppropriateStore(int passId) throws RemoteException;
 
 	/**
 	 * @throws InterruptedException 
 	 * 
 	 */
-	void noMoreBagsToCollect() throws InterruptedException;
+	void noMoreBagsToCollect() throws InterruptedException, RemoteException;
 }

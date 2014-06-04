@@ -1,4 +1,6 @@
 package Passenger;
+
+import java.rmi.RemoteException;
 /**
  * 
  */
@@ -13,11 +15,11 @@ public interface IPassengerArrivalExitTransferZone {
 	 * @param passNumber
 	 * @throws InterruptedException
 	 */
-	void takeABus(int passNumber) throws InterruptedException;
+	void takeABus(int passNumber) throws InterruptedException, RemoteException;
 
     /**
      *
      * @param passNumber
      */
-    void goHome(int passNumber);
+    void goHome(int passNumber) throws RemoteException;
 }

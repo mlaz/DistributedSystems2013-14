@@ -1,4 +1,6 @@
 package Driver;
+
+import java.rmi.RemoteException;
 /**
  * 
  */
@@ -21,6 +23,6 @@ public interface IDriverArrivalTerminalTransferZone {
 	 * Método chamado pelo condutor para anunciar que o autocarro está disponivel
 	 */
 	boolean announcingBusBoaring(int lastPassengers)
-			throws InterruptedException;
+			throws InterruptedException, RemoteException;
 }
 
