@@ -1,4 +1,6 @@
 package Utils;
+
+import java.io.Serializable;
 /**
  * 
  */
@@ -7,7 +9,12 @@ package Utils;
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Classe Bag representa uma mala e toda a informaçao que lhe é adjacente
  */
-public class Bag {
+public class Bag implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7727878935876516744L;
 	
 	private int passNumber;
 	private Boolean inTransit;
