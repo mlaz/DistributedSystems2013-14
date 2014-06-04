@@ -4,6 +4,6 @@ import java.rmi.Remote;
 
 import Porter.IPorterTempBaggageStorage;
 
-public interface IBaggageReclaimGuichet extends IPorterTempBaggageStorage, Remote {
+public interface ITempStorage extends IPorterTempBaggageStorage, Remote {
 
 }
