@@ -3,16 +3,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.rmi.Remote;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import Driver.IDriverGenRep;
 import Driver.EDriverStates;
-import Passenger.IPassengerGenRep;
 import Passenger.EPassengerStates;
-import Porter.IPorterGenRep;
 import Porter.EPorterStates;
 
 /**

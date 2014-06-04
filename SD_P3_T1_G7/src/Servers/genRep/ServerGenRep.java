@@ -2,12 +2,12 @@ package Servers.genRep;
 
 import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
-import java.rmi.RMISecurityManager;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+
+import Utils.RmiUtils;
 
 
 /**
@@ -17,7 +17,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class ServerGenRep {
 
 	private static int portNumber = 22160;
-	private static int rmiPort	  = 22168;	//TODO this is wrong
+	private static int rmiPort	  = 22168;
 	private static String logFile;
 
     /**
@@ -57,10 +57,10 @@ public class ServerGenRep {
 		
 		/* establecer o servico */
 		MGeneralRepository genRep = new MGeneralRepository(numPassengers, numSeats, busTimer, numFlights, maxBags, logFile);
+		IGenRep genRepInter = null;
 		
-		Remote remGenRep = null;
 		try {
-			remGenRep = UnicastRemoteObject.exportObject( genRep, 0 );
+			genRepInter = (IGenRep) UnicastRemoteObject.exportObject( genRep, portNumber );
 		} catch (RemoteException e) {
 			System.err.println("Error creating the GenRep stub");
 			e.printStackTrace();
@@ -82,7 +82,7 @@ public class ServerGenRep {
 		System.out.println( "RMI registry created" );
 		
 		try {
-			registry.bind( "genRep", remGenRep );
+			registry.bind( RmiUtils.genRepId, genRepInter );
 		} catch (AccessException e) {
 			System.err.println( "Registry access error" );
 			e.printStackTrace();
