@@ -1,4 +1,6 @@
 package Passenger;
+
+import java.rmi.RemoteException;
 /**
  * 
  */
@@ -16,5 +18,5 @@ public interface IPassengerBaggageCollectionPoint {
 	 * @throws InterruptedException 
 	 */
 	boolean tryToCollectABag(int passengerNumber, int flightNum)
-			throws InterruptedException;
+			throws InterruptedException, RemoteException;
 }

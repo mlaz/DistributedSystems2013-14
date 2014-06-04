@@ -1,6 +1,7 @@
 package Passenger;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  * Interface para interação entre a thread de condutor (TDriver) e guichet de reclamação de bagagens (MBaggageReclaimGuichet) 
@@ -12,5 +13,5 @@ public interface IPassengerBaggageReclaimGuichet extends Remote {
      *
      * @param passengerNumber
      */
-    public void reclaimBags(int passengerNumber);
+    public void reclaimBags(int passengerNumber) throws RemoteException;
 }

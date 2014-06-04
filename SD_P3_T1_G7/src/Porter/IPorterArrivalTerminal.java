@@ -1,5 +1,7 @@
 package Porter;
 
+import java.rmi.RemoteException;
+
 import Utils.Bag;
 
 /**
@@ -17,12 +19,12 @@ public interface IPorterArrivalTerminal {
      * @return
      * @throws InterruptedException
      */
-    public boolean takeARest () throws InterruptedException;
+    public boolean takeARest () throws InterruptedException, RemoteException;
 
     /**
      *
      * @return
      */
-    public Bag tryToCollectABag ();
+    public Bag tryToCollectABag () throws RemoteException;
 
 }
