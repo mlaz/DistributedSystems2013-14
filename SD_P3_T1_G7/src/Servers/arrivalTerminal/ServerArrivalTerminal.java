@@ -1,10 +1,14 @@
 package Servers.arrivalTerminal;
 
-import messages.Message;
-import Client.ClientCom;
-import Servers.ClientMonitor;
-import Servers.ServerCom;
-import Servers.ServerInfo;
+import java.rmi.AccessException;
+import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+
+import Servers.genRep.IGenRep;
+import Utils.RmiUtils;
 
 /**
  * Classe de servidor com replicação para receção de pedidos ao monior por parte das threads(clientes)
@@ -12,9 +16,10 @@ import Servers.ServerInfo;
  */
 public class ServerArrivalTerminal {
 	private static int portNumber = 22161;
-	private static String hostName;
-	private static ServerInfo genRepInfo;
-
+//	private static String hostName;
+//	private static ServerInfo genRepInfo;
+	private static String usage = "Usage: java ServerArrivalTerminal [thisMachineName] [genRepName] [genRepPort]";
+	
     /**
      *
      * @param args
@@ -22,7 +27,7 @@ public class ServerArrivalTerminal {
     public static void main(String[] args) {
 		
 		if (args.length != 3) {
-			System.out.println("Usage: java ServerArrivalTerminal [thisMachineName] [genRepName] [genRepPort]");
+			System.out.println(usage);
 			// System.exit(1);
 			args = new String[3];
 			args[0] = "localhost";
@@ -30,107 +35,68 @@ public class ServerArrivalTerminal {
 			args[2] = "22160";
 		}
 		/* obter parametros do problema */
-		genRepInfo = new ServerInfo(Integer.parseInt(args[2]), args[1]);
-		hostName = args[0];
 		
-		int numFlights 	  = getNumFlights();
-		int numPassengers = getNumPassengers();
-		int maxBags		  = getMaxBags();		
+		/* get the RMI registry */
+		Registry rmiReg = null;
+		try {
+			rmiReg = RmiUtils.getRMIReg( args[1], Integer.parseInt(args[2]), usage );
+		} catch (NumberFormatException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (RemoteException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		System.out.println("RMI registry located!");
 		
-		IArrivalTerminalGenRep genRep = new ArrivalTerminalGenRepComm(genRepInfo, new ServerInfo(portNumber, hostName));
+		IGenRep genRep = null;
+		try {
+			genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
+		} catch (AccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NotBoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		int numFlights = 0;
+		int numPassengers = 0;
+		int maxBags = 0;	
+		try {
+			numFlights = genRep.getNumFlights();
+			numPassengers = genRep.getNumPassengers();
+			maxBags		  = genRep.getMaxBags();	
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		
 		/* establecer o serviço */
-		genRep.setArrivalTerminal();
 		MArrivalTerminal arrivalTerminal = new MArrivalTerminal(numFlights, numPassengers, maxBags);
-		ServerCom server = new ServerCom(portNumber);
-        server.start();
-        ArrivalTerminalRequestsProcessor reqProcessor = new ArrivalTerminalRequestsProcessor(arrivalTerminal);
-        
+		IArrivalTerminal arrivalTerminalInter = null;
+		try {
+			arrivalTerminalInter = (IArrivalTerminal) UnicastRemoteObject.exportObject(arrivalTerminal, portNumber);
+		} catch (RemoteException e) {
+			System.err.println("Error creating the ArrivalTerminal stub");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		try {
+			rmiReg.bind(RmiUtils.arrivalTerminalId, arrivalTerminalInter);
+		} catch (RemoteException | AlreadyBoundException e) {
+			System.err.println("Error binding the ArrivalTermminal to the RMI registry");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
         System.out.println("Arrival Terminal service is listening on port " + portNumber + "...");
         
-		/* iniciar processamento de serviçoes */
-        ServerCom comm;
-        ClientMonitor client;
-		while (true) {
-			comm = server.accept();
-			comm.commSocket.toString();
-			client = new ClientMonitor(comm, reqProcessor);
-			client.start();
-		}
 	}
-	
-	private static int getNumFlights() {
 
-        ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
-        Message inMessage, outMessage;
-
-        while (!con.open()) {
-            try {
-                Thread.sleep((long) (10));
-            } catch (InterruptedException e) {
-            }
-        }
-
-        outMessage = new Message(Message.INT, Message.GET_NUM_FLIGHTS);
-        con.writeObject(outMessage);
-        inMessage = (Message) con.readObject();
-        con.close();
-
-        if (inMessage.getType() != Message.INT) {
-            System.out.println("Invalid message type!");
-            System.exit(1);
-        }
-
-        return inMessage.getInt1();
-    }
-	
-	private static int getNumPassengers() {
-
-        ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
-        Message inMessage, outMessage;
-
-        while (!con.open()) {
-            try {
-                Thread.sleep((long) (10));
-            } catch (InterruptedException e) {
-            }
-        }
-
-        outMessage = new Message(Message.INT, Message.GET_NUM_PASSENGERS);
-        con.writeObject(outMessage);
-        inMessage = (Message) con.readObject();
-        con.close();
-
-        if (inMessage.getType() != Message.INT) {
-            System.out.println("Invalid message type!");
-            System.exit(1);
-        }
-
-        return inMessage.getInt1();
-    }
-	
-	private static int getMaxBags() {
-
-		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
-        Message inMessage, outMessage;
-
-        while (!con.open()) {
-            try {
-                Thread.sleep((long) (10));
-            } catch (InterruptedException e) {
-            }
-        }
-
-        outMessage = new Message(Message.INT, Message.GET_MAX_BAGS);
-        con.writeObject(outMessage);
-        inMessage = (Message) con.readObject();
-        con.close();
-
-        if (inMessage.getType() != Message.INT) {
-            System.out.println("Invalid message type!");
-            System.exit(1);
-        }
-
-        return inMessage.getInt1();
-    }
 }
