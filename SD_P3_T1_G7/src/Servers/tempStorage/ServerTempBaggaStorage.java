@@ -31,10 +31,10 @@ public class ServerTempBaggaStorage {
 		
 		/* establecer o serviço */
 		MTempBaggageStorage tempStorage = new MTempBaggageStorage();
-		ITempStorage tempStorageInter   = null;
+		IBaggageReclaimGuichet tempStorageInter   = null;
 		
 		try {
-			tempStorageInter = (ITempStorage) UnicastRemoteObject.exportObject(tempStorage, portNumber);
+			tempStorageInter = (IBaggageReclaimGuichet) UnicastRemoteObject.exportObject(tempStorage, portNumber);
 		} catch (RemoteException e) {
 			System.err.println("Error creating the TempStorage stub");
 			e.printStackTrace();
