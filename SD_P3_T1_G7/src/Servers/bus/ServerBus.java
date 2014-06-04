@@ -15,27 +15,27 @@ import Utils.RmiUtils;
  * @author miguel
  */
 public class ServerBus {
-	private static int portNumber = 22163;
-	private static final String usage = "Usage: java ServerBus [thisMachineName] [genRepName] [genRepPort]";
+	private static final int portNumber = 22163;
+	private static final String usage = "Usage: java ServerBus [RMIRegName] [RMIRegPort]";
     /**
      *
      * @param args
      */
     public static void main(String[] args) {
 		
-		if (args.length != 3) {
+		if (args.length != 2) {
 			System.out.println(usage);
 			// System.exit(1);
-			args = new String[3];
+			args = new String[2];
 			args[0] = "localhost";
-			args[1] = "localhost";
-			args[2] = "22168";
+			args[1] = "22168";
 		}
+		
 		/* obter parametros do problema */
 		/* get the RMI registry */
 		Registry rmiReg = null;
 		try {
-			rmiReg = RmiUtils.getRMIReg( args[1], Integer.parseInt(args[2]), usage );
+			rmiReg = RmiUtils.getRMIReg( args[0], Integer.parseInt(args[1]), usage );
 		} catch (NumberFormatException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -43,7 +43,7 @@ public class ServerBus {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		System.out.println("RMI registry located!");
+		System.out.println("RMI registry located");
 		
 		IGenRep genRep = null;
 		try {
@@ -87,6 +87,8 @@ public class ServerBus {
 			System.exit(1);
 		}
 		
+		System.out.println("Bus stub created");
+		
 		try {
 			rmiReg.bind(RmiUtils.busId, busInter);
 		} catch (RemoteException | AlreadyBoundException e) {
@@ -95,6 +97,7 @@ public class ServerBus {
 			System.exit(1);
 		}
 		
-        System.out.println("Bus service is listening on port " + portNumber + "...");
+        System.out.println("Bus binded to RMI registry (port " + portNumber + ")");
+        System.out.println("Ready");
     }
 }
