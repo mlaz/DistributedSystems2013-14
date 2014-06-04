@@ -40,7 +40,7 @@ public class TDriver extends Thread {
 		while (running) {
 			switch (state) {
 			case PARKING_AT_THE_ARRIVAL_TERMINAL:
-				//System.out.println("DRIVER: PARKING_AT_THE_ARRIVAL_TERMINAL");
+				System.out.println("DRIVER: PARKING_AT_THE_ARRIVAL_TERMINAL");
 				try {
 					
 					try {
@@ -56,7 +56,7 @@ public class TDriver extends Thread {
 					e.printStackTrace();
 				}
 				
-				//System.out.println("DRIVER: PARKING_AT_THE_ARRIVAL_TERMINAL 2nd stage");
+				System.out.println("DRIVER: PARKING_AT_THE_ARRIVAL_TERMINAL 2nd stage");
 				
 				try {
 					bus.waitingForPassengers();
@@ -72,13 +72,13 @@ public class TDriver extends Thread {
 				break;
 				
 			case DRIVING_FORWARD:
-				//System.out.println("DRIVER: DRIVING_FORWARD");
+				System.out.println("DRIVER: DRIVING_FORWARD");
 
 				nextState = EDriverStates.PARKING_AT_THE_DEPARTURE_TERMINAL;
 				break;
 				
 			case PARKING_AT_THE_DEPARTURE_TERMINAL:
-				//System.out.println("DRIVER: PARKING_AT_THE_DEPARTURE_TERMINAL");
+				System.out.println("DRIVER: PARKING_AT_THE_DEPARTURE_TERMINAL");
 
 				try {
 					//lastPassengers = bus.parkAndLetPassOff();
@@ -95,7 +95,7 @@ public class TDriver extends Thread {
 				break;
 				
 			case DRIVING_BACKWARD:
-				//System.out.println("DRIVER: DRIVING_BACKWARD");
+				System.out.println("DRIVER: DRIVING_BACKWARD");
 
 				nextState = EDriverStates.PARKING_AT_THE_ARRIVAL_TERMINAL;
 				break;
