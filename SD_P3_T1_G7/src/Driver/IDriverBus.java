@@ -1,4 +1,6 @@
 package Driver;
+
+import java.rmi.RemoteException;
 /**
  * 
  */
@@ -13,12 +15,12 @@ public interface IDriverBus {
 	 * @throws InterruptedException 
 	 * Método chamado pelo condutor para bloqueio à espera que os passageiros entrem no autocarro
 	 */
-	void waitingForPassengers() throws InterruptedException;
+	void waitingForPassengers() throws InterruptedException, RemoteException;
 
 	/**
 	 * @return 
 	 * @throws InterruptedException 
 	 * Método chamado pelo condutor para bloqueio à espera que os passageiros abandonem o autocarro
 	 */
-	int parkAndLetPassOff() throws InterruptedException;
+	int parkAndLetPassOff() throws InterruptedException, RemoteException;
 }
