@@ -1,5 +1,7 @@
 package Driver;
 
+import java.rmi.RemoteException;
+
 /**
  * 
  * @author miguel
@@ -11,16 +13,16 @@ public interface IDriverGenRep {
      * Método chamado pelo condutor para actualizar o seu estado na facilidade de logging
      * @param state
      */
-    void updateDriverState(EDriverStates state);
+    void updateDriverState(EDriverStates state) throws RemoteException;
 
     /**
      * Método para registo do condutor no Repositório geral de informação 
      */
-    void registerDriver();
+    void registerDriver() throws RemoteException;
 
     /**
      * Método para informar o repositório geral de informação que a thread de condutor irá finalizar
      */
-    void setDriverAsDead();
+    void setDriverAsDead() throws RemoteException;
 
 }
