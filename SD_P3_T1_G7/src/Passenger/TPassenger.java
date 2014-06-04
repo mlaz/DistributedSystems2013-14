@@ -77,6 +77,7 @@ public class TPassenger extends Thread {
 		while (running) {
 			switch (state) {
 			case AT_THE_DISEMBARKING_ZONE:
+				System.out.println("PassengerNumber" + passengerNumber + " AT_THE_DISEMBARKING_ZONE\n");
 				try {
 					this.arrivalTerminal.whatSouldIDo(passengerNumber);
 				} catch (InterruptedException e) {
@@ -98,6 +99,7 @@ public class TPassenger extends Thread {
 				break;
 				
 			case AT_THE_LUGGAGE_COLLECTION_POINT:
+				System.out.println("PassengerNumber" + passengerNumber + " AT_THE_LUGGAGE_COLLECTION_POINT\n");
 				try {
 					
 					while ( (remainingBags > 0) && luggageCollectionPoint.tryToCollectABag(passengerNumber, flightNumber) ) {
@@ -121,6 +123,7 @@ public class TPassenger extends Thread {
 				break;
 				
 			case AT_THE_BAGGAGE_RECLAIM_OFFICE:
+				System.out.println("PassengerNumber" + passengerNumber + " AT_THE_BAGGAGE_RECLAIM_OFFICE\n");
 				try {
 					baggageReclaimOffice.reclaimBags(passengerNumber);
 				} catch (RemoteException e1) {
@@ -130,6 +133,7 @@ public class TPassenger extends Thread {
 				nextState = EPassengerStates.EXITING_THE_ARRIVAL_TERMINAL;
 				
 			case EXITING_THE_ARRIVAL_TERMINAL:
+				System.out.println("PassengerNumber" + passengerNumber + " EXITING_THE_ARRIVAL_TERMINAL\n");
 				try {
 					arrivalTerminalExit.goHome(passengerNumber);
 				} catch (RemoteException e1) {
@@ -140,7 +144,7 @@ public class TPassenger extends Thread {
 				break;
 				
 			case AT_THE_ARRIVAL_TRANSFER_TERMINAL:
-				//System.out.println(passengerNumber + " AT_THE_ARRIVAL_TRANSFER_TERMINAL\n");
+				System.out.println(passengerNumber + " AT_THE_ARRIVAL_TRANSFER_TERMINAL\n");
 				try {
 					try {
 						arrivalTerminalExit.takeABus(passengerNumber);
@@ -156,7 +160,7 @@ public class TPassenger extends Thread {
 				break;
 				
 			case TERMINAL_TRANSFER:
-				//System.out.println(passengerNumber + " TERMINAL_TRANSFER\n");
+				System.out.println(passengerNumber + " TERMINAL_TRANSFER\n");
 
 				try {
 					if(!bus.enterTheBus(passengerNumber))
@@ -171,7 +175,7 @@ public class TPassenger extends Thread {
 				break;
 				
 			case AT_THE_DEPARTURE_TRANSFER_TERMINAL:
-				//System.out.println(passengerNumber + " AT_THE_DEPARTURE_TRANSFER_TERMINAL\n");
+				System.out.println(passengerNumber + " AT_THE_DEPARTURE_TRANSFER_TERMINAL\n");
 
 				try {
 					try {
@@ -188,7 +192,7 @@ public class TPassenger extends Thread {
 				break;
 				
 			case ENTERING_THE_DEPARTURE_TERMINAL:
-				//System.out.println(passengerNumber + " ENTERING_THE_DEPARTURE_TERMINAL\n");
+				System.out.println(passengerNumber + " ENTERING_THE_DEPARTURE_TERMINAL\n");
 				try {
 				    try {
 						departureTerminalEntrace.prepareNextLeg();
