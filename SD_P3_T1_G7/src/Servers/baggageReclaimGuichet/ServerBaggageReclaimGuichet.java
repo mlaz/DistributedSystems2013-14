@@ -28,7 +28,7 @@ public class ServerBaggageReclaimGuichet {
 			args = new String[3];
 			args[0] = "localhost";
 			args[1] = "localhost";
-			args[2] = "22160";
+			args[2] = "22168";
 		}
 		/* establecer o serviço */
 		MBaggageReclaimGuichet baggageReclaim = new MBaggageReclaimGuichet();
