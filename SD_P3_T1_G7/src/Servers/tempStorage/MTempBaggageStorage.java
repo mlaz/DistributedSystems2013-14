@@ -1,21 +1,14 @@
 package Servers.tempStorage;
-import java.io.Serializable;
-import java.rmi.Remote;
+
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import Porter.IPorterTempBaggageStorage;
 import Utils.Bag;
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Monitor para o depósito temporário de bagagens
  */
-public class MTempBaggageStorage implements IPorterTempBaggageStorage, Remote, Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7857943494388084477L;
-	
+public class MTempBaggageStorage implements ITempStorage {	
 	private int storedBags;
 	private Lock lock;
 
