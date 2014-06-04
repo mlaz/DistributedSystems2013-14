@@ -6,18 +6,18 @@ package Driver;
  */
 public class TDriver extends Thread {
 	
+	private IDriverGenRep genRep;
 	private IDriverArrivalTerminalTransferZone arrivalTerminalTransferZone;
 	private IDriverBus bus;
 	private int lastPassengers = 0;
-	private IDriverGenRep genRep;
-	
+
 	/**
 	 * @param genRep
 	 * Construtor da classe TDriver
 	 */
-	public TDriver(IDriverGenRep genRep) {
-		arrivalTerminalTransferZone = genRep.getArrivalTerminalExit();
-		bus = genRep.getBus();
+	public TDriver(IDriverGenRep genRep, IDriverArrivalTerminalTransferZone arrivalTerminalTransferZone, IDriverBus bus) {
+		this.arrivalTerminalTransferZone = arrivalTerminalTransferZone;
+		this.bus = bus;
 		this.genRep = genRep;
 		genRep.registerDriver();
 	}
