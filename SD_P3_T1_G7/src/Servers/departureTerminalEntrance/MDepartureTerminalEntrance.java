@@ -2,9 +2,6 @@ package Servers.departureTerminalEntrance;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-import Servers.clientsInterfaces.IPassengerDepartureTreminalEntrance;
-
 /**
  * 
  */
@@ -13,7 +10,7 @@ import Servers.clientsInterfaces.IPassengerDepartureTreminalEntrance;
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Monitor da entrada do terminal de partida
  */
-public class MDepartureTerminalEntrance implements IPassengerDepartureTreminalEntrance {
+public class MDepartureTerminalEntrance implements IDepartureTerminalEntrance {
 	private int remainingPassengers;
 	private int totalPassengers;
 	private Lock lock;

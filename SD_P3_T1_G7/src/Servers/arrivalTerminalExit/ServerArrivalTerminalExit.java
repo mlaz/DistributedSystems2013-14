@@ -94,6 +94,6 @@ public class ServerArrivalTerminalExit {
 			System.exit(1);
 		}
 		
-        System.out.println("Arrival Terminal service is listening on port " + portNumber + "...");
+        System.out.println("Arrival Terminal Exit service is listening on port " + portNumber + "...");
 	}
 }
