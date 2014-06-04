@@ -15,6 +15,7 @@ public class RmiUtils {
 	public static String arrivalTerminalTransferZoneId = "arrivalTerminalTransferZone";
 	public static String busId = "bus";
 	public static String baggageReclaimOfficeId = "baggageReclaimOffice";
+	public static String baggagePickupZoneId = "baggagePickupZone";
 	
 	public static Registry getRMIReg( String hostname, int port, String usage ) throws RemoteException {
     	Registry rmiReg = null;
