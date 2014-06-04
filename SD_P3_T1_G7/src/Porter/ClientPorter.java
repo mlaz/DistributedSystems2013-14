@@ -5,7 +5,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 
-import Servers.ServerInfo;
 import Utils.RmiUtils;
 
 /**
