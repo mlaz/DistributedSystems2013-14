@@ -68,7 +68,7 @@ public class ServerTempBaggaStorage {
 		}
 		
 		System.out.println("Temporary Baggage Storage binded to RMI (port "+portNumber);
-		
+		System.out.println("Ready");
 		//TODO delete this
 		System.out.println("REGISTRY:");	
 		try {
