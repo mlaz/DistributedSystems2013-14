@@ -1,16 +1,16 @@
 package Servers.arrivalTerminalExit;
+import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import Servers.clientsInterfaces.*;
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Monitor da saida do terminal de chegada
  */
-public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone, IPassengerArrivalExitTransferZone {
+public class MArrivalTerminalExit implements IArrivalTerminalExit {
 
 	private int totalPassengers;
 	private int passengersDone = 0;
@@ -56,7 +56,12 @@ public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone,
 //				noPassengersInQueue.signalAll();
 //			}
 			
-			genRep.updateDriverQueue(toIntArray(busQueue.toArray()));
+			try {
+				genRep.updateDriverQueue(toIntArray(busQueue.toArray()));
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	
 			System.out.println("[" + passNumber + " TakeBus] Passengers waiting to enter the bus: " + busQueue.size());
 			
@@ -68,7 +73,12 @@ public class MArrivalTerminalExit implements IDriverArrivalTerminalTransferZone,
 			passengersToGo--;
 			busQueue.poll();
 			
-			genRep.updateDriverQueue(toIntArray(busQueue.toArray()));
+			try {
+				genRep.updateDriverQueue(toIntArray(busQueue.toArray()));
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	
 			if (passengersToGo == 0) {
 				availableBus = false;

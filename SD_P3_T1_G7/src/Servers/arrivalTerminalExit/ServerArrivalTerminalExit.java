@@ -1,10 +1,14 @@
 package Servers.arrivalTerminalExit;
 
-import messages.Message;
-import Client.ClientCom;
-import Servers.ClientMonitor;
-import Servers.ServerCom;
-import Servers.ServerInfo;
+import java.rmi.AccessException;
+import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+
+import Servers.genRep.IGenRep;
+import Utils.RmiUtils;
 
 /**
  * Classe de servidor com replicação para receção de pedidos ao monior por parte das threads(clientes)
@@ -13,8 +17,7 @@ import Servers.ServerInfo;
 public class ServerArrivalTerminalExit {
 
 	private static int portNumber = 22162;
-	private static String hostName;
-	private static ServerInfo genRepInfo;
+	final static String usage = "Usage: java ServerArrivalTerminalExit [thisMachineName] [genRepName] [genRepPort]";
 
     /**
      *
@@ -28,110 +31,69 @@ public class ServerArrivalTerminalExit {
 			args = new String[3];
 			args[0] = "localhost";
 			args[1] = "localhost";
-			args[2] = "22160";
+			args[2] = "22168";
 		}
 
-		/* obter parametros do problema */
-		hostName = args[0];
-		genRepInfo = new ServerInfo(Integer.parseInt(args[2]), args[1]);
-
-		int numFlights = getNumFlights();
-		int numPassengers = getNumPassengers();
-		int numSeats = getNumSeats();
+		/* get the RMI registry */
+		Registry rmiReg = null;
+		try {
+			rmiReg = RmiUtils.getRMIReg( args[1], Integer.parseInt(args[2]), usage );
+		} catch (NumberFormatException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (RemoteException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		System.out.println("RMI registry located!");
 		
-		IArrivalTerminalExitGenRep genRep = new ArrivalTerminalExitGenRepComm(genRepInfo, new ServerInfo(portNumber, hostName));
-
+		IGenRep genRep = null;
+		try {
+			genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
+		} catch (AccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NotBoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		/* obter parametros do problema */
+		
+		int numFlights = 0;
+		int numPassengers = 0;
+		int numSeats = 0;
+		try {
+			numFlights = genRep.getNumFlights();
+			numPassengers = genRep.getNumPassengers();
+			numSeats = genRep.getNumBusSeats();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		/* establecer o serviço */
-		genRep.setArrivalTerminalExit();
-		MArrivalTerminalExit arrTermExit = new MArrivalTerminalExit(numFlights, numPassengers, numSeats, genRep);
-		ServerCom server = new ServerCom(portNumber);
-		server.start();
-		ArrivalTerminalExitRequestsProcessor reqProcessor = new ArrivalTerminalExitRequestsProcessor(arrTermExit);
-
-		System.out.println("Arrival Terminal Exit service is listening on port " + portNumber + "...");
-
-		/* iniciar processamento de serviçoes */
-		ServerCom comm;
-		ClientMonitor client;
-		while (true) {
-			comm = server.accept();
-			client = new ClientMonitor(comm, reqProcessor);
-			client.start();
-		}
-	}
-
-	private static int getNumFlights() {
-
-		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
-		Message inMessage, outMessage;
-
-		while (!con.open()) {
-			try {
-				Thread.sleep((long) (10));
-			} catch (InterruptedException e) {
-			}
-		}
-
-		outMessage = new Message(Message.INT, Message.GET_NUM_FLIGHTS);
-		con.writeObject(outMessage);
-		inMessage = (Message) con.readObject();
-		con.close();
-
-		if (inMessage.getType() != Message.INT) {
-			System.out.println("Invalid message type!");
+		MArrivalTerminalExit arrivalTerminalExit = new MArrivalTerminalExit(numFlights, numPassengers, numSeats, genRep);
+		IArrivalTerminalExit arrivalTerminalExitInter = null;
+		try {
+			arrivalTerminalExitInter = (IArrivalTerminalExit) UnicastRemoteObject.exportObject(arrivalTerminalExit, portNumber);
+		} catch (RemoteException e) {
+			System.err.println("Error creating the ArrivalTerminalExit stub");
+			e.printStackTrace();
 			System.exit(1);
 		}
-
-		return inMessage.getInt1();
-	}
-
-	private static int getNumPassengers() {
-
-		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
-		Message inMessage, outMessage;
-
-		while (!con.open()) {
-			try {
-				Thread.sleep((long) (10));
-			} catch (InterruptedException e) {
-			}
-		}
-
-		outMessage = new Message(Message.INT, Message.GET_NUM_PASSENGERS);
-		con.writeObject(outMessage);
-		inMessage = (Message) con.readObject();
-		con.close();
-
-		if (inMessage.getType() != Message.INT) {
-			System.out.println("Invalid message type!");
+		
+		try {
+			rmiReg.bind(RmiUtils.arrivalTerminalId, arrivalTerminalExitInter);
+		} catch (RemoteException | AlreadyBoundException e) {
+			System.err.println("Error binding the ArrivalTermminalExit to the RMI registry");
+			e.printStackTrace();
 			System.exit(1);
 		}
-
-		return inMessage.getInt1();
-	}
-
-	private static int getNumSeats() {
-
-		ClientCom con = new ClientCom(genRepInfo.getHostName(), genRepInfo.getPortNumber());
-		Message inMessage, outMessage;
-
-		while (!con.open()) {
-			try {
-				Thread.sleep((long) (10));
-			} catch (InterruptedException e) {
-			}
-		}
-
-		outMessage = new Message(Message.INT, Message.GET_NUM_SEATS);
-		con.writeObject(outMessage);
-		inMessage = (Message) con.readObject();
-		con.close();
-
-		if (inMessage.getType() != Message.INT) {
-			System.out.println("Invalid message type!");
-			System.exit(1);
-		}
-
-		return inMessage.getInt1();
+		
+        System.out.println("Arrival Terminal service is listening on port " + portNumber + "...");
 	}
 }

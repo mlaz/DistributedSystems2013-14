@@ -79,6 +79,9 @@ public class TPassenger extends Thread {
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				
 				if (inTransit)
