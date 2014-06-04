@@ -1,5 +1,7 @@
 package Passenger;
 
+import java.rmi.RemoteException;
+
 /**
  * 
  */
@@ -54,7 +56,12 @@ public class TPassenger extends Thread {
 		this.bus = bus;
 		this.flightNumber = flightNumber;
 		//System.out.println(passengerNumber + "fn"+ flightNumber+ "bags" + remainingBags );
-		genRep.registerPassenger(passengerNumber, flightNumber, inTransit, remainingBags);
+		try {
+			genRep.registerPassenger(passengerNumber, flightNumber, inTransit, remainingBags);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
     /**
@@ -94,6 +101,9 @@ public class TPassenger extends Thread {
 					}
 						
 				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -158,7 +168,12 @@ public class TPassenger extends Thread {
 			}	
 			state = nextState;
 			if (running)
-				genRep.setPassengerStat(passengerNumber, state);
+				try {
+					genRep.setPassengerStat(passengerNumber, state);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 		System.out.println("Passenger #" + passengerNumber + " dying\n");
 	}

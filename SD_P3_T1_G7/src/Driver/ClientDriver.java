@@ -27,7 +27,16 @@ public class ClientDriver {
 			args[0] = "localhost";
 			args[1] = "22168";
 		}
-		Registry reg = RmiUtils.getRMIReg(args[0], Integer.parseInt(args[1]), usage);
+		Registry reg = null;
+		try {
+			reg = RmiUtils.getRMIReg(args[0], Integer.parseInt(args[1]), usage);
+		} catch (NumberFormatException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (RemoteException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		IDriverArrivalTerminalTransferZone arrivalTerminalTransferZone = null;
 		IDriverBus bus = null;
 		IDriverGenRep genRep = null;
@@ -52,7 +61,7 @@ public class ClientDriver {
 		try {
 			driver.join();
 			genRep.setDriverAsDead();
-		} catch (InterruptedException e) {
+		} catch (InterruptedException | RemoteException e) {
 			e.printStackTrace();
 		}
 	}
