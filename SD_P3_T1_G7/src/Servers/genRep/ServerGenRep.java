@@ -50,6 +50,7 @@ public class ServerGenRep {
 		int maxBags 		= Integer.parseInt(args[4]);
 		int busTimer 		= Integer.parseInt(args[5]);		
 		
+		//TODO security manager
 		/* instanciar o gestor de seguran�a */
 		//if( System.getSecurityManager(  ) == null ) {
 		//	System.setSecurityManager( new RMISecurityManager() );
@@ -97,6 +98,7 @@ public class ServerGenRep {
 			System.exit(1);
 		}
 		
-		System.out.println( "GenRep is ready!" );
+		System.out.println( "GenRep binded to RMI registry" );
+		System.out.println( "Ready" );
 	}
 }
