@@ -1,5 +1,7 @@
 package Passenger;
 
+import java.rmi.RemoteException;
+
 
 /**
  * @author Miguel Azevedo, Filipe Teixeira
@@ -15,19 +17,19 @@ public interface IPassengerGenRep {
      * @param remainingBags
      */
     void registerPassenger(int passengerNumber, int flightNumber,
-			boolean inTransit, int remainingBags);
+			boolean inTransit, int remainingBags) throws RemoteException;
 
     /**
      *
      * @param passengerNumber
      */
-    void gotLuggage(int passengerNumber);
+    void gotLuggage(int passengerNumber) throws RemoteException;
 
     /**
      *
      * @param passengerNumber
      * @param state
      */
-    void setPassengerStat(int passengerNumber, EPassengerStates state);
+    void setPassengerStat(int passengerNumber, EPassengerStates state) throws RemoteException;
 
 }
