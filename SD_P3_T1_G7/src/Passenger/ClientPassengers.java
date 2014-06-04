@@ -29,7 +29,13 @@ public class ClientPassengers {
 			args[1] = "22160";
 		}
 		
-		Registry reg = RmiUtils.getRMIReg(args[0], Integer.parseInt(args[1]), usage);
+		Registry reg = null;;
+		try {
+			reg = RmiUtils.getRMIReg(args[0], Integer.parseInt(args[1]), usage);
+		} catch (NumberFormatException | RemoteException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		IGenRep genRep = null;
 		IPassengerArrivalTerminal arrivalTerminal = null;
 		IPassengerBaggageCollectionPoint luggageCollectionPoint = null;
@@ -58,9 +64,17 @@ public class ClientPassengers {
 //		genRepInfo = new ServerInfo( Integer.parseInt(args[1]), args[0] );
 //		IPassengerGenRep genRep  = new CommPassGenRep( genRepInfo );
 		
-        int K = genRep.getNumFlights();
-        int N = genRep.getNumPassengers();
-        int M = genRep.getMaxBags();
+		int N = 0;
+        int M = 0;
+        int K = 0;
+		try {
+			K = genRep.getNumFlights();
+			N = genRep.getNumPassengers();
+			M = genRep.getMaxBags();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		TPassenger[][] passengerList =  new TPassenger[K][N];        
 		int flightNumber;
@@ -107,14 +121,19 @@ public class ClientPassengers {
 		
 		// WAIT FOR PORTER AND DRIVER TO DIE
 		System.out.print("Waiting for porter to die... ");
-		genRep.waitForPorterToDie();
-		System.out.println(" Dead!");
-		System.out.print("Waiting for driver to die... ");
-		genRep.waitForDriverToDie();
-		System.out.println(" Dead!");
-		
-        System.out.println("ALL Threads Done-----------------------------------------\n");
-        genRep.endSimulation();
+		try {
+			System.out.print("Waiting for porter to die... ");
+			genRep.waitForPorterToDie();
+			System.out.println(" Dead!");
+			System.out.print("Waiting for driver to die... ");
+			genRep.waitForDriverToDie();
+			System.out.println(" Dead!");
+	        System.out.println("ALL Threads Done-----------------------------------------\n");
+	        genRep.endSimulation();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         System.exit(0);
 	}
 	

@@ -1,5 +1,7 @@
 package Driver;
 
+import java.rmi.RemoteException;
+
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Classe TDriver: classe de implementação da thread de condutor de autocarro
@@ -19,7 +21,12 @@ public class TDriver extends Thread {
 		this.arrivalTerminalTransferZone = arrivalTerminalTransferZone;
 		this.bus = bus;
 		this.genRep = genRep;
-		genRep.registerDriver();
+		try {
+			genRep.registerDriver();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
     /**
@@ -52,6 +59,9 @@ public class TDriver extends Thread {
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				nextState = EDriverStates.DRIVING_FORWARD;
 				break;
@@ -72,6 +82,9 @@ public class TDriver extends Thread {
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				nextState = EDriverStates.DRIVING_BACKWARD;
 				break;
@@ -83,7 +96,12 @@ public class TDriver extends Thread {
 				break;
 			}	
 			state = nextState;
-			genRep.updateDriverState(state);
+			try {
+				genRep.updateDriverState(state);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		System.out.println("Driver Dying!\n+++++++++++++++++++++++++++++++++++++++++++");
 	}

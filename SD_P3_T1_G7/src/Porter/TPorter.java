@@ -1,5 +1,7 @@
 package Porter;
 
+import java.rmi.RemoteException;
+
 import Utils.Bag;
 
 /**
@@ -26,7 +28,12 @@ public class TPorter extends Thread {
 		this.baggageBeltConveyor = baggageBeltConveyor;
 		this.baggageStorage 	 = baggageStorage;
 		this.genRep 		 	 = genRep;
-		genRep.registerPorter();
+		try {
+			genRep.registerPorter();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
     /**
@@ -62,7 +69,12 @@ public class TPorter extends Thread {
 				
 				nextState = (currentBag.isInTransit()) ? EPorterStates.AT_THE_STOREROOM : 
 					EPorterStates.AT_THE_LUGGAGE_BELT_CONVEYOR;
-				genRep.removeLuggageAtPlane();
+				try {
+					genRep.removeLuggageAtPlane();
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				break;
 				
 			case AT_THE_LUGGAGE_BELT_CONVEYOR:
@@ -78,21 +90,36 @@ public class TPorter extends Thread {
 					break;
 				}
 				if (baggageBeltConveyor.carryItToAppropriateStore (currentBag.getPassNumber()))
-					genRep.incLuggageAtCB();
+					try {
+						genRep.incLuggageAtCB();
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				currentBag = null;
 				nextState = EPorterStates.AT_THE_PLANES_HOLD;
 				break;
 				
 			case AT_THE_STOREROOM:
 				System.out.println("state = AT_THE_STOREROOM\n");
-				baggageStorage.carryItToAppropriateStore (currentBag);
-				genRep.incLuggageAtSR();
+				try {
+					baggageStorage.carryItToAppropriateStore (currentBag);
+					genRep.incLuggageAtSR();
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				currentBag = null;
 				nextState = EPorterStates.AT_THE_PLANES_HOLD;
 				break;
 			}	
 			state = nextState;
-			genRep.updatePorterState(state);
+			try {
+				genRep.updatePorterState(state);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		System.out.println("Porter Dying!\n");
 	}	
