@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import Servers.ServerInfo;
+import Utils.RmiUtils;
 
 /**
  * Classe de servidor com replicação para receção de pedidos ao monior por parte das threads(clientes)
@@ -16,9 +16,7 @@ import Servers.ServerInfo;
 public class ServerTempBaggaStorage {
 	private static int portNumber = 22167;
 	private static String hostName;
-	private static ServerInfo genRepInfo;
 	private static String usage = "Usage: java ServerTempBaggageStorage [thisMachineName] [RMIRegName] [RMIRegPort]";
-	private static int waitTime = 500;	//time, in ms, between successive attempts to obtain a remote object
     /**
      *
      * @param args
@@ -31,13 +29,13 @@ public class ServerTempBaggaStorage {
 			args = new String[3];
 			args[0] = "localhost";
 			args[1] = "localhost";
-			args[2] = "22159";		//TODO this is wrong
+			args[2] = "22168";		//TODO this is wrong
 		}
 		/* obter parametros do problema */
 		hostName = args[0];
 		
 		/* get the RMI registry */
-		Registry rmiReg = getRMIReg( args[1], Integer.parseInt( args[2] ) );
+		Registry rmiReg = RmiUtils.getRMIReg( args[1], Integer.parseInt(args[2]), usage );
 		System.out.println("RMI registry located!");
 		
 		/* establecer o serviço */
@@ -61,61 +59,5 @@ public class ServerTempBaggaStorage {
 		}
 	}
     
-    private static Registry getRMIReg( String hostname, int port ) {
-    	Registry rmiReg = null;
-    	boolean registered = true;
-    	int remainingAttempts = 5;
-    	
-		do {
-			try {
-				rmiReg = LocateRegistry.getRegistry(hostname, port);	
-			} catch (NumberFormatException e) {
-				System.err.println("The third argument isn't a valid port");
-				System.out.println(usage);
-				e.printStackTrace();
-				System.exit(1);
-			} catch (RemoteException e) {
-				System.err.println("Can't locate the RMI registry. Waiting ("+waitTime+"ms)");
-				remainingAttempts--;
-				registered = false;
-				try {
-					Thread.sleep(waitTime);
-				} catch( InterruptedException e1) {
-					// TODO
-				}
-			}
-		} while( !registered && remainingAttempts > 0);
- 
-		return rmiReg;
-    }    
-    
-    private static ITempBaggageStorageGenRep getGenRep( Registry rmiReg ) {
-    	ITempBaggageStorageGenRep genRep = null;
-    	boolean registered = true;
-    	int remainingAttempts = 5;
-    	
-		do {
-			try {
-				genRep = (ITempBaggageStorageGenRep) rmiReg.lookup("genRep");
-			} catch (AccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NotBoundException e) {
-				System.out.println("GenRep is not registered in RMI. Waiting ("+waitTime+"ms)");
-				remainingAttempts--;
-				registered = false;
-				
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-				}
-			}
-		} while( !registered && remainingAttempts > 0);
- 
-		return genRep;
-    }
+
 }

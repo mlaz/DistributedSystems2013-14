@@ -1,8 +1,11 @@
-package Servers;
+package Utils;
+/**
+ * 
+ */
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Classe que descreve o objecto mala com todos os dados que lhe sao adjacentes
+ * Classe Bag representa uma mala e toda a informaçao que lhe é adjacente
  */
 public class Bag {
 	

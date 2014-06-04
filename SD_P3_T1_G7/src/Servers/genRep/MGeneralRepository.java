@@ -3,17 +3,17 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.rmi.Remote;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import Servers.EDriverStates;
-import Servers.EPassengerStates;
-import Servers.EPorterStates;
-import Servers.ServerInfo;
-import Servers.clientsInterfaces.IDriverGenRep;
-import Servers.clientsInterfaces.IPassengerGenRep;
-import Servers.clientsInterfaces.IPorterGenRep;
+import Driver.IDriverGenRep;
+import Driver.EDriverStates;
+import Passenger.IPassengerGenRep;
+import Passenger.EPassengerStates;
+import Porter.IPorterGenRep;
+import Porter.EPorterStates;
 
 /**
  * @author Filipe Teixeira <fmteixeira@ua.pt>
@@ -21,21 +21,13 @@ import Servers.clientsInterfaces.IPorterGenRep;
  * Monitor do repositório geral de informação
  */
 public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
-		IPorterGenRep {
+		IPorterGenRep, Remote {
 
 	private int numPassengers;
 	private int nBusSeats;
-	private int busTimer;
+	private int busWaitTime;
 	private int numFlights;
 	private int maxBags;
-	
-	private ServerInfo arrivalTerminal;
-	private ServerInfo arrivalTerminalExit;
-	private ServerInfo baggagePickupZone;
-	private ServerInfo baggageReclaimGuichet;
-	private ServerInfo bus;
-	private ServerInfo tempBaggageStorage;
-	private ServerInfo departureTerminalEntrace;
 
 	private FlightInfo plane;
 	private PorterInfo porter;
@@ -53,19 +45,19 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
      *
      * @param numPassengers
      * @param nBusSeats
-     * @param busTimer
+     * @param busWaitTime
      * @param numFlights
      * @param maxBags
      * @param path
      */
-    public MGeneralRepository(int numPassengers, int nBusSeats, int busTimer, int numFlights, int maxBags, String path) {
+    public MGeneralRepository(int numPassengers, int nBusSeats, int busWaitTime, int numFlights, int maxBags, String path) {
 		passengers = null; // new PassengerInfo[numPassengers];
 		registeredPassengers = 0;
 		plane = null;
 		
 		this.numPassengers = numPassengers;
 		this.nBusSeats = nBusSeats;
-		this.busTimer = busTimer;
+		this.busWaitTime = busWaitTime;
 		this.numFlights = numFlights;
 		this.maxBags = maxBags;
 		
@@ -360,118 +352,12 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 		return null;
 	}
 
-	// /////////////////////////////////////////
-	/**
-	 * @return the arrivalTerminalExit
-	 */
-	public ServerInfo getArrivalTerminalExit() {
-		return arrivalTerminalExit;
-	}
-
-	/**
-	 * @param arrivalTerminalExit
-	 *            the arrivalTerminalExit to set
-	 */
-	public void setArrivalTerminalExit(ServerInfo arrivalTerminalExit) {
-		this.arrivalTerminalExit = arrivalTerminalExit;
-	}
-
-	/**
-	 * @return the baggagePickupZone
-	 */
-	public ServerInfo getBaggagePickupZone() {
-		return baggagePickupZone;
-	}
-
-	/**
-	 * @param baggagePickupZone
-	 *            the baggagePickupZone to set
-	 */
-	public void setBaggagePickupZone(ServerInfo baggagePickupZone) {
-		this.baggagePickupZone = baggagePickupZone;
-	}
-
-	/**
-	 * @return the arrivalTerminal
-	 */
-	public ServerInfo getArrivalTerminal() {
-		return arrivalTerminal;
-	}
-
-	/**
-	 * @param arrivalTerminal
-	 *            the arrivalTerminal to set
-	 */
-	public void setArrivalTerminal(ServerInfo arrivalTerminal) {
-		this.arrivalTerminal = arrivalTerminal;
-	}
-
-	/**
-	 * @return the baggageReclaimGuichet
-	 */
-	public ServerInfo getBaggageReclaimGuichet() {
-		return baggageReclaimGuichet;
-	}
-
-	/**
-	 * @param baggageReclaimGuichet
-	 *            the baggageReclaimGuichet to set
-	 */
-	public void setBaggageReclaimGuichet(ServerInfo baggageReclaimGuichet) {
-		this.baggageReclaimGuichet = baggageReclaimGuichet;
-	}
-
-	/**
-	 * @return the bus
-	 */
-	public ServerInfo getBus() {
-		return bus;
-	}
-
-	/**
-	 * @param bus
-	 *            the bus to set
-	 */
-	public void setBus(ServerInfo bus) {
-		this.bus = bus;
-	}
-
-	/**
-	 * @return the tempBaggageStorage
-	 */
-	public ServerInfo getTempBaggageStorage() {
-		return tempBaggageStorage;
-	}
-
-	/**
-	 * @param tempBaggageStorage
-	 *            the tempBaggageStorage to set
-	 */
-	public void setTempBaggageStorage(ServerInfo tempBaggageStorage) {
-		this.tempBaggageStorage = tempBaggageStorage;
-	}
-
-	/**
-	 * @return the departureTerminalEntrace
-	 */
-	public ServerInfo getDepartureTerminalEntrace() {
-		return departureTerminalEntrace;
-	}
-
-	/**
-	 * @param departureTerminalEntrace
-	 *            the departureTerminalEntrace to set
-	 */
-	public void setDepartureTerminalEntrace(ServerInfo departureTerminalEntrace) {
-		this.departureTerminalEntrace = departureTerminalEntrace;
-	}
-
     /**
      *
      * @return
      */
-    public int getBusTimer() {
-		return busTimer;
+    public int getbusWaitTime() {
+		return busWaitTime;
 	}
 
     /**
@@ -563,4 +449,6 @@ public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
 			lock.unlock();
 		}
 	}
+
+
 }

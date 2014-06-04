@@ -1,6 +1,6 @@
 package Servers.genRep;
 
-import Servers.EDriverStates;
+import Driver.EDriverStates;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

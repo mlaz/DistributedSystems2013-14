@@ -14,18 +14,6 @@ public interface IDriverGenRep {
     void updateDriverState(EDriverStates state);
 
     /**
-     * Método para pedido de informação sobre a localização da saida do terminal de chegada (MArrivalTerminalTransferZone)
-     * @return
-     */
-    IDriverArrivalTerminalTransferZone getArrivalTerminalExit();
-
-    /**
-     * Método para pedido de informação sobre o autocarro (MBus)
-     * @return
-     */
-    IDriverBus getBus();
-
-    /**
      * Método para registo do condutor no Repositório geral de informação 
      */
     void registerDriver();

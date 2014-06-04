@@ -4,9 +4,8 @@ import java.rmi.Remote;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import Servers.Bag;
-import Servers.clientsInterfaces.IPorterTempBaggageStorage;
-
+import Porter.IPorterTempBaggageStorage;
+import Utils.Bag;
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Monitor para o depósito temporário de bagagens
