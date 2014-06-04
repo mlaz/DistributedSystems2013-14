@@ -1,7 +1,6 @@
 package Passenger;
 
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 
 /**
  * Interface para interação entre a thread de condutor (TDriver) e guichet de reclamação de bagagens (MBaggageReclaimGuichet) 
