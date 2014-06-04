@@ -40,7 +40,7 @@ public class ClientPorter {
 		IPorterGenRep genRep = null;
 		try {
 			arrivalTerminal = (IPorterArrivalTerminal) reg.lookup(RmiUtils.arrivalTerminalId);
-			baggageBeltConveyor = (IPorterBaggagePickupZone) reg.lookup(RmiUtils.baggageBeltConveyorId);
+			baggageBeltConveyor = (IPorterBaggagePickupZone) reg.lookup(RmiUtils.baggagePickupZoneId);
 			baggageStorage = (IPorterTempBaggageStorage) reg.lookup(RmiUtils.tempStorageId);
 			genRep = (IPorterGenRep) reg.lookup(RmiUtils.genRepId);
 		} catch (AccessException e1) {
