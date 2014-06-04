@@ -1,5 +1,7 @@
 package Porter;
 
+import java.rmi.RemoteException;
+
 import Utils.Bag;
 
 /**
@@ -12,5 +14,5 @@ public interface IPorterTempBaggageStorage {
      *
      * @param currentBag
      */
-    void carryItToAppropriateStore(Bag currentBag);
+    void carryItToAppropriateStore(Bag currentBag) throws RemoteException;
 }
