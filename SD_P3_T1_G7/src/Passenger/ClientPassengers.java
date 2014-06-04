@@ -26,7 +26,7 @@ public class ClientPassengers {
 			// System.exit(1);
 			args = new String[2];
 			args[0] = "localhost";
-			args[1] = "22160";
+			args[1] = "22168";
 		}
 		
 		Registry reg = null;;
@@ -41,14 +41,16 @@ public class ClientPassengers {
 		IPassengerBaggageCollectionPoint luggageCollectionPoint = null;
 		IPassengerBaggageReclaimGuichet baggageReclaimOffice = null;
 		IPassengerArrivalExitTransferZone arrivalTerminalExit = null;
+		IPassengerDepartureTerminalEntrance departureTerminalEntrace = null;
 		IPassengerBus bus = null;
 		
 		try {
 			genRep = (IGenRep) reg.lookup(RmiUtils.genRepId);
 			arrivalTerminal = (IPassengerArrivalTerminal) reg.lookup(RmiUtils.arrivalTerminalId);
-			luggageCollectionPoint = (IPassengerBaggageCollectionPoint) reg.lookup(RmiUtils.baggageBeltConveyorId);
-			baggageReclaimOffice = (IPassengerBaggageReclaimGuichet) reg.lookup(RmiUtils.baggageReclaimOfficeId);
+			luggageCollectionPoint = (IPassengerBaggageCollectionPoint) reg.lookup(RmiUtils.baggagePickupZoneId);
+			baggageReclaimOffice = (IPassengerBaggageReclaimGuichet) reg.lookup(RmiUtils.baggageReclaimGuichetId);
 			arrivalTerminalExit = (IPassengerArrivalExitTransferZone) reg.lookup(RmiUtils.arrivalTerminalTransferZoneId);
+			departureTerminalEntrace = (IPassengerDepartureTerminalEntrance) reg.lookup(RmiUtils.departureTerminalEntraceZoneId);
 			bus = (IPassengerBus) reg.lookup(RmiUtils.busId);
 
 		} catch (AccessException e1) {
@@ -95,6 +97,7 @@ public class ClientPassengers {
 		                	    		luggageCollectionPoint,
 		                	    		baggageReclaimOffice,
 		                	    		arrivalTerminalExit,
+		                	    		departureTerminalEntrace,
 		                	    		bus);
 		        
 		                transit = !transit;

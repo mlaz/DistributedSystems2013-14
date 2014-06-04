@@ -17,8 +17,8 @@ public class TPassenger extends Thread {
 	private IPassengerBaggageCollectionPoint luggageCollectionPoint;
 	private IPassengerBaggageReclaimGuichet baggageReclaimOffice;
 	private IPassengerArrivalExitTransferZone arrivalTerminalExit;
-	private IPassengerBus bus;
 	private IPassengerDepartureTerminalEntrance departureTerminalEntrace;
+	private IPassengerBus bus;
 	
 	private int passengerNumber;
 	private int flightNumber;
@@ -42,6 +42,7 @@ public class TPassenger extends Thread {
     		IPassengerBaggageCollectionPoint luggageCollectionPoint,
     		IPassengerBaggageReclaimGuichet baggageReclaimOffice,
     		IPassengerArrivalExitTransferZone arrivalTerminalExit,
+    		IPassengerDepartureTerminalEntrance departureTerminalEntrace,
     		IPassengerBus bus) {
 		this.genRep = genRep;
 		
@@ -54,6 +55,7 @@ public class TPassenger extends Thread {
 		this.luggageCollectionPoint = luggageCollectionPoint;
 		this.baggageReclaimOffice = baggageReclaimOffice;
 		this.arrivalTerminalExit = arrivalTerminalExit;
+		this.departureTerminalEntrace = departureTerminalEntrace;
 		this.bus = bus;
 		this.flightNumber = flightNumber;
 		//System.out.println(passengerNumber + "fn"+ flightNumber+ "bags" + remainingBags );
@@ -188,7 +190,12 @@ public class TPassenger extends Thread {
 			case ENTERING_THE_DEPARTURE_TERMINAL:
 				//System.out.println(passengerNumber + " ENTERING_THE_DEPARTURE_TERMINAL\n");
 				try {
-				    departureTerminalEntrace.prepareNextLeg();
+				    try {
+						departureTerminalEntrace.prepareNextLeg();
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} catch (InterruptedException e) {
 				    // TODO Auto-generated catch block
 				    e.printStackTrace();
