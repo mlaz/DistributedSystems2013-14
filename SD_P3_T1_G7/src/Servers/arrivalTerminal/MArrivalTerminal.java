@@ -1,5 +1,4 @@
 package Servers.arrivalTerminal;
-import java.rmi.Remote;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -15,7 +14,7 @@ import Porter.IPorterArrivalTerminal;
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Monitor terminal de chegada
  */
-public class MArrivalTerminal implements IPassengerArrivalTerminal, IPorterArrivalTerminal {
+public class MArrivalTerminal implements IArrivalTerminal {
 
 	private Queue<Stack<Bag>> flightQueue;
 	private Stack<Bag> currentPlanesHold;
