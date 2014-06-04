@@ -87,7 +87,7 @@ public class ServerArrivalTerminalExit {
 		}
 		
 		try {
-			rmiReg.bind(RmiUtils.arrivalTerminalId, arrivalTerminalExitInter);
+			rmiReg.bind(RmiUtils.arrivalTerminalTransferZoneId, arrivalTerminalExitInter);
 		} catch (RemoteException | AlreadyBoundException e) {
 			System.err.println("Error binding the ArrivalTermminalExit to the RMI registry");
 			e.printStackTrace();
