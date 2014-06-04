@@ -6,6 +6,8 @@ import java.rmi.registry.Registry;
 
 public class RmiUtils {
 	static final int waitTime = 500;
+	static int remainingAttempts = 10;
+	
 	public static final String genRepId = "genRep";
 	public static String tempStorageId = "tempStorage";
 	public static String baggageBeltConveyorId = "baggageBeltConveyor";
@@ -14,10 +16,10 @@ public class RmiUtils {
 	public static String busId = "bus";
 	public static String baggageReclaimOfficeId = "baggageReclaimOffice";
 	
-	public static Registry getRMIReg( String hostname, int port, String usage ) {
+	public static Registry getRMIReg( String hostname, int port, String usage ) throws RemoteException {
     	Registry rmiReg = null;
     	boolean registered = true;
-    	int remainingAttempts = 5;
+    	
     	
 		do {
 			try {
@@ -30,6 +32,10 @@ public class RmiUtils {
 			} catch (RemoteException e) {
 				System.err.println("Can't locate the RMI registry. Waiting ("+waitTime+"ms)");
 				remainingAttempts--;
+				
+				if( remainingAttempts == 0)
+					throw e;
+				
 				registered = false;
 				try {
 					Thread.sleep(waitTime);
@@ -38,7 +44,7 @@ public class RmiUtils {
 				}
 			}
 		} while( !registered && remainingAttempts > 0);
- 
+		
 		return rmiReg;
     }    
 }
