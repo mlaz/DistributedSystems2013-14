@@ -16,8 +16,8 @@ import Utils.RmiUtils;
  */
 public class ServerGenRep {
 
-	private static int portNumber = 22160;
-	private static int rmiPort	  = 22168;
+	private static final int portNumber = 22160;
+	private static final int rmiPort	  = 22168;
 	private static String logFile;
 
     /**
@@ -56,6 +56,18 @@ public class ServerGenRep {
 		//	System.setSecurityManager( new RMISecurityManager() );
 		//}
 		
+		Registry registry = null;
+		
+		try {
+			registry = LocateRegistry.createRegistry(rmiPort);
+		} catch( RemoteException e ) {
+			System.err.println( "Error creating the RMI registry: " + e.getMessage() );
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		System.out.println( "RMI registry created" );
+		
 		/* establecer o servico */
 		MGeneralRepository genRep = new MGeneralRepository(numPassengers, numSeats, busTimer, numFlights, maxBags, logFile);
 		IGenRep genRepInter = null;
@@ -69,18 +81,6 @@ public class ServerGenRep {
 		}
 		
 		System.out.println( "GenRep stub created" );
-		
-		Registry registry = null;
-		
-		try {
-			registry = LocateRegistry.createRegistry(rmiPort);
-		} catch( RemoteException e ) {
-			System.err.println( "Error creating the RMI registry: " + e.getMessage() );
-			e.printStackTrace();
-			System.exit(1);
-		}
-		
-		System.out.println( "RMI registry created" );
 		
 		try {
 			registry.bind( RmiUtils.genRepId, genRepInter );
@@ -98,7 +98,7 @@ public class ServerGenRep {
 			System.exit(1);
 		}
 		
-		System.out.println( "GenRep binded to RMI registry" );
+		System.out.println( "GenRep binded to RMI registry (port "+portNumber+")" );
 		System.out.println( "Ready" );
 	}
 }

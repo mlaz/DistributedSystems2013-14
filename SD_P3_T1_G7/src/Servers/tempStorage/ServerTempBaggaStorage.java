@@ -12,8 +12,8 @@ import Utils.RmiUtils;
  * @author miguel
  */
 public class ServerTempBaggaStorage {
-	private static int portNumber = 22167;
-	private static String usage = "Usage: java ServerTempBaggageStorage [RMIRegName] [RMIRegPort]";
+	private static final int portNumber = 22167;
+	private static final String usage 	= "Usage: java ServerTempBaggageStorage [RMIRegName] [RMIRegPort]";
     /**
      *
      * @param args
@@ -27,20 +27,6 @@ public class ServerTempBaggaStorage {
 			args[0] = "localhost";
 			args[1] = "22168";
 		}
-		
-		/* establecer o serviço */
-		MTempBaggageStorage tempStorage = new MTempBaggageStorage();
-		ITempStorage tempStorageInter   = null;
-		
-		try {
-			tempStorageInter = (ITempStorage) UnicastRemoteObject.exportObject(tempStorage, portNumber);
-		} catch (RemoteException e) {
-			System.err.println("Error creating the TempStorage stub");
-			e.printStackTrace();
-			System.exit(1);
-		}
-		
-		System.out.println("TempStorage stub created");
 		
 		/* get the RMI registry */
 		Registry rmiReg = null;
@@ -58,6 +44,19 @@ public class ServerTempBaggaStorage {
 		
 		System.out.println("RMI registry located");
 		
+		/* establecer o serviço */
+		MTempBaggageStorage tempStorage = new MTempBaggageStorage();
+		ITempStorage tempStorageInter   = null;
+		
+		try {
+			tempStorageInter = (ITempStorage) UnicastRemoteObject.exportObject(tempStorage, portNumber);
+		} catch (RemoteException e) {
+			System.err.println("Error creating the TempStorage stub");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		System.out.println("TempStorage stub created");
 		
 		try {
 			rmiReg.bind(RmiUtils.tempStorageId, tempStorageInter);
@@ -67,8 +66,9 @@ public class ServerTempBaggaStorage {
 			System.exit(1);
 		}
 		
-		System.out.println("Temporary Baggage Storage binded to RMI (port "+portNumber);
+		System.out.println("Temporary Baggage Storage binded to RMI registry (port "+portNumber+")");
 		System.out.println("Ready");
+		
 		//TODO delete this
 		System.out.println("REGISTRY:");	
 		try {
