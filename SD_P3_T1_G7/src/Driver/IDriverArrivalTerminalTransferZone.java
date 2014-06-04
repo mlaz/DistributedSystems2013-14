@@ -14,7 +14,7 @@ public interface IDriverArrivalTerminalTransferZone {
     /**
      * Método chamado pelo condutor para anunciar a partida do autocarro
      */
-    void announcingDeparture();
+    void announcingDeparture() throws RemoteException;
 
 	/**
      * @param lastPassengers
