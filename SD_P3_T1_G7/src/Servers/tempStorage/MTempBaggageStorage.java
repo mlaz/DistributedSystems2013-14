@@ -8,7 +8,7 @@ import Utils.Bag;
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Monitor para o depósito temporário de bagagens
  */
-public class MTempBaggageStorage implements IBaggageReclaimGuichet {	
+public class MTempBaggageStorage implements ITempStorage {	
 	private int storedBags;
 	private Lock lock;
 
