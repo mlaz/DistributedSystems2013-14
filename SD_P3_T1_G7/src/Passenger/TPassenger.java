@@ -18,6 +18,7 @@ public class TPassenger extends Thread {
 	private IPassengerBaggageReclaimGuichet baggageReclaimOffice;
 	private IPassengerArrivalExitTransferZone arrivalTerminalExit;
 	private IPassengerBus bus;
+	private IPassengerDepartureTerminalEntrance departureTerminalEntrace;
 	
 	private int passengerNumber;
 	private int flightNumber;
@@ -186,6 +187,12 @@ public class TPassenger extends Thread {
 				
 			case ENTERING_THE_DEPARTURE_TERMINAL:
 				//System.out.println(passengerNumber + " ENTERING_THE_DEPARTURE_TERMINAL\n");
+				try {
+				    departureTerminalEntrace.prepareNextLeg();
+				} catch (InterruptedException e) {
+				    // TODO Auto-generated catch block
+				    e.printStackTrace();
+				}
 				running = false;
 				break;
 			}	
