@@ -1,5 +1,9 @@
 package Servers.departureTerminalEntrance;
 
-public interface IDepartureTerminalEntrance extends IPassengerDepartureTreminalEntrance, Remote {
+import java.rmi.Remote;
+
+import Passenger.IPassengerDepartureTerminalEntrance;
+
+public interface IDepartureTerminalEntrance extends IPassengerDepartureTerminalEntrance, Remote {
 
 }
