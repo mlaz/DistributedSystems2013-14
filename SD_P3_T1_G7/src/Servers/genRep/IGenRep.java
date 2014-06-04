@@ -8,7 +8,7 @@ import Passenger.IPassengerGenRep;
 import Porter.IPorterGenRep;
 
 public interface IGenRep extends IPassengerGenRep, IDriverGenRep,
-IPorterGenRep, Remote{
+IPorterGenRep, Remote {
 
 	int getNumFlights() throws RemoteException;
 
@@ -21,4 +21,6 @@ IPorterGenRep, Remote{
 	void waitForDriverToDie() throws RemoteException;
 	
 	void endSimulation() throws RemoteException;
+
+	int getNumSeats() throws RemoteException;
 }
