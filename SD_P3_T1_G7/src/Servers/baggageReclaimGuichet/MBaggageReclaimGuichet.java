@@ -1,15 +1,12 @@
 package Servers.baggageReclaimGuichet;
-import java.rmi.RemoteException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-import Passenger.IPassengerBaggageReclaimGuichet;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Monitor do guichet de reclamação de bagagens 
  */
-public class MBaggageReclaimGuichet implements IPassengerBaggageReclaimGuichet {
+public class MBaggageReclaimGuichet implements IBaggageReclaimGuichet {
 
 	private Lock lock;
 	

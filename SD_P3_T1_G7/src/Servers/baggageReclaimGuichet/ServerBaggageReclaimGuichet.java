@@ -1,10 +1,11 @@
 package Servers.baggageReclaimGuichet;
 
+import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
-import Servers.ClientMonitor;
-import Servers.ServerCom;
-import Servers.ServerInfo;
+import Utils.RmiUtils;
 
 /**
  *
@@ -12,8 +13,8 @@ import Servers.ServerInfo;
  */
 public class ServerBaggageReclaimGuichet {
 	private static int portNumber = 22165;
-	private static String hostName;
-	private static ServerInfo genRepInfo;
+	private static String usage = "Usage: java ServerBaggageReclaimGuichet [thisMachineName] [genRepName] [genRepPort]";
+
 
     /**
      *
@@ -22,42 +23,63 @@ public class ServerBaggageReclaimGuichet {
     public static void main(String[] args) {
 		
 		if (args.length != 3) {
-			System.out.println("Usage: java ServerBaggageReclaimGuichet [thisMachineName] [genRepName] [genRepPort]");
+			System.out.println(usage);
 			// System.exit(1);
 			args = new String[3];
 			args[0] = "localhost";
 			args[1] = "localhost";
 			args[2] = "22160";
 		}
-		/* obter parametros do problema */
-		hostName = args[0];
-		genRepInfo = new ServerInfo(Integer.parseInt(args[2]), args[1]);
-		
-		IBaggageReclaimGuichetGenRep genRep = new BaggageReclaimGuichetGenRepComm(genRepInfo, new ServerInfo(portNumber, hostName));
-		
 		/* establecer o serviço */
+		MBaggageReclaimGuichet baggageReclaim = new MBaggageReclaimGuichet();
+		IBaggageReclaimGuichet baggageReclaimInter   = null;
 		
 		try {
-			genRep.setBaggageReclaimGuichet();
+			baggageReclaimInter = (IBaggageReclaimGuichet) UnicastRemoteObject.exportObject(baggageReclaim, portNumber);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			System.err.println("Error creating the BaggageReclaimGuichet stub");
 			e.printStackTrace();
+			System.exit(1);
 		}
 		
-		MBaggageReclaimGuichet reclaimGuichet = new MBaggageReclaimGuichet();
-		ServerCom server = new ServerCom(portNumber);
-        server.start();
-        BaggageReclaimGuichetRequestsProcessor reqProcessor = new BaggageReclaimGuichetRequestsProcessor(reclaimGuichet);
-        
-        System.out.println("Baggage Reclaim Guichet service is listening on port " + portNumber + "...");
-        
-		/* iniciar processamento de serviçoes */
-        ServerCom comm;
-        ClientMonitor client;
-		while (true) {
-			comm = server.accept();
-			client = new ClientMonitor(comm, reqProcessor);
-			client.start();
+		System.out.println("BaggageReclameGuichet stub created");
+		
+		/* get the RMI registry */
+		Registry rmiReg = null;
+		try {
+			rmiReg = RmiUtils.getRMIReg( args[1], Integer.parseInt(args[2]), usage );
+		} catch (NumberFormatException e1) {
+			System.err.println("The second argument isn't a valid port number");
+			e1.printStackTrace();
+			System.exit(1);
+		} catch (RemoteException e1) {
+			System.err.println("The RMI registry is unavailable");
+			e1.printStackTrace();
+			System.exit(1);
 		}
+		
+		System.out.println("RMI registry located!");
+		
+		
+		try {
+			rmiReg.bind(RmiUtils.baggageReclaimGuichetId, baggageReclaimInter);
+		} catch (RemoteException | AlreadyBoundException e) {
+			System.err.println("Error binding the BaggageReclaimGuichet to the RMI registry");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		System.out.println("Baggage Reclaim Guichet service is listening on port " + portNumber + "...");
+		
+		
+		System.out.println("REGISTRY:");
+		try {
+			for( String s : rmiReg.list() ) {
+				System.out.println("   "+s);
+			}
+		} catch( RemoteException e ) {
+			e.printStackTrace();
+		}
+	
 	}
 }
