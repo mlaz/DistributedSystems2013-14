@@ -32,7 +32,7 @@ public class ServerArrivalTerminal {
 			args = new String[3];
 			args[0] = "localhost";
 			args[1] = "localhost";
-			args[2] = "22160";
+			args[2] = "22168";
 		}
 		/* obter parametros do problema */
 		
@@ -55,13 +55,18 @@ public class ServerArrivalTerminal {
 		} catch (AccessException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.exit(1);
 		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.exit(1);
 		} catch (NotBoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.exit(1);
 		}
+		
+		System.out.println("GenRep accessed");
 		
 		int numFlights = 0;
 		int numPassengers = 0;
