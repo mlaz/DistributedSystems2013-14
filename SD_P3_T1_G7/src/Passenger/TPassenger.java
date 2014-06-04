@@ -16,8 +16,6 @@ public class TPassenger extends Thread {
 	private IPassengerBaggageReclaimGuichet baggageReclaimOffice;
 	private IPassengerArrivalExitTransferZone arrivalTerminalExit;
 	private IPassengerBus bus;
-	private IPassengerDepartureTerminalEntrance departureTerminalEntrace;
-
 	
 	private int passengerNumber;
 	private int flightNumber;
@@ -33,10 +31,15 @@ public class TPassenger extends Thread {
      * @param genRep
      */
     public TPassenger(int passengerNumber, 
-			int remainingBags, 
+    		int remainingBags, 
 			boolean inTransit,
 			int flightNumber,
-			IPassengerGenRep genRep) {
+			IPassengerGenRep genRep,
+			IPassengerArrivalTerminal arrivalTerminal,
+    		IPassengerBaggageCollectionPoint luggageCollectionPoint,
+    		IPassengerBaggageReclaimGuichet baggageReclaimOffice,
+    		IPassengerArrivalExitTransferZone arrivalTerminalExit,
+    		IPassengerBus bus) {
 		this.genRep = genRep;
 		
 		this.passengerNumber = passengerNumber;
@@ -44,12 +47,11 @@ public class TPassenger extends Thread {
 			remainingBags = 0;
 		this.remainingBags = remainingBags;
 		this.inTransit = inTransit;		
-		this.arrivalTerminal = genRep.getArrivalTerminal();
-		this.luggageCollectionPoint = genRep.getBaggagePickupZone();
-		this.baggageReclaimOffice = genRep.getBaggageReclaimGuichet();
-		this.arrivalTerminalExit = genRep.getArrivalTerminalExit();
-		this.departureTerminalEntrace = genRep.getDepartureTerminalEntrace();
-		this.bus = genRep.getBus();
+		this.arrivalTerminal = arrivalTerminal;
+		this.luggageCollectionPoint = luggageCollectionPoint;
+		this.baggageReclaimOffice = baggageReclaimOffice;
+		this.arrivalTerminalExit = arrivalTerminalExit;
+		this.bus = bus;
 		this.flightNumber = flightNumber;
 		//System.out.println(passengerNumber + "fn"+ flightNumber+ "bags" + remainingBags );
 		genRep.registerPassenger(passengerNumber, flightNumber, inTransit, remainingBags);
@@ -151,12 +153,6 @@ public class TPassenger extends Thread {
 				
 			case ENTERING_THE_DEPARTURE_TERMINAL:
 				//System.out.println(passengerNumber + " ENTERING_THE_DEPARTURE_TERMINAL\n");
-				try {
-					departureTerminalEntrace.prepareNextLeg();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				running = false;
 				break;
 			}	

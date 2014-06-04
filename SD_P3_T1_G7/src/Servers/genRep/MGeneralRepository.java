@@ -20,8 +20,7 @@ import Porter.EPorterStates;
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Monitor do repositório geral de informação
  */
-public class MGeneralRepository implements IPassengerGenRep, IDriverGenRep,
-		IPorterGenRep, Remote {
+public class MGeneralRepository implements IGenRep {
 
 	private int numPassengers;
 	private int nBusSeats;
