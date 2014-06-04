@@ -12,6 +12,7 @@ public class RmiUtils {
 	public static String arrivalTerminalId = "arrivalTerminal";
 	public static String arrivalTerminalTransferZoneId = "arrivalTerminalTransferZone";
 	public static String busId = "bus";
+	public static String baggageReclaimOfficeId = "baggageReclaimOffice";
 	
 	public static Registry getRMIReg( String hostname, int port, String usage ) {
     	Registry rmiReg = null;
