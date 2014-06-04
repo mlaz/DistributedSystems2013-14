@@ -1,4 +1,7 @@
 package Passenger;
+
+import java.rmi.RemoteException;
+
 /**
  * 
  */
