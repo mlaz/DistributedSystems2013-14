@@ -15,14 +15,14 @@ public interface IPassengerBus {
 	 * @throws InterruptedException 
 	 * 
 	 */
-	boolean enterTheBus(int passNum) throws InterruptedException;
+	boolean enterTheBus(int passNum) throws InterruptedException, RemoteException;
 	
 	/**
      * @param passNum
 	 * @throws InterruptedException 
 	 * 
 	 */
-	void leaveTheBus(int passNum) throws InterruptedException;
+	void leaveTheBus(int passNum) throws InterruptedException, RemoteException;
 	
 
 	
