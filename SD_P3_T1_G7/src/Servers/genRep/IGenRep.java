@@ -6,9 +6,10 @@ import java.rmi.RemoteException;
 import Driver.IDriverGenRep;
 import Passenger.IPassengerGenRep;
 import Porter.IPorterGenRep;
+import Servers.bus.IBusGenRep;
 
 public interface IGenRep extends IPassengerGenRep, IDriverGenRep,
-IPorterGenRep, Remote {
+IPorterGenRep, IBusGenRep, Remote {
 
 	int getNumFlights() throws RemoteException;
 
@@ -22,5 +23,5 @@ IPorterGenRep, Remote {
 	
 	void endSimulation() throws RemoteException;
 
-	int getNumSeats() throws RemoteException;
+	int getNumBusSeats() throws RemoteException;
 }
