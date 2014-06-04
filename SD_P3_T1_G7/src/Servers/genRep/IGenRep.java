@@ -6,10 +6,11 @@ import java.rmi.RemoteException;
 import Driver.IDriverGenRep;
 import Passenger.IPassengerGenRep;
 import Porter.IPorterGenRep;
+import Servers.arrivalTerminalExit.IArrivalTerminalExitGenRep;
 import Servers.bus.IBusGenRep;
 
 public interface IGenRep extends IPassengerGenRep, IDriverGenRep,
-IPorterGenRep, IBusGenRep, Remote {
+IPorterGenRep, IBusGenRep, IArrivalTerminalExitGenRep, Remote {
 
 	int getNumFlights() throws RemoteException;
 
