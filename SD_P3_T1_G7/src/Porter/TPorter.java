@@ -50,10 +50,15 @@ public class TPorter extends Thread {
 			case WAITING_FOR_A_PLANE_TO_LAND:
 				System.out.println("state = WAITING_FOR_A_PLANE_TO_LAND\n");
 				try {
-					if (arrivalTerminal.takeARest())
-						nextState = EPorterStates.AT_THE_PLANES_HOLD;
-					else
-						running = false;
+					try {
+						if (arrivalTerminal.takeARest())
+							nextState = EPorterStates.AT_THE_PLANES_HOLD;
+						else
+							running = false;
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -62,9 +67,14 @@ public class TPorter extends Thread {
 				
 			case AT_THE_PLANES_HOLD:
 				System.out.println("state = AT_THE_PLANES_HOLD\n");
-				if ( (currentBag = arrivalTerminal.tryToCollectABag ()) == null) {
-					nextState = EPorterStates.AT_THE_LUGGAGE_BELT_CONVEYOR;
-					break;
+				try {
+					if ( (currentBag = arrivalTerminal.tryToCollectABag ()) == null) {
+						nextState = EPorterStates.AT_THE_LUGGAGE_BELT_CONVEYOR;
+						break;
+					}
+				} catch (RemoteException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
 				}
 				
 				nextState = (currentBag.isInTransit()) ? EPorterStates.AT_THE_STOREROOM : 
@@ -81,7 +91,12 @@ public class TPorter extends Thread {
 				System.out.println("state = AT_THE_LUGGAGE_BELT_CONVEYOR\n");
 				if (currentBag == null) {
 					try {
-						baggageBeltConveyor.noMoreBagsToCollect();
+						try {
+							baggageBeltConveyor.noMoreBagsToCollect();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -89,13 +104,18 @@ public class TPorter extends Thread {
 					nextState = EPorterStates.WAITING_FOR_A_PLANE_TO_LAND;
 					break;
 				}
-				if (baggageBeltConveyor.carryItToAppropriateStore (currentBag.getPassNumber()))
-					try {
-						genRep.incLuggageAtCB();
-					} catch (RemoteException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				try {
+					if (baggageBeltConveyor.carryItToAppropriateStore (currentBag.getPassNumber()))
+						try {
+							genRep.incLuggageAtCB();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				currentBag = null;
 				nextState = EPorterStates.AT_THE_PLANES_HOLD;
 				break;
