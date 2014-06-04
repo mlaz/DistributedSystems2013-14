@@ -1,18 +1,16 @@
 package Servers.bus;
+import java.rmi.RemoteException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import Driver.IDriverBus;
-import Passenger.IPassengerBus;
-
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Monitor do autocarro
  */
-public class MBus implements IDriverBus, IPassengerBus {
+public class MBus implements IBus {
 
 	private IBusGenRep genRep;
 	private enum Locations {ARR_TERM, DEP_TERM} 
@@ -134,7 +132,12 @@ public class MBus implements IDriverBus, IPassengerBus {
 			}
 			
 			seats[occupiedSeats] = passNum;
-			genRep.updateDriverSeats(seats);
+			try {
+				genRep.updateDriverSeats(seats);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+				System.err.println("Unable to UPDATE_DRIVER_SEATS");
+			}
 			occupiedSeats++;
 			
 			System.out.printf("[%d EnterBus] occupiedSeats: %d\n", passNum, occupiedSeats);
@@ -172,7 +175,12 @@ public class MBus implements IDriverBus, IPassengerBus {
 				}
 			}
 			
-			genRep.updateDriverSeats(seats);
+			try {
+				genRep.updateDriverSeats(seats);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+				System.err.println("Unable to UPDATE_DRIVER_SEATS");
+			}
 			occupiedSeats--;
 			
 			System.out.println("[" + passNum + " LeaveBus] + occupiedSeats:" + occupiedSeats);
