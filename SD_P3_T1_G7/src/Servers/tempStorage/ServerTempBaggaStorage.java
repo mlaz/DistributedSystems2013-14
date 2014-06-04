@@ -13,20 +13,19 @@ import Utils.RmiUtils;
  */
 public class ServerTempBaggaStorage {
 	private static int portNumber = 22167;
-	private static String usage = "Usage: java ServerTempBaggageStorage [thisMachineName] [RMIRegName] [RMIRegPort]";
+	private static String usage = "Usage: java ServerTempBaggageStorage [RMIRegName] [RMIRegPort]";
     /**
      *
      * @param args
      */
     public static void main(String[] args) {
 		
-		if (args.length != 3) {
+		if (args.length != 2) {
 			System.out.println( usage );
 			// System.exit(1);
-			args = new String[3];
+			args = new String[2];
 			args[0] = "localhost";
-			args[1] = "localhost";
-			args[2] = "22168";		//TODO this is wrong
+			args[1] = "22168";
 		}
 		
 		/* establecer o serviço */
@@ -46,7 +45,7 @@ public class ServerTempBaggaStorage {
 		/* get the RMI registry */
 		Registry rmiReg = null;
 		try {
-			rmiReg = RmiUtils.getRMIReg( args[1], Integer.parseInt(args[2]), usage );
+			rmiReg = RmiUtils.getRMIReg( args[0], Integer.parseInt(args[1]), usage );
 		} catch (NumberFormatException e1) {
 			System.err.println("The second argument isn't a valid port number");
 			e1.printStackTrace();
@@ -57,7 +56,7 @@ public class ServerTempBaggaStorage {
 			System.exit(1);
 		}
 		
-		System.out.println("RMI registry located!");
+		System.out.println("RMI registry located");
 		
 		
 		try {
@@ -68,10 +67,10 @@ public class ServerTempBaggaStorage {
 			System.exit(1);
 		}
 		
-		System.out.println("Temporary Baggage Storage service is listening on port " + portNumber + "...");
+		System.out.println("Temporary Baggage Storage binded to RMI (port "+portNumber);
 		
-		
-		System.out.println("REGISTRY:");
+		//TODO delete this
+		System.out.println("REGISTRY:");	
 		try {
 			for( String s : rmiReg.list() ) {
 				System.out.println("   "+s);
