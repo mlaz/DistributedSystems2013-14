@@ -5,9 +5,6 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import Passenger.IPassengerBaggageCollectionPoint;
-import Porter.IPorterBaggagePickupZone;
-
 /**
  * 
  */
@@ -16,7 +13,7 @@ import Porter.IPorterBaggagePickupZone;
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Monitor da zona de recolha de bagagens 
  */
-public class MBaggagePickupZone implements IPorterBaggagePickupZone, IPassengerBaggageCollectionPoint {
+public class MBaggagePickupZone implements IBaggagePickupZone {
 	private boolean looseNextItem;
 	private int currentFlight;
 	private int passengersWaiting;

@@ -1,8 +1,11 @@
 package Servers.baggagePickupZone;
 
-import Servers.ClientMonitor;
-import Servers.ServerCom;
-import Servers.ServerInfo;
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+
+import Utils.RmiUtils;
 
 /**
  * Classe de servidor com replicação para receção de pedidos ao monior por parte das threads(clientes)
@@ -10,8 +13,7 @@ import Servers.ServerInfo;
  */
 public class ServerBaggagePickupZone {
 	private static int portNumber = 22164;
-	private static String hostName;
-	private static ServerInfo genRepInfo;
+	private static String usage = "Usage: java ServerArrivalTerminal [thisMachineName] [genRepName] [genRepPort]";
 
     /**
      *
@@ -19,36 +21,65 @@ public class ServerBaggagePickupZone {
      */
     public static void main(String[] args) {
 		if (args.length != 3) {
-			System.out.println("Usage: java ServerArrivalTerminal [thisMachineName] [genRepName] [genRepPort]");
+			System.out.println(usage);
 			// System.exit(1);
 			args = new String[3];
 			args[0] = "localhost";
 			args[1] = "localhost";
-			args[2] = "22160";
+			args[2] = "22168";
 		}
 		
-		/* obter parametros do problema */
-		hostName = args[0];
-		genRepInfo = new ServerInfo(Integer.parseInt(args[2]), args[1]);
-		
-		IBaggagePickupZoneGenRep genRep = new BaggagePickupZoneGenRepComm(genRepInfo, new ServerInfo(portNumber, hostName));
 		
 		/* establecer o serviço */
-		genRep.setBaggagePickupZone();
-		MBaggagePickupZone baggagePickup = new MBaggagePickupZone();
-		ServerCom server = new ServerCom(portNumber);
-        server.start();
-        BaggagePickupZoneRequestsProcessor reqProcessor = new BaggagePickupZoneRequestsProcessor(baggagePickup);
-        
-        System.out.println("Baggage Pickup Zone service is listening on port " + portNumber + "...");
-        
-		/* iniciar processamento de serviçoes */
-        ServerCom comm;
-        ClientMonitor client;
-		while (true) {
-			comm = server.accept();
-			client = new ClientMonitor(comm, reqProcessor);
-			client.start();
+		MBaggagePickupZone baggagePickupZone = new MBaggagePickupZone();
+		IBaggagePickupZone baggagePickupInter = null;
+		
+		try {
+			baggagePickupInter = (IBaggagePickupZone) UnicastRemoteObject.exportObject(baggagePickupZone, portNumber);
+		} catch (RemoteException e) {
+			System.err.println("Error creating the TempStorage stub");
+			e.printStackTrace();
+			System.exit(1);
 		}
+		
+		System.out.println("TempStorage stub created");
+		
+		/* get the RMI registry */
+		Registry rmiReg = null;
+		try {
+			rmiReg = RmiUtils.getRMIReg( args[1], Integer.parseInt(args[2]), usage );
+		} catch (NumberFormatException e1) {
+			System.err.println("The second argument isn't a valid port number");
+			e1.printStackTrace();
+			System.exit(1);
+		} catch (RemoteException e1) {
+			System.err.println("The RMI registry is unavailable");
+			e1.printStackTrace();
+			System.exit(1);
+		}
+		
+		System.out.println("RMI registry located!");
+		
+		
+		try {
+			rmiReg.bind(RmiUtils.baggagePickupZoneId, baggagePickupInter);
+		} catch (RemoteException | AlreadyBoundException e) {
+			System.err.println("Error binding the BaggagePickupZone to the RMI registry");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		System.out.println("Baggage Pickup Zone service is listening on port " + portNumber + "...");
+		
+		
+		System.out.println("REGISTRY:");
+		try {
+			for( String s : rmiReg.list() ) {
+				System.out.println("   "+s);
+			}
+		} catch( RemoteException e ) {
+			e.printStackTrace();
+		}
+
 	}
 }
