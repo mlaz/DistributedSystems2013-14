@@ -1,6 +1,6 @@
 package Utils;
 
-public class ClockTuple<T> {
+public class ClockTuple<T> implements Comparable {
 	private T data;
 	private VectorClock clock;
 	
@@ -15,5 +15,10 @@ public class ClockTuple<T> {
 
 	public VectorClock getClock() {
 		return clock;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		return clock.compareTo(o);
 	}
 }
