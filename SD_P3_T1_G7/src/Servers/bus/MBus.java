@@ -135,7 +135,7 @@ public class MBus implements IBus {
 	public boolean enterTheBus(int passNum) throws InterruptedException {
 		lock.lock();
 		try {	
-			if (location != Locations.ARR_TERM) {
+			if (location != Locations.ARR_TERM || occupiedSeats == nSeats) {
 				return false;
 			}
 			
