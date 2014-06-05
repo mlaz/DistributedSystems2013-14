@@ -22,6 +22,8 @@ IPorterGenRep, IBusGenRep, IArrivalTerminalExitGenRep, Remote {
 
 	void waitForDriverToDie() throws RemoteException;
 	
+	void planeFinished() throws RemoteException;
+	
 	void endSimulation() throws RemoteException;
 
 	int getNumBusSeats() throws RemoteException;
