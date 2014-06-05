@@ -1,6 +1,6 @@
 package Utils;
 
-public class VectorClock {
+public class VectorClock implements Comparable {
 	private int[] clock;
 	
 	public VectorClock(int size) {
@@ -29,5 +29,23 @@ public class VectorClock {
 				clock[i] = ext[i];
 			}
 		}
+	}
+
+	@Override
+	public int compareTo(Object obj) {
+		VectorClock other = (VectorClock) obj;
+		
+		int sumThis  = sum( this.getClock() );
+		int sumOther = sum( other.getClock() );
+		
+		return sumThis - sumOther;
+	}
+	
+	private int sum(int[] array) {
+		int sum = 0;
+		for(int i:array) {
+			sum+=i;
+		}
+		return sum;
 	}
 }
