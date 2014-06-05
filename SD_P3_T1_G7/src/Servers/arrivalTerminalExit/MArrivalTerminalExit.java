@@ -56,6 +56,7 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 //				noPassengersInQueue.signalAll();
 //			}
 			
+			//logging the queue
 			try {
 				genRep.updateDriverQueue(toIntArray(busQueue.toArray()));
 			} catch (RemoteException e) {
