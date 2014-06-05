@@ -90,7 +90,7 @@ public class ClientPassengers {
 		                passengerList[flightNumber][passNumber] = 
 		                		new TPassenger(passNumber,
 		                				nbags, 
-		                				transit, 
+		                				true, //transit, 
 		                				flightNumber,
 		                				genRep,
 		                				arrivalTerminal,
