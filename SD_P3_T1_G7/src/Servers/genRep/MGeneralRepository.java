@@ -3,6 +3,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -34,7 +36,8 @@ public class MGeneralRepository implements IGenRep {
 	private Lock lock;
 	private Condition porterDead;
 	private Condition driverDead;
-	BufferedWriter bw;
+	private BufferedWriter bw;
+	private List<String> logEvList;
 
     /**
      *
@@ -55,7 +58,8 @@ public class MGeneralRepository implements IGenRep {
 		this.busWaitTime = busWaitTime;
 		this.numFlights = numFlights;
 		this.maxBags = maxBags;
-		
+    	this.logEvList = new ArrayList<String>();
+
 		allPassReg = false;
 		//
 		File file = new File(path);
@@ -81,6 +85,19 @@ public class MGeneralRepository implements IGenRep {
 		
 		printHeader();
 	}
+    
+    public void planeFinished() {
+    	for (String element : logEvList) {
+    		try {
+    			bw.write(element + "\n");
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}
+    	logEvList = new ArrayList<String>();
+    	
+    }
 
     /**
      *
@@ -112,7 +129,28 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-	private void printLogEntry() {
+//	private void printLogEntry() {
+//		String s = "";
+//
+//		s += (allPassReg) ? plane.toString() : "NLANDED ";
+//		s += porter.toString();
+//		s += driver.toString();
+//		s += '\n';
+//
+//		if (allPassReg) // this avoids nullpointerexceptions during
+//						// non-passenger threads state updates between flights
+//			for (int i = 0; i < passengers.length; i++)
+//				s += passengers[i].toString();
+//
+//		try {
+//			bw.write(s + "\n");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+
+	private void addLogEntry() {
 		String s = "";
 
 		s += (allPassReg) ? plane.toString() : "NLANDED ";
@@ -125,12 +163,7 @@ public class MGeneralRepository implements IGenRep {
 			for (int i = 0; i < passengers.length; i++)
 				s += passengers[i].toString();
 
-		try {
-			bw.write(s + "\n");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		logEvList.add(s);
 	}
 
 	/* porter */
@@ -156,7 +189,7 @@ public class MGeneralRepository implements IGenRep {
 		lock.lock();
 		try {
 			porter.setStat(newState);
-			printLogEntry();
+			addLogEntry();
 		} finally {
 			lock.unlock();
 		}
@@ -169,7 +202,7 @@ public class MGeneralRepository implements IGenRep {
 		lock.lock();
 		try {
 			porter.addconvBeltItem();
-			printLogEntry();
+			addLogEntry();
 		} finally {
 			lock.unlock();
 		}
@@ -182,7 +215,7 @@ public class MGeneralRepository implements IGenRep {
 		lock.lock();
 		try {
 			porter.addStoredBaggage();
-			printLogEntry();
+			addLogEntry();
 		} finally {
 			lock.unlock();
 		}
@@ -195,7 +228,7 @@ public class MGeneralRepository implements IGenRep {
 		lock.lock();
 		try {
 			plane.removeABag();
-			printLogEntry();
+			addLogEntry();
 		} finally {
 			lock.unlock();
 		}
@@ -225,7 +258,7 @@ public class MGeneralRepository implements IGenRep {
 		lock.lock();
 		try {
 			driver.setStat(newState);
-			printLogEntry();
+			addLogEntry();
 		} finally {
 			lock.unlock();
 		}
@@ -250,7 +283,7 @@ public class MGeneralRepository implements IGenRep {
 			}
 
 			driver.setQueueIDs(iqueue);
-			printLogEntry();
+			addLogEntry();
 		} finally {
 			lock.unlock();
 		}
@@ -264,7 +297,7 @@ public class MGeneralRepository implements IGenRep {
 		lock.lock();
 		try {
 			driver.setSeatsIDs(seats);
-			printLogEntry();
+			addLogEntry();
 		} finally {
 			lock.unlock();
 		}
@@ -317,7 +350,7 @@ public class MGeneralRepository implements IGenRep {
 		try {
 			PassengerInfo p = findPassenger(pID);
 			p.setStat(newStat);
-			printLogEntry();
+			addLogEntry();
 		} finally {
 			lock.unlock();
 		}
@@ -332,7 +365,7 @@ public class MGeneralRepository implements IGenRep {
 		try {
 			PassengerInfo p = findPassenger(pID);
 			p.gotLuggage();
-			printLogEntry();
+			addLogEntry();
 		} finally {
 			lock.unlock();
 		}

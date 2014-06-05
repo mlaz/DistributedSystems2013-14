@@ -119,6 +119,12 @@ public class ClientPassengers {
 		                        // TODO Auto-generated catch block
 		                        e.printStackTrace();
 		                }
+		        try {
+					genRep.planeFinished();
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		        System.out.println("ALL Passengers Done-----------------------------------------\n");
 		}
 		
