@@ -7,6 +7,9 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import Utils.ClockTuple;
+import Utils.VectorClock;
+
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Monitor do autocarro
@@ -27,13 +30,13 @@ public class MBus implements IBus {
 	private Condition busMoving;				//passengers are waiting to exit the bus
 	private Condition busHasNotArrived;			//passengers are waiting for the bus
 	private long busInterval;
-	
+	private VectorClock vecClock;
 	/**
 	 * @param nSeats
      * @param busDepartureInterval
      * @param genRep
 	 */
-	public MBus(int nSeats,int busDepartureInterval, IBusGenRep genRep) {
+	public MBus(int nSeats,int busDepartureInterval, IBusGenRep genRep, int numEntities) {
 		this.nSeats = nSeats;
 		occupiedSeats = 0;
 		location = Locations.ARR_TERM;
@@ -43,6 +46,7 @@ public class MBus implements IBus {
 			seats[i] = -1;
 		this.genRep = genRep;
 		this.busInterval = busDepartureInterval;
+		this.vecClock = new VectorClock(numEntities);
 //		this.timer = new Timer();
 //		timer.schedule(new BusTimerExpired(), 0, busDepartureInterval);
 //		timerExpired = false;
@@ -78,9 +82,10 @@ public class MBus implements IBus {
 	 * @see IDriverBus#hasDaysWorkEnded()
 	 */
 	@Override
-	public void waitingForPassengers() throws InterruptedException {
+	public VectorClock waitingForPassengers(VectorClock extClk) throws InterruptedException {
 		lock.lock();
 		try {
+			vecClock.updateClock(extClk);
 			busHasNotArrived.signalAll();
 			location = Locations.ARR_TERM;
 			System.out.println("[Driver] occupiedSeats:" + occupiedSeats + "(waiting for more)");
@@ -97,6 +102,7 @@ public class MBus implements IBus {
 				busFull.await(this.busInterval, TimeUnit.MILLISECONDS); // wait for passengers to come in or for timer to expire
 			} while (occupiedSeats == 0) ;
 			
+			return vecClock;
 		} finally {
 			lock.unlock();
 		}
@@ -106,10 +112,11 @@ public class MBus implements IBus {
 	 * @see IDriverBus#parkAndLetPassOff()
 	 */
 	@Override
-	public int parkAndLetPassOff() throws InterruptedException {
+	public ClockTuple<Integer> parkAndLetPassOff(VectorClock extClk) throws InterruptedException {
 		lock.lock();
 
 		try {
+			vecClock.updateClock(extClk);
 			System.out.println("[DRIVER] IM PARKING!");
 			int passengers = occupiedSeats;
 			location = Locations.DEP_TERM;
@@ -122,7 +129,7 @@ public class MBus implements IBus {
 
 			location = Locations.ARR_TERM;
 			System.out.println("BUSPASSENGERS:" + passengers + "(left the bus)");
-			return passengers;
+			return new ClockTuple<Integer>(passengers, vecClock);
 		} finally {
 			lock.unlock();
 		}
@@ -132,11 +139,12 @@ public class MBus implements IBus {
 	 * @see IPassengerBus#enterTheBus()
 	 */
 	@Override
-	public boolean enterTheBus(int passNum) throws InterruptedException {
+	public ClockTuple<Boolean> enterTheBus(int passNum, VectorClock extClk) throws InterruptedException {
 		lock.lock();
 		try {	
+			vecClock.updateClock(extClk);
 			if (location != Locations.ARR_TERM || occupiedSeats == nSeats) {
-				return false;
+				return new ClockTuple<Boolean>(false, vecClock);
 			}
 			
 			seats[occupiedSeats] = passNum;
@@ -158,7 +166,7 @@ public class MBus implements IBus {
 //				System.out.println("["+passNum+"] Im trying to enter the bus");
 //				busHasNotArrived.await();
 //			}
-			return true;
+			return new ClockTuple<Boolean>(true, vecClock);
 		} finally {
 			lock.unlock();
 		}
@@ -168,9 +176,10 @@ public class MBus implements IBus {
 	 * @see IPassengerBus#leaveTheBus()
 	 */
 	@Override
-	public void leaveTheBus(int passNum) throws InterruptedException {
+	public VectorClock leaveTheBus(int passNum, VectorClock extClk) throws InterruptedException {
 		lock.lock();
 		try {
+			vecClock.updateClock(extClk);
 			while (location != Locations.DEP_TERM) {
 				System.out.printf("[%d] The bus is at %s!\n",passNum,location.name());
 				busMoving.await();
@@ -196,6 +205,8 @@ public class MBus implements IBus {
 			if (occupiedSeats == 0) {
 				busNotEmpty.signal();
 			}
+			
+			return vecClock;
 		} finally {
 			lock.unlock();
 		}
