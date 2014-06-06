@@ -63,6 +63,7 @@ public class TDriver extends Thread {
 				try {
 					
 					try {
+						genRep.driverWaiting4Plane();
 						vecClock.increment(clockIndex);
 						boolClock = arrivalTerminalTransferZone.announcingBusBoaring(lastPassengers, vecClock);
 						vecClock.updateClock(boolClock.getClock());
