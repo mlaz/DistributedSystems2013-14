@@ -62,7 +62,7 @@ public class ClientPorter {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		int clockIndex =numIdentities - 1;
+		int clockIndex = 1;
 		TPorter porter = new TPorter(numIdentities, clockIndex, (IPorterGenRep)genRep, arrivalTerminal, baggageBeltConveyor, baggageStorage);
 		porter.start();
 		
