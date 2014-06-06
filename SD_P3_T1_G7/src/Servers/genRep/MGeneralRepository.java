@@ -385,7 +385,7 @@ public class MGeneralRepository implements IGenRep {
      *
      * @return
      */
-    public int getbusWaitTime() {
+    public int getBusWaitTime() {
 		return busWaitTime;
 	}
 
@@ -478,6 +478,4 @@ public class MGeneralRepository implements IGenRep {
 			lock.unlock();
 		}
 	}
-
-
 }
