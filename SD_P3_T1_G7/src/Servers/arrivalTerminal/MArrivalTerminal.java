@@ -122,7 +122,7 @@ public class MArrivalTerminal implements IArrivalTerminal {
 		try {
 			vecClock.updateClock(extClk);
 			if (currentPlanesHold.isEmpty())
-				return null;
+				return new ClockTuple<Bag>(null, vecClock);
 			return new ClockTuple<Bag>(currentPlanesHold.pop(), vecClock);
 		} finally {
 			lock.unlock();
