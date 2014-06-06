@@ -7,6 +7,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import Utils.Bag;
+import Utils.ClockTuple;
+import Utils.VectorClock;
 import Passenger.IPassengerArrivalTerminal;
 import Porter.IPorterArrivalTerminal;
 
@@ -23,7 +25,7 @@ public class MArrivalTerminal implements IArrivalTerminal {
 	private int remainingPassengers;
 	private Lock lock;
 	private Condition passengers;	//give a better name to this
-
+	private VectorClock vecClock;
     /**
      *
      * @param nFlights
@@ -52,6 +54,8 @@ public class MArrivalTerminal implements IArrivalTerminal {
 			flightQueue.add(planesHold);
 		}
 		
+		this.vecClock = new VectorClock(nPassengers+2);
+		
 		ongoingArrival = true;
 		passengersPerPlane = remainingPassengers = nPassengers;
 		lock = new ReentrantLock();
@@ -65,9 +69,10 @@ public class MArrivalTerminal implements IArrivalTerminal {
 	 * ()
 	 */
 	@Override
-	public boolean takeARest() throws InterruptedException {
+	public ClockTuple<Boolean> takeARest(VectorClock extClk) throws InterruptedException {
 		lock.lock();
 		try {
+			vecClock.updateClock(extClk);
 			if (ongoingArrival) {
 				
 				while (remainingPassengers > 0) {
@@ -79,7 +84,7 @@ public class MArrivalTerminal implements IArrivalTerminal {
 			}
 			ongoingArrival = !(flightQueue.isEmpty());
 			
-			return !currentPlanesHold.isEmpty();
+			return new ClockTuple<Boolean>(!currentPlanesHold.isEmpty(), vecClock);
 			
 		} finally {
 			lock.unlock();
@@ -91,17 +96,18 @@ public class MArrivalTerminal implements IArrivalTerminal {
 	 * @see IPassengerArrivalTerminal#whatSouldIDo()
 	 */
 	@Override
-	public void whatSouldIDo(int passengerId) throws InterruptedException {
+	public VectorClock whatSouldIDo(int passengerId, VectorClock extClk) throws InterruptedException {
 		lock.lock();
 		
 		try {
+			vecClock.updateClock(extClk);
 			//System.out.println("What should I do?: "+ passengerId + "\n");
 			remainingPassengers--;
 			if (remainingPassengers == 0) {
 				ongoingArrival = false;
 				passengers.signal();
 			}
-			
+			return vecClock;
 		} finally {
 			lock.unlock();
 		}
@@ -111,12 +117,13 @@ public class MArrivalTerminal implements IArrivalTerminal {
      *
      * @return
      */
-    public Bag tryToCollectABag () {
+    public ClockTuple<Bag> tryToCollectABag (VectorClock extClk) {
 		lock.lock();
 		try {
+			vecClock.updateClock(extClk);
 			if (currentPlanesHold.isEmpty())
 				return null;
-			return currentPlanesHold.pop();
+			return new ClockTuple<Bag>(currentPlanesHold.pop(), vecClock);
 		} finally {
 			lock.unlock();
 		}
