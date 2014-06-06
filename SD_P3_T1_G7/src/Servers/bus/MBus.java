@@ -149,7 +149,7 @@ public class MBus implements IBus {
 			
 			seats[occupiedSeats] = passNum;
 			try {
-				genRep.updateDriverSeats(seats);
+				genRep.updateDriverSeats(seats, vecClock);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 				System.err.println("Unable to UPDATE_DRIVER_SEATS");
@@ -193,7 +193,7 @@ public class MBus implements IBus {
 			}
 			
 			try {
-				genRep.updateDriverSeats(seats);
+				genRep.updateDriverSeats(seats, vecClock);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 				System.err.println("Unable to UPDATE_DRIVER_SEATS");

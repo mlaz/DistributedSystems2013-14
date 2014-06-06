@@ -27,4 +27,6 @@ IPorterGenRep, IBusGenRep, IArrivalTerminalExitGenRep, Remote {
 	void endSimulation() throws RemoteException;
 
 	int getNumBusSeats() throws RemoteException;
+	
+	int getBusWaitTime() throws RemoteException;
 }
