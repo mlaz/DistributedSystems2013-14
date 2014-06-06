@@ -54,6 +54,7 @@ public class TDriver extends Thread {
 		boolean running = true;
 		
 		ClockTuple<Boolean> boolClock;
+		ClockTuple<Integer> intClock;
 		VectorClock 		retClock;
 		while (running) {
 			switch (state) {
@@ -111,8 +112,9 @@ public class TDriver extends Thread {
 				try {
 					//lastPassengers = bus.parkAndLetPassOff();
 					vecClock.increment(clockIndex);
-					retClock = lastPassengers = bus.parkAndLetPassOff(vecClock);
-					vecClock.updateClock(retClock);
+					intClock = bus.parkAndLetPassOff(vecClock);
+					vecClock.updateClock(intClock.getClock());
+					lastPassengers = intClock.getData();
 					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block

@@ -5,6 +5,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 
+import Servers.genRep.IGenRep;
 import Utils.RmiUtils;
 
 /**
@@ -39,11 +40,11 @@ public class ClientDriver {
 		}
 		IDriverArrivalTerminalTransferZone arrivalTerminalTransferZone = null;
 		IDriverBus bus = null;
-		IDriverGenRep genRep = null;
+		IGenRep genRep = null;
 		try {
 			arrivalTerminalTransferZone = (IDriverArrivalTerminalTransferZone) reg.lookup(RmiUtils.arrivalTerminalTransferZoneId);
 			bus = (IDriverBus) reg.lookup(RmiUtils.busId);
-			genRep = (IDriverGenRep) reg.lookup(RmiUtils.genRepId);
+			genRep = (IGenRep) reg.lookup(RmiUtils.genRepId);
 		} catch (AccessException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -55,7 +56,16 @@ public class ClientDriver {
 			e1.printStackTrace();
 		}
 
-		TDriver driver = new TDriver(genRep, arrivalTerminalTransferZone, bus);
+		int numIdentities = 0;
+		try {
+			numIdentities = genRep.getNumPassengers() + 2;
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.exit(1);
+		}
+		int clockIndex    = numIdentities - 2;
+		TDriver driver = new TDriver(numIdentities, clockIndex, (IDriverGenRep)genRep, arrivalTerminalTransferZone, bus);
 		driver.start();
 		
 		try {
