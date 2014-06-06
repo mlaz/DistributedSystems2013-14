@@ -52,6 +52,7 @@ public class TPassenger extends Thread {
     		IPassengerArrivalExitTransferZone arrivalTerminalExit,
     		IPassengerDepartureTerminalEntrance departureTerminalEntrace,
     		IPassengerBus bus) {
+    	
 		this.genRep = genRep;
 		this.vecClock = new VectorClock(numIdentities);
 		this.clockIndex = clockIndex;
@@ -76,7 +77,7 @@ public class TPassenger extends Thread {
 		}
 	}
 
-    /**
+	/**
      * Implementação da máquina de estados
      */
     public void run() {
@@ -124,7 +125,7 @@ public class TPassenger extends Thread {
 							break;
 						}
 						remainingBags--;
-						genRep.gotLuggage(passengerNumber);
+						genRep.gotLuggage(passengerNumber, vecClock);
 						System.out.println("Passenger #" + passengerNumber + " just got a bag\n");
 					}
 						
