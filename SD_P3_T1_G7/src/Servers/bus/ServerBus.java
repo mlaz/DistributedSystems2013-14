@@ -64,11 +64,13 @@ public class ServerBus {
 		
 		System.out.println("GenRep accessed");
 		
-		int numPassengers = 0;
-		int numSeats 	  = 0;
+		int busInterval = 0;
+		int numSeats 	= 0;
+		int numEntities = 0;
 		try {
-			numPassengers = genRep.getNumPassengers();
-			numSeats  	  = genRep.getNumBusSeats();
+			busInterval = genRep.getBusWaitTime();
+			numSeats  	= genRep.getNumBusSeats();
+			numEntities = genRep.getNumPassengers() + 2;
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,7 +78,7 @@ public class ServerBus {
 		}
 		
 		/* establecer o serviço */
-		MBus bus = new MBus(numSeats, numPassengers, genRep);
+		MBus bus = new MBus(numSeats, busInterval, genRep, numEntities);
 		IBus busInter = null;
         
 		try {
