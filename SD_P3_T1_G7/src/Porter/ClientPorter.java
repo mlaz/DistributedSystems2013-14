@@ -5,6 +5,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 
+import Servers.genRep.IGenRep;
 import Utils.RmiUtils;
 
 /**
@@ -37,12 +38,12 @@ public class ClientPorter {
 		IPorterArrivalTerminal arrivalTerminal = null;
 		IPorterBaggagePickupZone baggageBeltConveyor = null;
 		IPorterTempBaggageStorage baggageStorage = null;
-		IPorterGenRep genRep = null;
+		IGenRep genRep = null;
 		try {
 			arrivalTerminal = (IPorterArrivalTerminal) reg.lookup(RmiUtils.arrivalTerminalId);
 			baggageBeltConveyor = (IPorterBaggagePickupZone) reg.lookup(RmiUtils.baggagePickupZoneId);
 			baggageStorage = (IPorterTempBaggageStorage) reg.lookup(RmiUtils.tempStorageId);
-			genRep = (IPorterGenRep) reg.lookup(RmiUtils.genRepId);
+			genRep = (IGenRep) reg.lookup(RmiUtils.genRepId);
 		} catch (AccessException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -54,7 +55,15 @@ public class ClientPorter {
 			e1.printStackTrace();
 		}
 		
-		TPorter porter = new TPorter(genRep, arrivalTerminal, baggageBeltConveyor, baggageStorage);
+		int numIdentities = 0;
+		try {
+			numIdentities = genRep.getNumPassengers() + 2;
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		int clockIndex =numIdentities - 1;
+		TPorter porter = new TPorter(numIdentities, clockIndex, (IPorterGenRep)genRep, arrivalTerminal, baggageBeltConveyor, baggageStorage);
 		porter.start();
 		
 		try {
