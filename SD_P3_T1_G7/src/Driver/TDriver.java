@@ -2,6 +2,9 @@ package Driver;
 
 import java.rmi.RemoteException;
 
+import Utils.ClockTuple;
+import Utils.VectorClock;
+
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Classe TDriver: classe de implementação da thread de condutor de autocarro
@@ -13,14 +16,26 @@ public class TDriver extends Thread {
 	private IDriverBus bus;
 	private int lastPassengers = 0;
 
+	private int clockIndex;
+	private VectorClock vecClock;
+	
 	/**
 	 * @param genRep
 	 * Construtor da classe TDriver
 	 */
-	public TDriver(IDriverGenRep genRep, IDriverArrivalTerminalTransferZone arrivalTerminalTransferZone, IDriverBus bus) {
+	public TDriver(
+			int numIdentities,
+			int clockIndex,
+			IDriverGenRep genRep, 
+			IDriverArrivalTerminalTransferZone arrivalTerminalTransferZone, 
+			IDriverBus bus) {
+		
 		this.arrivalTerminalTransferZone = arrivalTerminalTransferZone;
 		this.bus = bus;
 		this.genRep = genRep;
+		this.clockIndex = clockIndex;
+		this.vecClock = new VectorClock(numIdentities);
+		
 		try {
 			genRep.registerDriver();
 		} catch (RemoteException e) {
@@ -37,6 +52,9 @@ public class TDriver extends Thread {
 		EDriverStates state = EDriverStates.PARKING_AT_THE_ARRIVAL_TERMINAL;
 		EDriverStates nextState = state;
 		boolean running = true;
+		
+		ClockTuple<Boolean> boolClock;
+		VectorClock 		retClock;
 		while (running) {
 			switch (state) {
 			case PARKING_AT_THE_ARRIVAL_TERMINAL:
@@ -44,7 +62,12 @@ public class TDriver extends Thread {
 				try {
 					
 					try {
-						if (!(running = arrivalTerminalTransferZone.announcingBusBoaring(lastPassengers)))
+						vecClock.increment(clockIndex);
+						boolClock = arrivalTerminalTransferZone.announcingBusBoaring(lastPassengers, vecClock);
+						vecClock.updateClock(boolClock.getClock());
+						running = boolClock.getData();
+						
+						if (!running)
 							break;
 					} catch (RemoteException e) {
 						// TODO Auto-generated catch block
@@ -59,8 +82,13 @@ public class TDriver extends Thread {
 				System.out.println("DRIVER: PARKING_AT_THE_ARRIVAL_TERMINAL 2nd stage");
 				
 				try {
-					bus.waitingForPassengers();
-					arrivalTerminalTransferZone.announcingDeparture();
+					vecClock.increment(clockIndex);
+					retClock = bus.waitingForPassengers(vecClock);
+					vecClock.updateClock(retClock);
+					
+					vecClock.increment(clockIndex);
+					retClock = arrivalTerminalTransferZone.announcingDeparture(vecClock);
+					vecClock.updateClock(retClock);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -82,7 +110,9 @@ public class TDriver extends Thread {
 
 				try {
 					//lastPassengers = bus.parkAndLetPassOff();
-					lastPassengers = bus.parkAndLetPassOff();
+					vecClock.increment(clockIndex);
+					retClock = lastPassengers = bus.parkAndLetPassOff(vecClock);
+					vecClock.updateClock(retClock);
 					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -102,7 +132,7 @@ public class TDriver extends Thread {
 			}	
 			state = nextState;
 			try {
-				genRep.updateDriverState(state);
+				genRep.updateDriverState(state, vecClock);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
