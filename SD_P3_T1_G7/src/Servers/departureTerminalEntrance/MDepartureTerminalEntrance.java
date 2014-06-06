@@ -37,7 +37,7 @@ public class MDepartureTerminalEntrance implements IDepartureTerminalEntrance {
 		int passNumber;
 		Boolean transit = true;
 		for (passNumber = 0; passNumber < N; passNumber++) {
-			/*transit = !transit;*/
+			transit = !transit;
 			if (transit)
 				n++;
 		}
