@@ -2,6 +2,8 @@ package Passenger;
 
 import java.rmi.RemoteException;
 
+import Utils.VectorClock;
+
 
 /**
  * @author Miguel Azevedo, Filipe Teixeira
@@ -23,13 +25,13 @@ public interface IPassengerGenRep {
      *
      * @param passengerNumber
      */
-    void gotLuggage(int passengerNumber) throws RemoteException;
+    void gotLuggage(int passengerNumber, VectorClock clk) throws RemoteException;
 
     /**
      *
      * @param passengerNumber
      * @param state
      */
-    void setPassengerStat(int passengerNumber, EPassengerStates state) throws RemoteException;
+    void setPassengerStat(int passengerNumber, EPassengerStates state, VectorClock clk) throws RemoteException;
 
 }

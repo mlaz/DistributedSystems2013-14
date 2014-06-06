@@ -2,6 +2,8 @@ package Driver;
 
 import java.rmi.RemoteException;
 
+import Utils.VectorClock;
+
 /**
  * 
  * @author miguel
@@ -13,7 +15,7 @@ public interface IDriverGenRep {
      * Método chamado pelo condutor para actualizar o seu estado na facilidade de logging
      * @param state
      */
-    void updateDriverState(EDriverStates state) throws RemoteException;
+    void updateDriverState(EDriverStates state, VectorClock clk) throws RemoteException;
 
     /**
      * Método para registo do condutor no Repositório geral de informação 

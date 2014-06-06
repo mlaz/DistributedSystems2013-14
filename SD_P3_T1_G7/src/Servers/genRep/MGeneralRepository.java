@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import Driver.EDriverStates;
 import Passenger.EPassengerStates;
 import Porter.EPorterStates;
+import Utils.VectorClock;
 
 /**
  * @author Filipe Teixeira <fmteixeira@ua.pt>
@@ -150,7 +151,7 @@ public class MGeneralRepository implements IGenRep {
 //		}
 //	}
 
-	private void addLogEntry() {
+	private void addLogEntry(VectorClock clk) {
 		String s = "";
 
 		s += (allPassReg) ? plane.toString() : "NLANDED ";
@@ -185,11 +186,11 @@ public class MGeneralRepository implements IGenRep {
      *
      * @param newState
      */
-    public void updatePorterState(EPorterStates newState) {
+    public void updatePorterState(EPorterStates newState, VectorClock clk) {
 		lock.lock();
 		try {
 			porter.setStat(newState);
-			addLogEntry();
+			addLogEntry(clk);
 		} finally {
 			lock.unlock();
 		}
@@ -198,11 +199,11 @@ public class MGeneralRepository implements IGenRep {
     /**
      *
      */
-    public void incLuggageAtCB() {
+    public void incLuggageAtCB(VectorClock clk) {
 		lock.lock();
 		try {
 			porter.addconvBeltItem();
-			addLogEntry();
+			addLogEntry(clk);
 		} finally {
 			lock.unlock();
 		}
@@ -211,11 +212,11 @@ public class MGeneralRepository implements IGenRep {
     /**
      *
      */
-    public void incLuggageAtSR() {
+    public void incLuggageAtSR(VectorClock clk) {
 		lock.lock();
 		try {
 			porter.addStoredBaggage();
-			addLogEntry();
+			addLogEntry(clk);
 		} finally {
 			lock.unlock();
 		}
@@ -224,11 +225,11 @@ public class MGeneralRepository implements IGenRep {
     /**
      *
      */
-    public void removeLuggageAtPlane() {
+    public void removeLuggageAtPlane(VectorClock clk) {
 		lock.lock();
 		try {
 			plane.removeABag();
-			addLogEntry();
+			addLogEntry(clk);
 		} finally {
 			lock.unlock();
 		}
@@ -254,11 +255,11 @@ public class MGeneralRepository implements IGenRep {
      *
      * @param newState
      */
-    public void updateDriverState(EDriverStates newState) {
+    public void updateDriverState(EDriverStates newState, VectorClock clk) {
 		lock.lock();
 		try {
 			driver.setStat(newState);
-			addLogEntry();
+			addLogEntry(clk);
 		} finally {
 			lock.unlock();
 		}
@@ -268,7 +269,7 @@ public class MGeneralRepository implements IGenRep {
      *
      * @param queue
      */
-    public void updateDriverQueue(int[] queue) {
+    public void updateDriverQueue(int[] queue, VectorClock clk) {
 		lock.lock();
 		try {
 			int[] iqueue = new int[numPassengers];
@@ -283,7 +284,7 @@ public class MGeneralRepository implements IGenRep {
 			}
 
 			driver.setQueueIDs(iqueue);
-			addLogEntry();
+			addLogEntry(clk);
 		} finally {
 			lock.unlock();
 		}
@@ -293,11 +294,11 @@ public class MGeneralRepository implements IGenRep {
      *
      * @param seats
      */
-    public void updateDriverSeats(int[] seats) {
+    public void updateDriverSeats(int[] seats, VectorClock clk) {
 		lock.lock();
 		try {
 			driver.setSeatsIDs(seats);
-			addLogEntry();
+			addLogEntry(clk);
 		} finally {
 			lock.unlock();
 		}
@@ -345,12 +346,12 @@ public class MGeneralRepository implements IGenRep {
      * @param pID
      * @param newStat
      */
-    public void setPassengerStat(int pID, EPassengerStates newStat) {
+    public void setPassengerStat(int pID, EPassengerStates newStat, VectorClock clk) {
 		lock.lock();
 		try {
 			PassengerInfo p = findPassenger(pID);
 			p.setStat(newStat);
-			addLogEntry();
+			addLogEntry(clk);
 		} finally {
 			lock.unlock();
 		}
@@ -360,16 +361,16 @@ public class MGeneralRepository implements IGenRep {
      *
      * @param pID
      */
-    public void gotLuggage(int pID) {
+    public void gotLuggage(int pID, VectorClock clk) {
 		lock.lock();
 		try {
 			PassengerInfo p = findPassenger(pID);
 			p.gotLuggage();
-			addLogEntry();
+			addLogEntry(clk);
 		} finally {
 			lock.unlock();
 		}
-	}
+    }
 
 	private PassengerInfo findPassenger(int pID) {
 		for (PassengerInfo p : passengers) {
