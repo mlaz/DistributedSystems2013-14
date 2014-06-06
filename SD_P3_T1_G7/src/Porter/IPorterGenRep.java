@@ -2,6 +2,8 @@ package Porter;
 
 import java.rmi.RemoteException;
 
+import Utils.VectorClock;
+
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Interface para interação entre a thread de bagageiro (TPorter) e o repositório geral (MGenRep) 
@@ -16,23 +18,23 @@ public interface IPorterGenRep {
     /**
      *
      */
-    void removeLuggageAtPlane() throws RemoteException;
+    void removeLuggageAtPlane(VectorClock clk) throws RemoteException;
 
     /**
      *
      */
-    void incLuggageAtCB() throws RemoteException;
+    void incLuggageAtCB(VectorClock clk) throws RemoteException;
 
     /**
      *
      */
-    void incLuggageAtSR() throws RemoteException;
+    void incLuggageAtSR(VectorClock clk) throws RemoteException;
 
     /**
      *
      * @param state
      */
-    void updatePorterState(EPorterStates state) throws RemoteException;
+    void updatePorterState(EPorterStates state, VectorClock clk) throws RemoteException;
 
     /**
      *
