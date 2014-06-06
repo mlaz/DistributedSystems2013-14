@@ -6,6 +6,9 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import Utils.ClockTuple;
+import Utils.VectorClock;
+
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  * Monitor da saida do terminal de chegada
@@ -22,7 +25,7 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 	private Lock lock;
 	private Condition noPassengersInQueue;
 	private Condition busReady;
-	
+	private VectorClock vecClock;
 	/**
      * @param nAirplanes
 	 * @param genRep
@@ -34,6 +37,7 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 		busQueue = new LinkedList<Integer>();
 		totalPassengers = nAirplanes * nPassengers;
 		this.genRep = genRep;
+		this.vecClock = new VectorClock(nPassengers + 2);
 		
 		lock = new ReentrantLock();
 		noPassengersInQueue = lock.newCondition();
@@ -46,9 +50,10 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 	 * @see IPassengerArrivalTerminalTransferZone#takeABus()
 	 */
 	@Override
-	public void takeABus(int passNumber) throws InterruptedException {
+	public VectorClock takeABus(int passNumber, VectorClock extClk) throws InterruptedException {
 		lock.lock();
 		try {
+			vecClock.updateClock(extClk);
 			busQueue.add((Integer) passNumber);
 			noPassengersInQueue.signal();	//notify the driver that Im waiting in line!
 //			if (busQueue.size() == nSeats) {
@@ -58,7 +63,7 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 			
 			//logging the queue
 			try {
-				genRep.updateDriverQueue(toIntArray(busQueue.toArray()));
+				genRep.updateDriverQueue(toIntArray(busQueue.toArray()), vecClock);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -75,7 +80,7 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 			busQueue.poll();
 			
 			try {
-				genRep.updateDriverQueue(toIntArray(busQueue.toArray()));
+				genRep.updateDriverQueue(toIntArray(busQueue.toArray()), vecClock);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -86,7 +91,7 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 			}
 			
 			busReady.signalAll();; //notify who? about what? > notify other passengers that they may enter try to enter the bus
-			
+			return vecClock;
 		} finally {
 			lock.unlock();
 		}
@@ -106,13 +111,14 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 	 * @see IDriverArrivalTerminalTransferZone#announcingBusBoaring()
 	 */
 	@Override
-	public boolean announcingBusBoaring(int lastPassengers) throws InterruptedException {
+	public ClockTuple<Boolean> announcingBusBoaring(int lastPassengers, VectorClock extClk) throws InterruptedException {
 		lock.lock();
 		try {
+			vecClock.updateClock(extClk);
 			passengersDone = passengersDone + lastPassengers;
 			System.out.println("[DRIVER] passengersDone:" + passengersDone);
 			if (totalPassengers == passengersDone) {
-				return false;  	/* the simulation is over there are no more passengers to process */
+				return new ClockTuple<Boolean>(false, vecClock);  	/* the simulation is over there are no more passengers to process */
 			}
 	
 			passengersToGo = nSeats;
@@ -123,7 +129,7 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 				noPassengersInQueue.await(); // wait for passengers to arrive
 				System.out.println("[DRIVER] Still no one?");
 				if (totalPassengers == passengersDone)
-					return false; // the simulation is over there are no more passengers to process
+					return new ClockTuple<Boolean>(false, vecClock); // the simulation is over there are no more passengers to process
 			} else { // someone to go
 				int size;
 				passengersToGo = ((size = busQueue.size()) < nSeats) ? size : nSeats;
@@ -131,7 +137,7 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 			}
 			
 			System.out.println("DRIVER ANNOUNCED -> You can come in!");
-			return true;
+			return new ClockTuple<Boolean>(true, vecClock);
 			
 		} finally {
 			lock.unlock();
@@ -142,16 +148,17 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 	 * 
      * @param passengerNumber
 	 */
-	public void goHome(int passengerNumber) {
+	public VectorClock goHome(int passengerNumber, VectorClock extClk) {
 		lock.lock();
 		try {
+			vecClock.updateClock(extClk);
 			passengersDone++;
 			System.out.println("[" + passengerNumber + " goHome] passengersDone:" + passengersDone);
 			
 			if (totalPassengers == passengersDone) {
 				noPassengersInQueue.signal(); 	// so the driver knows there is no one waiting
 			}
-			
+			return vecClock;
 		} finally {
 			lock.unlock();
 		}
@@ -161,11 +168,13 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
      *
      */
     @Override
-	public void announcingDeparture() {
+	public VectorClock announcingDeparture(VectorClock extClk) {
 		lock.lock();
 		try {
+			vecClock.updateClock(extClk);
 			System.out.println("[DRIVER] Im leaving!");
 			availableBus = false;
+			return vecClock;
 		} finally {
 			lock.unlock();
 		}
