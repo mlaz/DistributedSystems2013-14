@@ -3,6 +3,8 @@ package Porter;
 import java.rmi.RemoteException;
 
 import Utils.Bag;
+import Utils.ClockTuple;
+import Utils.VectorClock;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
@@ -14,12 +16,17 @@ public class TPorter extends Thread {
 	private IPorterBaggagePickupZone baggageBeltConveyor;
 	private IPorterTempBaggageStorage baggageStorage;
 	private IPorterGenRep genRep;
-
+	private int clockIndex;
+	private VectorClock vecClock;
+	
     /**
      * Construtor da Classe
      * @param genRep
      */
-    public TPorter(IPorterGenRep genRep, 
+    public TPorter(
+    			int numIdentities,
+    			int clockIndex,
+    			IPorterGenRep genRep, 
     			IPorterArrivalTerminal arrivalTerminal, 
     			IPorterBaggagePickupZone baggageBeltConveyor, 
     			IPorterTempBaggageStorage baggageStorage) {
@@ -28,6 +35,8 @@ public class TPorter extends Thread {
 		this.baggageBeltConveyor = baggageBeltConveyor;
 		this.baggageStorage 	 = baggageStorage;
 		this.genRep 		 	 = genRep;
+		this.vecClock			 = new VectorClock(numIdentities);
+		
 		try {
 			genRep.registerPorter();
 		} catch (RemoteException e) {
@@ -41,17 +50,27 @@ public class TPorter extends Thread {
      */
     public void run () {		
 
-		EPorterStates state = EPorterStates.WAITING_FOR_A_PLANE_TO_LAND;
+		EPorterStates state 	= EPorterStates.WAITING_FOR_A_PLANE_TO_LAND;
 		EPorterStates nextState = state;
-		Bag currentBag = null;
+		
+		Bag currentBag 	= null;
 		boolean running = true;
+		
+		ClockTuple<Boolean> boolClock;
+		ClockTuple<Bag> 	bagClock;
+		VectorClock 		retClock;
+		
 		while (running) {
 			switch (state) {
 			case WAITING_FOR_A_PLANE_TO_LAND:
 				System.out.println("state = WAITING_FOR_A_PLANE_TO_LAND\n");
 				try {
 					try {
-						if (arrivalTerminal.takeARest())
+						vecClock.increment(clockIndex);
+						boolClock = arrivalTerminal.takeARest(vecClock);
+						vecClock.updateClock(boolClock.getClock());
+						
+						if ( boolClock.getData() )
 							nextState = EPorterStates.AT_THE_PLANES_HOLD;
 						else
 							running = false;
@@ -68,7 +87,11 @@ public class TPorter extends Thread {
 			case AT_THE_PLANES_HOLD:
 				System.out.println("state = AT_THE_PLANES_HOLD\n");
 				try {
-					if ( (currentBag = arrivalTerminal.tryToCollectABag ()) == null) {
+					vecClock.increment(clockIndex);
+					bagBlock = arrivalTerminal.tryToCollectABag (vecClock);
+					vecClock.updateClock(bagClock.getClock());
+					currentBag = bagClock.getData();
+					if ( currentBag == null) {
 						nextState = EPorterStates.AT_THE_LUGGAGE_BELT_CONVEYOR;
 						break;
 					}
@@ -80,7 +103,7 @@ public class TPorter extends Thread {
 				nextState = (currentBag.isInTransit()) ? EPorterStates.AT_THE_STOREROOM : 
 					EPorterStates.AT_THE_LUGGAGE_BELT_CONVEYOR;
 				try {
-					genRep.removeLuggageAtPlane();
+					genRep.removeLuggageAtPlane(vecClock);
 				} catch (RemoteException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -92,7 +115,9 @@ public class TPorter extends Thread {
 				if (currentBag == null) {
 					try {
 						try {
-							baggageBeltConveyor.noMoreBagsToCollect();
+							vecClock.increment(clockIndex);
+							retClock = baggageBeltConveyor.noMoreBagsToCollect(vecClock);
+							vecClock.updateClock(retClock);
 						} catch (RemoteException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -105,9 +130,12 @@ public class TPorter extends Thread {
 					break;
 				}
 				try {
-					if (baggageBeltConveyor.carryItToAppropriateStore (currentBag.getPassNumber()))
+					vecClock.increment(clockIndex);
+					boolClock = baggageBeltConveyor.carryItToAppropriateStore (currentBag.getPassNumber(), vecClock);
+					vecClock.updateClock(boolClock.getClock());
+					if (boolClock.getClock())
 						try {
-							genRep.incLuggageAtCB();
+							genRep.incLuggageAtCB(vecClock);
 						} catch (RemoteException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -123,8 +151,10 @@ public class TPorter extends Thread {
 			case AT_THE_STOREROOM:
 				System.out.println("state = AT_THE_STOREROOM\n");
 				try {
-					baggageStorage.carryItToAppropriateStore (currentBag);
-					genRep.incLuggageAtSR();
+					vecClock.increment(clockIndex);
+					retClock = baggageStorage.carryItToAppropriateStore (currentBag, vecClock);
+					vecClock.updateClock(retClock);
+					genRep.incLuggageAtSR(vecClock);
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
