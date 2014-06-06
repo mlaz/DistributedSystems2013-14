@@ -41,4 +41,6 @@ public interface IPorterGenRep {
      */
     void setPorterAsDead() throws RemoteException;
 
+	void porterWaiting4Plane() throws RemoteException;
+
 }

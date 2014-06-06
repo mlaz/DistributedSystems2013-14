@@ -67,6 +67,7 @@ public class TPorter extends Thread {
 				try {
 					try {
 						vecClock.increment(clockIndex);
+						genRep.porterWaiting4Plane();
 						boolClock = arrivalTerminal.takeARest(vecClock);
 						vecClock.updateClock(boolClock.getClock());
 						

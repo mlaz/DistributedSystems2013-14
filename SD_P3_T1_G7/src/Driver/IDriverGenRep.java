@@ -27,4 +27,6 @@ public interface IDriverGenRep {
      */
     void setDriverAsDead() throws RemoteException;
 
+	void driverWaiting4Plane() throws RemoteException;
+
 }

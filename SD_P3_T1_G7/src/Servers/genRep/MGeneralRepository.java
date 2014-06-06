@@ -3,6 +3,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +40,10 @@ public class MGeneralRepository implements IGenRep {
 	private Lock lock;
 	private Condition porterDead;
 	private Condition driverDead;
+	private Condition ready4NxtPlane;
+	private boolean porterReady;
+	private boolean driverReady;	
+	
 	private BufferedWriter bw;
 	private List<ClockTuple<String>> logEvList;
 
@@ -62,6 +67,8 @@ public class MGeneralRepository implements IGenRep {
 		this.numFlights = numFlights;
 		this.maxBags = maxBags;
     	this.logEvList = new ArrayList<>();
+    	this.porterReady = false;
+    	this.driverReady = false;
 
 		allPassReg = false;
 		//
@@ -85,25 +92,38 @@ public class MGeneralRepository implements IGenRep {
 		lock = new ReentrantLock();
 		porterDead = lock.newCondition();
 		driverDead = lock.newCondition();
+		ready4NxtPlane = lock.newCondition();
 		
 		printHeader();
 	}
     
-    public void planeFinished() {
-    	
-    	Collections.sort(logEvList);
-    	
-    	for (ClockTuple<String> element : logEvList) {
-    		try {
-    			bw.write(element + "\n");
-    		} catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
-    	}
-    	
-    	logEvList = new ArrayList<>();
-    }
+	public void planeFinished() {
+
+		lock.lock();
+		try {
+			while (!(driverReady & porterReady)) {
+				ready4NxtPlane.await();
+			}
+			
+			Collections.sort(logEvList);
+
+			for (ClockTuple<String> element : logEvList) {
+				try {
+					bw.write(element.getData() + "\n");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			logEvList = new ArrayList<>();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} finally {
+			lock.unlock();
+		}
+	}
 
     /**
      *
@@ -482,5 +502,27 @@ public class MGeneralRepository implements IGenRep {
 		} finally {
 			lock.unlock();
 		}
+	}
+
+	@Override
+	public void driverWaiting4Plane() throws RemoteException {
+		lock.lock();
+		try {
+			driverReady = true;
+			ready4NxtPlane.signal();
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	@Override
+	public void porterWaiting4Plane() throws RemoteException {
+		lock.lock();
+		try {
+			porterReady = true;
+			ready4NxtPlane.signal();
+		} finally {
+			lock.unlock();
+		}		
 	}
 }
