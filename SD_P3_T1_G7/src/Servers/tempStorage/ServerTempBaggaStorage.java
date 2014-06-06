@@ -47,10 +47,9 @@ public class ServerTempBaggaStorage {
 		
 		System.out.println("RMI registry located");
 		
-		IGenRep genRep = null;
 		int numEntities = 0;
 		try {
-			genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
+			IGenRep genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
 			numEntities = genRep.getNumPassengers() + 2;
 		} catch ( RemoteException | NotBoundException e1) {
 			// TODO Auto-generated catch block

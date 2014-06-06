@@ -5,6 +5,9 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import Utils.ClockTuple;
+import Utils.VectorClock;
+
 /**
  * 
  */
@@ -21,11 +24,11 @@ public class MBaggagePickupZone implements IBaggagePickupZone {
 	private LinkedList<Integer> conveyourBelt;
 	private Lock lock;
 	private Condition cond;
-
+	private VectorClock vecClock;
     /**
      *
      */
-    public MBaggagePickupZone() {
+    public MBaggagePickupZone(int numEntities) {
 		conveyourBelt = new LinkedList<Integer>();
 		looseNextItem = false;
 		passengersWaiting = 0;
@@ -33,6 +36,7 @@ public class MBaggagePickupZone implements IBaggagePickupZone {
 		currentFlight = 0;
 		lock = new ReentrantLock();
 		cond = lock.newCondition();
+		this.vecClock = new VectorClock(numEntities);
 	}
 
 	/*
@@ -41,19 +45,20 @@ public class MBaggagePickupZone implements IBaggagePickupZone {
 	 * @see IPorterBaggagePickupZone#placeBag(Bag)
 	 */
 	@Override
-	public boolean carryItToAppropriateStore(int passId) {
+	public ClockTuple<Boolean> carryItToAppropriateStore(int passId, VectorClock extClk) {
 		lock.lock();
 		try {
+			vecClock.updateClock(extClk);
 			looseNextItem = !looseNextItem;
 			if (looseNextItem) {
-				return false;
+				return new ClockTuple<Boolean>(false, vecClock);
 			}
 
 			System.out.println("Bag from passenger: " + passId + " droped at BPZ.\n");
 			conveyourBelt.add((Integer) passId);
 			// waitingForBags = true;
 			cond.signalAll();
-			return true;
+			return new ClockTuple<Boolean>(true, vecClock);
 		} finally {
 			lock.unlock();
 		}
@@ -65,9 +70,10 @@ public class MBaggagePickupZone implements IBaggagePickupZone {
 	 * @see IPorterBaggagePickupZone#noMoreBags()
 	 */
 	@Override
-	public void noMoreBagsToCollect() throws InterruptedException {
+	public VectorClock noMoreBagsToCollect(VectorClock extClk) throws InterruptedException {
 		lock.lock();
 		try {
+			vecClock.updateClock(extClk);
 			System.out.println("no more bags\n");
 			waitingForBags = false;
 			cond.signalAll();
@@ -78,6 +84,8 @@ public class MBaggagePickupZone implements IBaggagePickupZone {
 			}
 			waitingForBags = true;
 			currentFlight++;
+			
+			return vecClock;
 		} finally {
 			lock.unlock();
 		}
@@ -89,11 +97,12 @@ public class MBaggagePickupZone implements IBaggagePickupZone {
 	 * @see IPassengerBaggageCollectionPoint#tryToCollectABag(int)
 	 */
 	@Override
-	public boolean tryToCollectABag(int passengerNumber, int flightNum) throws InterruptedException {
+	public ClockTuple<Boolean> tryToCollectABag(int passengerNumber, int flightNum, VectorClock extClk) throws InterruptedException {
 		lock.lock();
 		try {
+			vecClock.updateClock(extClk);
 			if (currentFlight != flightNum) {
-				return false;
+				return new ClockTuple<Boolean>(false, vecClock);
 			}
 
 			passengersWaiting++;
@@ -111,7 +120,7 @@ public class MBaggagePickupZone implements IBaggagePickupZone {
 						if (passengersWaiting == 0) {
 							cond.signal();
 						}
-						return true;
+						return new ClockTuple<Boolean>(true, vecClock);
 					}
 				cond.await();
 			}
@@ -121,7 +130,7 @@ public class MBaggagePickupZone implements IBaggagePickupZone {
 				cond.signal();
 			}
 			// System.out.println("passengersWaiting: "+passengersWaiting);
-			return false;
+			return new ClockTuple<Boolean>(false, vecClock);
 		} finally {
 			lock.unlock();
 		}
