@@ -64,7 +64,7 @@ public class ClientDriver {
 			e1.printStackTrace();
 			System.exit(1);
 		}
-		int clockIndex    = numIdentities - 2;
+		int clockIndex    = 0;
 		TDriver driver = new TDriver(numIdentities, clockIndex, (IDriverGenRep)genRep, arrivalTerminalTransferZone, bus);
 		driver.start();
 		
