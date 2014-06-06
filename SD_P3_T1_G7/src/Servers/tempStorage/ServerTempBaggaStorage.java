@@ -48,8 +48,10 @@ public class ServerTempBaggaStorage {
 		System.out.println("RMI registry located");
 		
 		IGenRep genRep = null;
+		int numEntities = 0;
 		try {
 			genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
+			numEntities = genRep.getNumPassengers() + 2;
 		} catch ( RemoteException | NotBoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -57,14 +59,7 @@ public class ServerTempBaggaStorage {
 		}
 		
 		/* establecer o serviço */
-		MTempBaggageStorage tempStorage = null;
-		try {
-			tempStorage = new MTempBaggageStorage(genRep.getNumPassengers()+2);
-		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
-			System.exit(1);
-			e1.printStackTrace();
-		}
+		MTempBaggageStorage tempStorage = new MTempBaggageStorage(numEntities);
 		
 		ITempStorage tempStorageInter   = null;
 		
