@@ -88,7 +88,7 @@ public class TPorter extends Thread {
 				System.out.println("state = AT_THE_PLANES_HOLD\n");
 				try {
 					vecClock.increment(clockIndex);
-					bagBlock = arrivalTerminal.tryToCollectABag (vecClock);
+					bagClock = arrivalTerminal.tryToCollectABag (vecClock);
 					vecClock.updateClock(bagClock.getClock());
 					currentBag = bagClock.getData();
 					if ( currentBag == null) {
@@ -133,7 +133,7 @@ public class TPorter extends Thread {
 					vecClock.increment(clockIndex);
 					boolClock = baggageBeltConveyor.carryItToAppropriateStore (currentBag.getPassNumber(), vecClock);
 					vecClock.updateClock(boolClock.getClock());
-					if (boolClock.getClock())
+					if (boolClock.getData())
 						try {
 							genRep.incLuggageAtCB(vecClock);
 						} catch (RemoteException e) {
@@ -165,7 +165,7 @@ public class TPorter extends Thread {
 			}	
 			state = nextState;
 			try {
-				genRep.updatePorterState(state);
+				genRep.updatePorterState(state, vecClock);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

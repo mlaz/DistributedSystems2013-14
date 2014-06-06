@@ -3,6 +3,8 @@ package Porter;
 import java.rmi.RemoteException;
 
 import Utils.Bag;
+import Utils.ClockTuple;
+import Utils.VectorClock;
 
 /**
  *  IPorteArrivalTerminal - interface
@@ -16,15 +18,17 @@ public interface IPorterArrivalTerminal {
 
     /**
      *
+     * @param vecClock 
      * @return
      * @throws InterruptedException
      */
-    public boolean takeARest () throws InterruptedException, RemoteException;
+    public ClockTuple<Boolean> takeARest (VectorClock vecClock) throws InterruptedException, RemoteException;
 
     /**
      *
+     * @param vecClock 
      * @return
      */
-    public Bag tryToCollectABag () throws RemoteException;
+    public ClockTuple<Bag> tryToCollectABag (VectorClock vecClock) throws RemoteException;
 
 }
