@@ -1,10 +1,12 @@
 package Servers.baggageReclaimGuichet;
 
 import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+import Servers.genRep.IGenRep;
 import Utils.RmiUtils;
 
 /**
@@ -46,8 +48,18 @@ public class ServerBaggageReclaimGuichet {
 		
 		System.out.println("RMI registry located");
 		
+		IGenRep genRep;
+		int numEntities = 0;
+		try {
+			genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
+			numEntities = genRep.getNumPassengers() + 2;
+		} catch ( RemoteException | NotBoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		/* establecer o serviço */
-		MBaggageReclaimGuichet baggageReclaim = new MBaggageReclaimGuichet();
+		MBaggageReclaimGuichet baggageReclaim = new MBaggageReclaimGuichet(numEntities);
 		IBaggageReclaimGuichet baggageReclaimInter   = null;
 		
 		try {
