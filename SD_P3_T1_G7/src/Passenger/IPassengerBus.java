@@ -2,6 +2,9 @@ package Passenger;
 
 import java.rmi.RemoteException;
 
+import Utils.ClockTuple;
+import Utils.VectorClock;
+
 /**
  * 
  */
@@ -14,18 +17,21 @@ public interface IPassengerBus {
 
 	/**
      * @param passNum
+	 * @param vecClock 
 	 * @return 
 	 * @throws InterruptedException 
 	 * 
 	 */
-	boolean enterTheBus(int passNum) throws InterruptedException, RemoteException;
+	ClockTuple<Boolean> enterTheBus(int passNum, VectorClock vecClock) throws InterruptedException, RemoteException;
 	
 	/**
      * @param passNum
+	 * @param vecClock 
+	 * @return 
 	 * @throws InterruptedException 
 	 * 
 	 */
-	void leaveTheBus(int passNum) throws InterruptedException, RemoteException;
+	VectorClock leaveTheBus(int passNum, VectorClock vecClock) throws InterruptedException, RemoteException;
 	
 
 	
