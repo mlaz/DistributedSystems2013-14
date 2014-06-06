@@ -1,10 +1,13 @@
 package Servers.departureTerminalEntrance;
+
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 /**
  * 
  */
+
+import Utils.VectorClock;
 
 /**
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
@@ -15,16 +18,18 @@ public class MDepartureTerminalEntrance implements IDepartureTerminalEntrance {
 	private int totalPassengers;
 	private Lock lock;
 	private Condition cond;
-
+	private VectorClock vecClock;
+	
     /**
      *
      * @param totalPassengers
      */
-    public MDepartureTerminalEntrance (int totalPassengers) {
+    public MDepartureTerminalEntrance (int totalPassengers, int numEntities) {
 		remainingPassengers = caclNumPassengers(totalPassengers);
 		this.totalPassengers = totalPassengers;
 		lock = new ReentrantLock();
 		cond = lock.newCondition();
+		this.vecClock = new VectorClock ( numEntities ); 
 	}
 	
 	/**
@@ -48,9 +53,10 @@ public class MDepartureTerminalEntrance implements IDepartureTerminalEntrance {
      *
      * @throws InterruptedException
      */
-    public void prepareNextLeg() throws InterruptedException {
+    public VectorClock prepareNextLeg(VectorClock extClk) throws InterruptedException {
 		lock.lock();
 		try {
+			vecClock.updateClock(extClk);
 			remainingPassengers--;
 			
 			if (remainingPassengers > 0) {
@@ -59,6 +65,7 @@ public class MDepartureTerminalEntrance implements IDepartureTerminalEntrance {
 				remainingPassengers = caclNumPassengers(totalPassengers);
 				cond.signalAll();
 			}
+			return vecClock;
 		} finally {
 			lock.unlock();
 		}
