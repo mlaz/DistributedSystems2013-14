@@ -1,10 +1,13 @@
 package Servers.tempStorage;
 
+
 import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+import Servers.genRep.IGenRep;
 import Utils.RmiUtils;
 
 /**
@@ -44,8 +47,25 @@ public class ServerTempBaggaStorage {
 		
 		System.out.println("RMI registry located");
 		
+		IGenRep genRep = null;
+		try {
+			genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
+		} catch ( RemoteException | NotBoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.exit(1);
+		}
+		
 		/* establecer o serviço */
-		MTempBaggageStorage tempStorage = new MTempBaggageStorage();
+		MTempBaggageStorage tempStorage = null;
+		try {
+			tempStorage = new MTempBaggageStorage(genRep.getNumPassengers()+2);
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			System.exit(1);
+			e1.printStackTrace();
+		}
+		
 		ITempStorage tempStorageInter   = null;
 		
 		try {
