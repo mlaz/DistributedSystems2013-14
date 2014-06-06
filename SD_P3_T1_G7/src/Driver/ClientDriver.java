@@ -14,7 +14,7 @@ import Utils.RmiUtils;
  */
 public class ClientDriver {
 
-	final static String usage = "Usage: java ClientDriver [genRepName] [genRepPort]";
+	final static String usage = "Usage: java ClientDriver [RMIRegName] [RMIRegPort]";
 			
     /**
      *
@@ -56,16 +56,16 @@ public class ClientDriver {
 			e1.printStackTrace();
 		}
 
-		int numIdentities = 0;
+		int numEntities = 0;
 		try {
-			numIdentities = genRep.getNumPassengers() + 2;
+			numEntities = genRep.getNumPassengers() + 2;
 		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			System.exit(1);
 		}
 		int clockIndex    = 0;
-		TDriver driver = new TDriver(numIdentities, clockIndex, (IDriverGenRep)genRep, arrivalTerminalTransferZone, bus);
+		TDriver driver = new TDriver(numEntities, clockIndex, (IDriverGenRep)genRep, arrivalTerminalTransferZone, bus);
 		driver.start();
 		
 		try {

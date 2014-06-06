@@ -70,17 +70,8 @@ public class ServerDepartureTerminalEntrance {
 			e.printStackTrace();
 		}
 		
-		int numEntities = 0;
-		try {
-			numEntities = genRep.getNumPassengers()+2;
-		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.exit(1);
-		}
-		
 		/* establecer o serviço */
-		MDepartureTerminalEntrance DepartureTerminalEntrance = new MDepartureTerminalEntrance(numPassengers, numEntities);
+		MDepartureTerminalEntrance DepartureTerminalEntrance = new MDepartureTerminalEntrance(numPassengers, numPassengers + 2);
 		IDepartureTerminalEntrance DepartureTerminalEntranceInter = null;
 		try {
 			DepartureTerminalEntranceInter = (IDepartureTerminalEntrance) UnicastRemoteObject.exportObject(DepartureTerminalEntrance, portNumber);

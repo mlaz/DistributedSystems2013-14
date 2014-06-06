@@ -1,10 +1,13 @@
 package Servers.baggagePickupZone;
 
+import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+import Servers.genRep.IGenRep;
 import Utils.RmiUtils;
 
 /**
@@ -44,9 +47,23 @@ public class ServerBaggagePickupZone {
 		
 		System.out.println("RMI registry located");
 		
+		int numEntities = 0;
+		try {
+			IGenRep genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
+			numEntities = genRep.getNumPassengers() + 2;
+		} catch (AccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NotBoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		/* establecer o serviço */
-		MBaggagePickupZone baggagePickupZone = new MBaggagePickupZone();
+		MBaggagePickupZone baggagePickupZone = new MBaggagePickupZone(numEntities);
 		IBaggagePickupZone baggagePickupInter = null;
 		
 		try {
