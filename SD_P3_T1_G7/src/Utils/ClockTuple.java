@@ -1,6 +1,13 @@
 package Utils;
 
-public class ClockTuple<T> implements Comparable<ClockTuple> {
+import java.io.Serializable;
+
+public class ClockTuple<T> implements Comparable<ClockTuple>, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -893972544712953603L;
+	
 	private T data;
 	private VectorClock clock;
 	

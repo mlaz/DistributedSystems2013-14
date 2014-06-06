@@ -1,6 +1,13 @@
 package Utils;
 
-public class VectorClock implements Comparable<VectorClock> {
+import java.io.Serializable;
+
+public class VectorClock implements Comparable<VectorClock>, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3963949565814453628L;
+	
 	private int[] clock;
 	
 	public VectorClock(int size) {
