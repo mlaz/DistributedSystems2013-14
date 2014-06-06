@@ -63,8 +63,6 @@ public class ClientPassengers {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-//		genRepInfo = new ServerInfo( Integer.parseInt(args[1]), args[0] );
-//		IPassengerGenRep genRep  = new CommPassGenRep( genRepInfo );
 		
 		int N = 0;
         int M = 0;

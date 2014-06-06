@@ -23,10 +23,10 @@ public class MTempBaggageStorage implements ITempStorage {
 	/**
 	 * @param currentBag
 	 */
-	public synchronized void carryItToAppropriateStore(Bag currentBag) {
+	public void carryItToAppropriateStore(Bag currentBag) {
 		lock.lock();
 		try {
-			storedBags++;
+			storedBags = storedBags + 1;
 
 			// System.out.println("Bag from passenger: " + currentBag.getPassNumber() + " stored.\n");
 		} finally {
