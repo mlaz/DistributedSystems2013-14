@@ -2,6 +2,9 @@ package Passenger;
 
 import java.rmi.RemoteException;
 
+import Utils.ClockTuple;
+import Utils.VectorClock;
+
 /**
  * 
  */
@@ -25,6 +28,9 @@ public class TPassenger extends Thread {
 	private int remainingBags;
 	private boolean inTransit;
 
+	private VectorClock vecClock;
+	private int clockIndex;
+	
     /**
      * Construtor da classe
      * @param passengerNumber
@@ -37,6 +43,8 @@ public class TPassenger extends Thread {
     		int remainingBags, 
 			boolean inTransit,
 			int flightNumber,
+			int numIdentities,	//to initialize the vector clock
+			int clockIndex,		//index in the clock
 			IPassengerGenRep genRep,
 			IPassengerArrivalTerminal arrivalTerminal,
     		IPassengerBaggageCollectionPoint luggageCollectionPoint,
@@ -45,7 +53,8 @@ public class TPassenger extends Thread {
     		IPassengerDepartureTerminalEntrance departureTerminalEntrace,
     		IPassengerBus bus) {
 		this.genRep = genRep;
-		
+		this.vecClock = new VectorClock(numIdentities);
+		this.clockIndex = clockIndex;
 		this.passengerNumber = passengerNumber;
 		if (remainingBags < 0)
 			remainingBags = 0;
@@ -74,12 +83,16 @@ public class TPassenger extends Thread {
 		EPassengerStates state = EPassengerStates.AT_THE_DISEMBARKING_ZONE;
 		EPassengerStates nextState = state;
 		boolean running = true;
+		VectorClock retClock = null;
+		ClockTuple<Boolean> clockBool = null;
 		while (running) {
 			switch (state) {
 			case AT_THE_DISEMBARKING_ZONE:
 				System.out.println("PassengerNumber" + passengerNumber + " AT_THE_DISEMBARKING_ZONE\n");
 				try {
-					this.arrivalTerminal.whatSouldIDo(passengerNumber);
+					vecClock.increment(clockIndex);
+					retClock = this.arrivalTerminal.whatSouldIDo(passengerNumber, vecClock);
+					vecClock.updateClock(retClock);	
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -99,10 +112,17 @@ public class TPassenger extends Thread {
 				break;
 				
 			case AT_THE_LUGGAGE_COLLECTION_POINT:
+
 				System.out.println("PassengerNumber" + passengerNumber + " AT_THE_LUGGAGE_COLLECTION_POINT\n");
 				try {
 					
-					while ( (remainingBags > 0) && luggageCollectionPoint.tryToCollectABag(passengerNumber, flightNumber) ) {
+					while (remainingBags > 0) {
+						vecClock.increment(clockIndex);
+						clockBool = luggageCollectionPoint.tryToCollectABag(passengerNumber, flightNumber, vecClock);
+						vecClock.updateClock(clockBool.getClock());
+						if( !clockBool.getData() ) {
+							break;
+						}
 						remainingBags--;
 						genRep.gotLuggage(passengerNumber);
 						System.out.println("Passenger #" + passengerNumber + " just got a bag\n");
@@ -125,7 +145,9 @@ public class TPassenger extends Thread {
 			case AT_THE_BAGGAGE_RECLAIM_OFFICE:
 				System.out.println("PassengerNumber" + passengerNumber + " AT_THE_BAGGAGE_RECLAIM_OFFICE\n");
 				try {
-					baggageReclaimOffice.reclaimBags(passengerNumber);
+					vecClock.increment(clockIndex);
+					retClock = baggageReclaimOffice.reclaimBags(passengerNumber, vecClock);
+					vecClock.updateClock(retClock);
 				} catch (RemoteException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -135,7 +157,9 @@ public class TPassenger extends Thread {
 			case EXITING_THE_ARRIVAL_TERMINAL:
 				System.out.println("PassengerNumber" + passengerNumber + " EXITING_THE_ARRIVAL_TERMINAL\n");
 				try {
-					arrivalTerminalExit.goHome(passengerNumber);
+					vecClock.increment(clockIndex);
+					retClock = arrivalTerminalExit.goHome(passengerNumber, vecClock);
+					vecClock.updateClock(retClock);
 				} catch (RemoteException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -147,7 +171,9 @@ public class TPassenger extends Thread {
 				System.out.println(passengerNumber + " AT_THE_ARRIVAL_TRANSFER_TERMINAL\n");
 				try {
 					try {
-						arrivalTerminalExit.takeABus(passengerNumber);
+						vecClock.increment(clockIndex);
+						retClock = arrivalTerminalExit.takeABus(passengerNumber, vecClock);
+						vecClock.updateClock(retClock);
 					} catch (RemoteException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -163,7 +189,10 @@ public class TPassenger extends Thread {
 				System.out.println(passengerNumber + " TERMINAL_TRANSFER\n");
 
 				try {
-					if(!bus.enterTheBus(passengerNumber))
+					vecClock.increment(clockIndex);
+					clockBool = bus.enterTheBus(passengerNumber, vecClock);
+					vecClock.updateClock(clockBool.getClock());
+					if(!clockBool.getData())
 						nextState = EPassengerStates.AT_THE_ARRIVAL_TRANSFER_TERMINAL;
 					else
 						nextState = EPassengerStates.AT_THE_DEPARTURE_TRANSFER_TERMINAL;
@@ -179,7 +208,9 @@ public class TPassenger extends Thread {
 
 				try {
 					try {
-						bus.leaveTheBus(passengerNumber);
+						vecClock.increment(clockIndex);
+						retClock = bus.leaveTheBus(passengerNumber, vecClock);
+						vecClock.updateClock(retClock);
 					} catch (RemoteException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -195,7 +226,9 @@ public class TPassenger extends Thread {
 				System.out.println(passengerNumber + " ENTERING_THE_DEPARTURE_TERMINAL\n");
 				try {
 				    try {
-						departureTerminalEntrace.prepareNextLeg();
+				    	vecClock.increment(clockIndex);
+						retClock = departureTerminalEntrace.prepareNextLeg(vecClock);
+						vecClock.updateClock(retClock);
 					} catch (RemoteException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -210,7 +243,7 @@ public class TPassenger extends Thread {
 			state = nextState;
 			if (running)
 				try {
-					genRep.setPassengerStat(passengerNumber, state);
+					genRep.setPassengerStat(passengerNumber, state, vecClock);
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
