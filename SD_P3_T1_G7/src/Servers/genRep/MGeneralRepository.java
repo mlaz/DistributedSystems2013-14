@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -12,6 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import Driver.EDriverStates;
 import Passenger.EPassengerStates;
 import Porter.EPorterStates;
+import Utils.ClockTuple;
 import Utils.VectorClock;
 
 /**
@@ -38,7 +40,7 @@ public class MGeneralRepository implements IGenRep {
 	private Condition porterDead;
 	private Condition driverDead;
 	private BufferedWriter bw;
-	private List<String> logEvList;
+	private List<ClockTuple<String>> logEvList;
 
     /**
      *
@@ -59,7 +61,7 @@ public class MGeneralRepository implements IGenRep {
 		this.busWaitTime = busWaitTime;
 		this.numFlights = numFlights;
 		this.maxBags = maxBags;
-    	this.logEvList = new ArrayList<String>();
+    	this.logEvList = new ArrayList<>();
 
 		allPassReg = false;
 		//
@@ -88,7 +90,10 @@ public class MGeneralRepository implements IGenRep {
 	}
     
     public void planeFinished() {
-    	for (String element : logEvList) {
+    	
+    	Collections.sort(logEvList);
+    	
+    	for (ClockTuple<String> element : logEvList) {
     		try {
     			bw.write(element + "\n");
     		} catch (IOException e) {
@@ -96,8 +101,8 @@ public class MGeneralRepository implements IGenRep {
     			e.printStackTrace();
     		}
     	}
-    	logEvList = new ArrayList<String>();
     	
+    	logEvList = new ArrayList<>();
     }
 
     /**
@@ -164,7 +169,7 @@ public class MGeneralRepository implements IGenRep {
 			for (int i = 0; i < passengers.length; i++)
 				s += passengers[i].toString();
 
-		logEvList.add(s);
+		logEvList.add( new ClockTuple<String>(s, clk));
 	}
 
 	/* porter */
