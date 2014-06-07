@@ -1,9 +1,12 @@
 package Servers.departureTerminalEntrance;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -17,58 +20,50 @@ import Utils.RmiUtils;
  */
 public class ServerDepartureTerminalEntrance {
 	private static final int portNumber = 22166;
-	private static final String usage = "Usage: java ServerDepartureTerminalEntrance [RMIRegName] [RMIRegPort]";
+	private static final String usage = "Usage: java -jar RMIDepartureTerminalEntrance [genRepRegistryName]";
 
     /**
      *
      * @param args
      */
     public static void main(String[] args) {
-		if (args.length != 2) {
+		if (args.length != 1) {
 			System.out.println(usage);
-			// System.exit(1);
-			args = new String[2];
+			args = new String[1];
 			args[0] = "localhost";
-			args[1] = "22168";
 		}
 		
-		/* get the RMI registry */
-		Registry rmiReg = null;
+
+		Registry genRepRegistry = null;
 		try {
-			rmiReg = RmiUtils.getRMIReg( args[0], Integer.parseInt(args[1]), usage );
-		} catch (NumberFormatException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} catch (RemoteException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
+			genRepRegistry = LocateRegistry.getRegistry(args[0], RmiUtils.rmiPort);
+		} catch( RemoteException e ) {
+			System.err.println( "Error accessing the RMI registry: " + e.getMessage() );
+			e.printStackTrace();
+			System.exit(1);
 		}
-		System.out.println("RMI registry located");
-		
+		System.out.println( "GenRep RMI registry accessed" );
+
 		IGenRep genRep = null;
+		int numPassengers = 0;
 		try {
-			genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
+			genRep = (IGenRep) genRepRegistry.lookup(RmiUtils.genRepId);
+			numPassengers = genRep.getNumPassengers();
 		} catch (AccessException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.exit(1);
 		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.exit(1);
 		} catch (NotBoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.exit(1);
 		}
 		
 		System.out.println("GenRep accessed");
-		
-		/* obter parametros do problema */			
-		int numPassengers = 0;
-		try {
-			numPassengers = genRep.getNumPassengers();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		/* establecer o serviço */
 		MDepartureTerminalEntrance DepartureTerminalEntrance = new MDepartureTerminalEntrance(numPassengers, numPassengers + 2);
@@ -83,8 +78,18 @@ public class ServerDepartureTerminalEntrance {
 		
 		System.out.println( "Departure Terminal Entrance stub created" );
 		
+		Registry registry = null;
 		try {
-			genRep.bind(RmiUtils.departureTerminalEntraceZoneId, DepartureTerminalEntranceInter);
+			registry = LocateRegistry.getRegistry(RmiUtils.rmiPort);
+		} catch( RemoteException e ) {
+			System.err.println( "Error accessing the RMI registry: " + e.getMessage() );
+			e.printStackTrace();
+			System.exit(1);
+		}
+		System.out.println( "Local RMI registry accessed" );
+		
+		try {
+			registry.bind(RmiUtils.departureTerminalEntraceZoneId, DepartureTerminalEntranceInter);
 		} catch (RemoteException | AlreadyBoundException e) {
 			System.err.println("Error binding the DepartureTerminalEntrace to the RMI registry");
 			e.printStackTrace();
@@ -92,6 +97,14 @@ public class ServerDepartureTerminalEntrance {
 		}
 		
         System.out.println("Departure Terminal Entrance binded to RMI registry (port "+portNumber+")");
+        
+        try {
+			genRep.registerService(RmiUtils.arrivalTerminalId, InetAddress.getLocalHost().getHostName(), portNumber);
+		} catch (RemoteException | UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
         System.out.println("Ready");
 
 	}
