@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -15,6 +17,7 @@ import Driver.EDriverStates;
 import Passenger.EPassengerStates;
 import Porter.EPorterStates;
 import Utils.ClockTuple;
+import Utils.HostPort;
 import Utils.VectorClock;
 
 /**
@@ -46,6 +49,8 @@ public class MGeneralRepository implements IGenRep {
 	
 	private BufferedWriter bw;
 	private List<ClockTuple<String>> logEvList;
+	
+	private Map<String, HostPort> services;
 
     /**
      *
@@ -69,7 +74,8 @@ public class MGeneralRepository implements IGenRep {
     	this.logEvList = new ArrayList<>();
     	this.porterReady = false;
     	this.driverReady = false;
-
+    	this.services = new HashMap<>();
+    	
 		allPassReg = false;
 		//
 		File file = new File(path);
@@ -524,5 +530,14 @@ public class MGeneralRepository implements IGenRep {
 		} finally {
 			lock.unlock();
 		}		
+	}
+
+	@Override
+	public void registerService(String serviceName, String hostName, int portNumber) throws RemoteException {
+		services.put(serviceName, new HostPort(hostName, portNumber));
+	}
+	
+	public HostPort getServiceLocation(String serviceName) throws RemoteException {
+		return services.get(serviceName);
 	}
 }
