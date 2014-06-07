@@ -84,7 +84,7 @@ public class ServerDepartureTerminalEntrance {
 		System.out.println( "Departure Terminal Entrance stub created" );
 		
 		try {
-			rmiReg.bind(RmiUtils.departureTerminalEntraceZoneId, DepartureTerminalEntranceInter);
+			genRep.bind(RmiUtils.departureTerminalEntraceZoneId, DepartureTerminalEntranceInter);
 		} catch (RemoteException | AlreadyBoundException e) {
 			System.err.println("Error binding the DepartureTerminalEntrace to the RMI registry");
 			e.printStackTrace();
