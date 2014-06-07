@@ -30,5 +30,7 @@ IPorterGenRep, IBusGenRep, IArrivalTerminalExitGenRep, Remote {
 	
 	int getBusWaitTime() throws RemoteException;
 	
-	void registerService(String serviceName, String hostname, int portNumber) throws RemoteException;
+	void registerService(String serviceName, String hostname) throws RemoteException;
+	
+	String getServiceLocation(String serviceName) throws RemoteException;
 }

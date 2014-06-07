@@ -17,7 +17,6 @@ import Driver.EDriverStates;
 import Passenger.EPassengerStates;
 import Porter.EPorterStates;
 import Utils.ClockTuple;
-import Utils.HostPort;
 import Utils.VectorClock;
 
 /**
@@ -50,7 +49,7 @@ public class MGeneralRepository implements IGenRep {
 	private BufferedWriter bw;
 	private List<ClockTuple<String>> logEvList;
 	
-	private Map<String, HostPort> services;
+	private Map<String, String> services;
 
     /**
      *
@@ -533,12 +532,12 @@ public class MGeneralRepository implements IGenRep {
 	}
 
 	@Override
-	public void registerService(String serviceName, String hostName, int portNumber) throws RemoteException {
-		services.put(serviceName, new HostPort(hostName, portNumber));
-		System.out.println(serviceName + " registered at " + hostName + ":" + portNumber);
+	public void registerService(String serviceName, String hostName) throws RemoteException {
+		services.put(serviceName, hostName);
+		System.out.println(serviceName + " registered at " + hostName);
 	}
 	
-	public HostPort getServiceLocation(String serviceName) throws RemoteException {
+	public String getServiceLocation(String serviceName) throws RemoteException {
 		return services.get(serviceName);
 	}
 }
