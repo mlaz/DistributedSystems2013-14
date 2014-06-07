@@ -14,7 +14,7 @@ import Utils.RmiUtils;
  */
 public class ClientPorter {
 
-	final static String usage = "Usage: java ClientPorter [genRepName] [genRepPort]";
+	final static String usage = "Usage: java ClientPorter [RMIRegName] [RMIRegPort]";
     /**
      *
      * @param args [genRepName] [genRepPort]
