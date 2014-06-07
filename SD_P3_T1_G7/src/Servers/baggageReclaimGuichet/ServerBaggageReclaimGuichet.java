@@ -50,8 +50,9 @@ public class ServerBaggageReclaimGuichet {
 		
 		
 		int numEntities = 0;
+		IGenRep genRep = null;
 		try {
-			IGenRep genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
+			genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
 			numEntities = genRep.getNumPassengers() + 2;
 		} catch ( RemoteException | NotBoundException e1) {
 			// TODO Auto-generated catch block
@@ -73,7 +74,7 @@ public class ServerBaggageReclaimGuichet {
 		System.out.println("BaggageReclameGuichet stub created");
 		
 		try {
-			rmiReg.bind(RmiUtils.baggageReclaimGuichetId, baggageReclaimInter);
+			genRep.bind(RmiUtils.baggageReclaimGuichetId, baggageReclaimInter);
 		} catch (RemoteException | AlreadyBoundException e) {
 			System.err.println("Error binding the BaggageReclaimGuichet to the RMI registry");
 			e.printStackTrace();
