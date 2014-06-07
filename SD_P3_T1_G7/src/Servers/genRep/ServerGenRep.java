@@ -1,5 +1,7 @@
 package Servers.genRep;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -73,7 +75,14 @@ public class ServerGenRep {
 			e.printStackTrace();
 			System.exit(1);
 		}		
-				
+		
+		try {
+			System.out.println(InetAddress.getLocalHost().getHostName());
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		System.out.println( "GenRep stub created" );
 		
 		try {
