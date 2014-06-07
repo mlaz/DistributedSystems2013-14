@@ -15,7 +15,7 @@ import Utils.RmiUtils;
  */
 public class ClientPassengers {
 	
-	final static String usage = "Usage: java ClientPassengers [genRepName] [genRepPort]";
+	final static String usage = "Usage: java ClientPassengers [RMIRegName] [RMIRegPort]";
     /**
      *
      * @param args  [genRepName] [genRepPort]
