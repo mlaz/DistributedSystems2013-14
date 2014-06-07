@@ -20,14 +20,14 @@ public class RmiUtils {
 	
 	public static final int rmiPort = 22168;	//rmi port for ALL servers
 	
-	public static Registry getRMIReg( String hostname, int port, String usage ) throws RemoteException {
+	public static Registry getRMIReg( String hostname, String usage ) throws RemoteException {
     	Registry rmiReg 	  = null;
     	boolean registered 	  = true;
     	int remainingAttempts = maxAttempts;
     	
 		do {
 			try {
-				rmiReg = LocateRegistry.getRegistry(hostname, port);	
+				rmiReg = LocateRegistry.getRegistry(hostname, rmiPort);	
 			} catch (NumberFormatException e) {
 				System.err.println("The third argument isn't a valid port");
 				System.out.println(usage);
