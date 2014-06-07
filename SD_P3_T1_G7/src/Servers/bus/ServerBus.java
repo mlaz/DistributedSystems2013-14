@@ -103,7 +103,7 @@ public class ServerBus {
         System.out.println("Bus binded to RMI registry (port " + portNumber + ")");
 
         try {
-			genRep.registerService(RmiUtils.busId, InetAddress.getLocalHost().getHostName(), portNumber);
+			genRep.registerService(RmiUtils.busId, InetAddress.getLocalHost().getHostName());
 		} catch (RemoteException | UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

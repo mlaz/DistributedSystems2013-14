@@ -3,6 +3,7 @@ package Porter;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import Servers.genRep.IGenRep;
@@ -14,7 +15,7 @@ import Utils.RmiUtils;
  */
 public class ClientPorter {
 
-	final static String usage = "Usage: java ClientPorter [RMIRegName] [RMIRegPort]";
+	final static String usage = "Usage: java -jar RMIPorter [genRepRegistryName]";
     /**
      *
      * @param args [genRepName] [genRepPort]
@@ -27,6 +28,16 @@ public class ClientPorter {
 			args[0] = "localhost";
 			args[1] = "22168";
 		}
+		
+		Registry genRepRegistry = null;
+		try {
+			genRepRegistry = LocateRegistry.getRegistry(args[0], RmiUtils.rmiPort);
+		} catch( RemoteException e ) {
+			System.err.println( "Error accessing the RMI registry: " + e.getMessage() );
+			e.printStackTrace();
+			System.exit(1);
+		}
+		System.out.println( "GenRep RMI registry accessed" );
 		
 		Registry reg = null;
 		try {

@@ -19,7 +19,7 @@ import Utils.RmiUtils;
  */
 public class ServerArrivalTerminal {
 	private static int portNumber = 22161;
-	private static String usage = "Usage: java ServerArrivalTerminal [genRepRegistryName]";
+	private static String usage = "Usage: java -jar RMIArrivalTerminal [genRepRegistryName]";
 	
     /**
      *
@@ -110,7 +110,7 @@ public class ServerArrivalTerminal {
         System.out.println("Arrival Terminal binded to RMI registry (port " + portNumber + ")");
         
         try {
-			genRep.registerService(RmiUtils.arrivalTerminalId, InetAddress.getLocalHost().getHostName(), portNumber);
+			genRep.registerService(RmiUtils.arrivalTerminalId, InetAddress.getLocalHost().getHostName());
 		} catch (RemoteException | UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
