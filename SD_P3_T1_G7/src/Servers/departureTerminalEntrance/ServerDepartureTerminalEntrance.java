@@ -99,7 +99,7 @@ public class ServerDepartureTerminalEntrance {
         System.out.println("Departure Terminal Entrance binded to RMI registry (port "+portNumber+")");
         
         try {
-			genRep.registerService(RmiUtils.arrivalTerminalId, InetAddress.getLocalHost().getHostName(), portNumber);
+			genRep.registerService(RmiUtils.departureTerminalEntraceZoneId, InetAddress.getLocalHost().getHostName(), portNumber);
 		} catch (RemoteException | UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

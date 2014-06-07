@@ -100,7 +100,7 @@ public class ServerTempBaggaStorage {
 		System.out.println("Temporary Baggage Storage binded to RMI registry (port "+portNumber+")");
 
 		try {
-			genRep.registerService(RmiUtils.arrivalTerminalId, InetAddress.getLocalHost().getHostName(), portNumber);
+			genRep.registerService(RmiUtils.tempStorageId, InetAddress.getLocalHost().getHostName(), portNumber);
 		} catch (RemoteException | UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
