@@ -76,13 +76,6 @@ public class ServerGenRep {
 			System.exit(1);
 		}		
 		
-		try {
-			System.out.println(InetAddress.getLocalHost().getHostName());
-		} catch (UnknownHostException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
 		System.out.println( "GenRep stub created" );
 		
 		try {
