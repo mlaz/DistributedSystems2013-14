@@ -19,7 +19,7 @@ import Utils.RmiUtils;
  */
 public class ServerBaggagePickupZone {
 	private static int portNumber = 22164;
-	private static String usage = "Usage: java ServerArrivalTerminal [RMIRegName] [RMIRegPort]";
+	private static String usage = "Usage: java -jar RMArrivalTerminalExit [genRepRegistryName]";
 
     /**
      *
@@ -94,7 +94,7 @@ public class ServerBaggagePickupZone {
 		
 		System.out.println("Baggage Pickup Zone binded to RMI registry (port " + portNumber + ")");
 		 try {
-				genRep.registerService(RmiUtils.baggagePickupZoneId, InetAddress.getLocalHost().getHostName(), portNumber);
+				genRep.registerService(RmiUtils.baggagePickupZoneId, InetAddress.getLocalHost().getHostName());
 			} catch (RemoteException | UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

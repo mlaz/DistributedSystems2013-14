@@ -18,7 +18,7 @@ import Utils.RmiUtils;
  */
 public class ServerBaggageReclaimGuichet {
 	private static final int portNumber = 22165;
-	private static final String usage = "Usage: java ServerBaggageReclaimGuichet [RMIRegName] [RMIRegPort]";
+	private static final String usage = "Usage: java -jar RMIBaggageReclaimGuichet [genRepRegistryName]";
 
 
     /**
@@ -90,7 +90,7 @@ public class ServerBaggageReclaimGuichet {
 		
 		System.out.println("Baggage Reclaim Guichet binded to RMI registry (port " + portNumber + ")");
 		 try {
-				genRep.registerService(RmiUtils.baggageReclaimGuichetId, InetAddress.getLocalHost().getHostName(), portNumber);
+				genRep.registerService(RmiUtils.baggageReclaimGuichetId, InetAddress.getLocalHost().getHostName());
 			} catch (RemoteException | UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
