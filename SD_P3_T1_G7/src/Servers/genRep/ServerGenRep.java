@@ -50,23 +50,17 @@ public class ServerGenRep {
 		int maxBags 		= Integer.parseInt(args[4]);
 		int busTimer 		= Integer.parseInt(args[5]);		
 		
-		/* instanciar o gestor de seguranca */
-//		System.out.println("Starting Security Manager");
-//		if( System.getSecurityManager(  ) == null ) {
-//			System.setSecurityManager( new RMISecurityManager() );
-//		}
-		
 		Registry registry = null;
 		
 		try {
-			registry = LocateRegistry.createRegistry(rmiPort);
+			registry = LocateRegistry.getRegistry(rmiPort);
 		} catch( RemoteException e ) {
-			System.err.println( "Error creating the RMI registry: " + e.getMessage() );
+			System.err.println( "Error accessing the RMI registry: " + e.getMessage() );
 			e.printStackTrace();
 			System.exit(1);
 		}
 		
-		System.out.println( "RMI registry created" );
+		System.out.println( "RMI registry accessed" );
 		
 		/* establecer o servico */
 		MGeneralRepository genRep = new MGeneralRepository(numPassengers, numSeats, busTimer, numFlights, maxBags, logFile, registry);
@@ -78,8 +72,8 @@ public class ServerGenRep {
 			System.err.println("Error creating the GenRep stub");
 			e.printStackTrace();
 			System.exit(1);
-		}
-		
+		}		
+				
 		System.out.println( "GenRep stub created" );
 		
 		try {
