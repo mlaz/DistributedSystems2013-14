@@ -92,7 +92,7 @@ public class ServerBus {
 		System.out.println("Bus stub created");
 		
 		try {
-			rmiReg.bind(RmiUtils.busId, busInter);
+			genRep.bind(RmiUtils.busId, busInter);
 		} catch (RemoteException | AlreadyBoundException e) {
 			System.err.println("Error binding the Bus to the RMI registry");
 			e.printStackTrace();
