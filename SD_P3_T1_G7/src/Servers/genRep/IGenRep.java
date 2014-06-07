@@ -1,5 +1,6 @@
 package Servers.genRep;
 
+import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -29,4 +30,6 @@ IPorterGenRep, IBusGenRep, IArrivalTerminalExitGenRep, Remote {
 	int getNumBusSeats() throws RemoteException;
 	
 	int getBusWaitTime() throws RemoteException;
+	
+	public void bind(String id, Remote rem) throws RemoteException, AlreadyBoundException;
 }
