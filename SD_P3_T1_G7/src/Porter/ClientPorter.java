@@ -1,6 +1,5 @@
 package Porter;
 
-import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -26,46 +25,37 @@ public class ClientPorter {
 			// System.exit(1);
 			args = new String[2];
 			args[0] = "localhost";
-			args[1] = "22168";
 		}
 		
-		Registry genRepRegistry = null;
-		try {
-			genRepRegistry = LocateRegistry.getRegistry(args[0], RmiUtils.rmiPort);
-		} catch( RemoteException e ) {
-			System.err.println( "Error accessing the RMI registry: " + e.getMessage() );
-			e.printStackTrace();
-			System.exit(1);
-		}
-		System.out.println( "GenRep RMI registry accessed" );
-		
-		Registry reg = null;
-		try {
-			reg = RmiUtils.getRMIReg(args[0], Integer.parseInt(args[1]), usage);
-		} catch (NumberFormatException | RemoteException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		IGenRep genRep = null;
 		IPorterArrivalTerminal arrivalTerminal = null;
 		IPorterBaggagePickupZone baggageBeltConveyor = null;
 		IPorterTempBaggageStorage baggageStorage = null;
-		IGenRep genRep = null;
-		try {
-			arrivalTerminal = (IPorterArrivalTerminal) reg.lookup(RmiUtils.arrivalTerminalId);
-			baggageBeltConveyor = (IPorterBaggagePickupZone) reg.lookup(RmiUtils.baggagePickupZoneId);
-			baggageStorage = (IPorterTempBaggageStorage) reg.lookup(RmiUtils.tempStorageId);
-			genRep = (IGenRep) reg.lookup(RmiUtils.genRepId);
-		} catch (AccessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (NotBoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
+		try {
+			Registry genRepRegistry = LocateRegistry.getRegistry(args[0], RmiUtils.rmiPort);
+			genRep = (IGenRep) genRepRegistry.lookup(RmiUtils.genRepId);
+			System.out.println( "GenRep RMI registry accessed" );
+			
+			String arrTermLocation = genRep.getServiceLocation(RmiUtils.arrivalTerminalId);
+			Registry arrTermReg	= LocateRegistry.getRegistry(arrTermLocation, RmiUtils.rmiPort);
+			arrivalTerminal = (IPorterArrivalTerminal) arrTermReg.lookup(RmiUtils.arrivalTerminalId);
+			System.out.println( "Arrival Terminal RMI registry accessed" );
+			
+			String pickupLocation = genRep.getServiceLocation(RmiUtils.baggagePickupZoneId);
+			Registry pickupReg = LocateRegistry.getRegistry(pickupLocation, RmiUtils.rmiPort);
+			baggageBeltConveyor = (IPorterBaggagePickupZone) pickupReg.lookup(RmiUtils.baggagePickupZoneId);
+			System.out.println( "Baggage Pickup Zone RMI registry accessed" );
+			
+			String tempStLocation = genRep.getServiceLocation(RmiUtils.tempStorageId);
+			Registry tempReg = LocateRegistry.getRegistry(tempStLocation, RmiUtils.rmiPort);
+			baggageStorage = (IPorterTempBaggageStorage) tempReg.lookup(RmiUtils.tempStorageId);
+			System.out.println( "Temporary Baggage Storage RMI registry accessed" );
+			
+		} catch ( RemoteException | NotBoundException e2) {
+			e2.printStackTrace();
+		}
+				
 		int numIdentities = 0;
 		try {
 			numIdentities = genRep.getNumPassengers() + 2;
