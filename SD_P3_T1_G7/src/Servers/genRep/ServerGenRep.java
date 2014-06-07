@@ -1,7 +1,5 @@
 package Servers.genRep;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
