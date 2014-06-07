@@ -1,8 +1,8 @@
 package Driver;
 
-import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import Servers.genRep.IGenRep;
@@ -14,48 +14,42 @@ import Utils.RmiUtils;
  */
 public class ClientDriver {
 
-	final static String usage = "Usage: java ClientDriver [RMIRegName] [RMIRegPort]";
+	final static String usage = "Usage: java -jar RMIDriver [genRepRegistryName]";
 			
     /**
      *
      * @param args genRepName genRepPort
      */
     public static void main(String[] args) {
-		if (args.length != 2) {
+		
+    	if (args.length != 1) {
 			System.out.println(usage);
 			// System.exit(1);
 			args = new String[2];
 			args[0] = "localhost";
-			args[1] = "22168";
 		}
-		Registry reg = null;
-		try {
-			reg = RmiUtils.getRMIReg(args[0], Integer.parseInt(args[1]), usage);
-		} catch (NumberFormatException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} catch (RemoteException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		
+		IGenRep genRep = null;
 		IDriverArrivalTerminalTransferZone arrivalTerminalTransferZone = null;
 		IDriverBus bus = null;
-		IGenRep genRep = null;
 		try {
-			arrivalTerminalTransferZone = (IDriverArrivalTerminalTransferZone) reg.lookup(RmiUtils.arrivalTerminalTransferZoneId);
-			bus = (IDriverBus) reg.lookup(RmiUtils.busId);
-			genRep = (IGenRep) reg.lookup(RmiUtils.genRepId);
-		} catch (AccessException e1) {
+			Registry genRepRegistry = LocateRegistry.getRegistry(args[0], RmiUtils.rmiPort);
+			genRep = (IGenRep) genRepRegistry.lookup(RmiUtils.genRepId);
+			System.out.println( "GenRep RMI registry accessed" );
+			
+			String transferLocation = genRep.getServiceLocation(RmiUtils.arrivalTerminalTransferZoneId);
+			Registry transferReg	= LocateRegistry.getRegistry(transferLocation, RmiUtils.rmiPort);
+			arrivalTerminalTransferZone = (IDriverArrivalTerminalTransferZone) transferReg.lookup(RmiUtils.arrivalTerminalTransferZoneId);
+			
+			String busLocation = genRep.getServiceLocation(RmiUtils.busId);
+			Registry busReg	= LocateRegistry.getRegistry(busLocation, RmiUtils.rmiPort);
+			bus = (IDriverBus) busReg.lookup(RmiUtils.busId);
+		} catch ( RemoteException | NotBoundException e2) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (NotBoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e2.printStackTrace();
+			System.exit(1);
 		}
-
+		
 		int numEntities = 0;
 		try {
 			numEntities = genRep.getNumPassengers() + 2;
