@@ -63,7 +63,7 @@ public class ServerGenRep {
 		System.out.println( "RMI registry accessed" );
 		
 		/* establecer o servico */
-		MGeneralRepository genRep = new MGeneralRepository(numPassengers, numSeats, busTimer, numFlights, maxBags, logFile, registry);
+		MGeneralRepository genRep = new MGeneralRepository(numPassengers, numSeats, busTimer, numFlights, maxBags, logFile);
 		IGenRep genRepInter = null;
 		
 		try {
