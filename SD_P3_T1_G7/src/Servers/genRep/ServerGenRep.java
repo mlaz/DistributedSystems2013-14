@@ -50,11 +50,11 @@ public class ServerGenRep {
 		int maxBags 		= Integer.parseInt(args[4]);
 		int busTimer 		= Integer.parseInt(args[5]);		
 		
-		//TODO security manager
-		/* instanciar o gestor de seguran�a */
-		//if( System.getSecurityManager(  ) == null ) {
-		//	System.setSecurityManager( new RMISecurityManager() );
-		//}
+		/* instanciar o gestor de seguranca */
+//		System.out.println("Starting Security Manager");
+//		if( System.getSecurityManager(  ) == null ) {
+//			System.setSecurityManager( new RMISecurityManager() );
+//		}
 		
 		Registry registry = null;
 		
@@ -69,7 +69,7 @@ public class ServerGenRep {
 		System.out.println( "RMI registry created" );
 		
 		/* establecer o servico */
-		MGeneralRepository genRep = new MGeneralRepository(numPassengers, numSeats, busTimer, numFlights, maxBags, logFile);
+		MGeneralRepository genRep = new MGeneralRepository(numPassengers, numSeats, busTimer, numFlights, maxBags, logFile, registry);
 		IGenRep genRepInter = null;
 		
 		try {

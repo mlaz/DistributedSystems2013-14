@@ -3,7 +3,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.rmi.AlreadyBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,6 +50,8 @@ public class MGeneralRepository implements IGenRep {
 	
 	private BufferedWriter bw;
 	private List<ClockTuple<String>> logEvList;
+	
+	private Registry rmiReg;
 
     /**
      *
@@ -56,7 +62,7 @@ public class MGeneralRepository implements IGenRep {
      * @param maxBags
      * @param path
      */
-    public MGeneralRepository(int numPassengers, int nBusSeats, int busWaitTime, int numFlights, int maxBags, String path) {
+    public MGeneralRepository(int numPassengers, int nBusSeats, int busWaitTime, int numFlights, int maxBags, String path, Registry rmiReg) {
 		passengers = null; // new PassengerInfo[numPassengers];
 		registeredPassengers = 0;
 		plane = null;
@@ -69,7 +75,7 @@ public class MGeneralRepository implements IGenRep {
     	this.logEvList = new ArrayList<>();
     	this.porterReady = false;
     	this.driverReady = false;
-
+    	this.rmiReg = rmiReg;
 		allPassReg = false;
 		//
 		File file = new File(path);
@@ -524,5 +530,13 @@ public class MGeneralRepository implements IGenRep {
 		} finally {
 			lock.unlock();
 		}		
+	}
+	
+	@Override
+	public void bind(String id, Remote rem) throws RemoteException,
+			AlreadyBoundException {
+		
+		rmiReg.bind(id, rem);
+		
 	}
 }
