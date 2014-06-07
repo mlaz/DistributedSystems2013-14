@@ -25,7 +25,7 @@ public class ClientDriver {
     	if (args.length != 1) {
 			System.out.println(usage);
 			// System.exit(1);
-			args = new String[2];
+			args = new String[1];
 			args[0] = "localhost";
 		}
 		

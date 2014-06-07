@@ -3,6 +3,7 @@ package Passenger;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import Servers.genRep.IGenRep;
@@ -21,21 +22,13 @@ public class ClientPassengers {
      * @param args  [genRepName] [genRepPort]
      */
     public static void main(String[] args) {
-		if (args.length != 2) {
+    	if (args.length != 1) {
 			System.out.println(usage);
 			// System.exit(1);
-			args = new String[2];
+			args = new String[1];
 			args[0] = "localhost";
-			args[1] = "22168";
 		}
-		
-		Registry reg = null;;
-		try {
-			reg = RmiUtils.getRMIReg(args[0], Integer.parseInt(args[1]), usage);
-		} catch (NumberFormatException | RemoteException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		/* obter parametros do problema */		
 		IGenRep genRep = null;
 		IPassengerArrivalTerminal arrivalTerminal = null;
 		IPassengerBaggageCollectionPoint luggageCollectionPoint = null;
@@ -45,13 +38,33 @@ public class ClientPassengers {
 		IPassengerBus bus = null;
 		
 		try {
-			genRep = (IGenRep) reg.lookup(RmiUtils.genRepId);
-			arrivalTerminal = (IPassengerArrivalTerminal) reg.lookup(RmiUtils.arrivalTerminalId);
-			luggageCollectionPoint = (IPassengerBaggageCollectionPoint) reg.lookup(RmiUtils.baggagePickupZoneId);
-			baggageReclaimOffice = (IPassengerBaggageReclaimGuichet) reg.lookup(RmiUtils.baggageReclaimGuichetId);
-			arrivalTerminalExit = (IPassengerArrivalExitTransferZone) reg.lookup(RmiUtils.arrivalTerminalTransferZoneId);
-			departureTerminalEntrace = (IPassengerDepartureTerminalEntrance) reg.lookup(RmiUtils.departureTerminalEntraceZoneId);
-			bus = (IPassengerBus) reg.lookup(RmiUtils.busId);
+			Registry genRepRegistry = LocateRegistry.getRegistry(args[0], RmiUtils.rmiPort);
+			genRep = (IGenRep) genRepRegistry.lookup(RmiUtils.genRepId);
+			System.out.println( "GenRep RMI registry accessed" );
+
+			String arrivalTerminalLocation = genRep.getServiceLocation(RmiUtils.arrivalTerminalId);
+			Registry arrivalTerminalRegistry = LocateRegistry.getRegistry(arrivalTerminalLocation, RmiUtils.rmiPort);
+			arrivalTerminal = (IPassengerArrivalTerminal) arrivalTerminalRegistry.lookup(RmiUtils.arrivalTerminalId);
+			
+			String luggageCollectionPointLocation = genRep.getServiceLocation(RmiUtils.baggagePickupZoneId);
+			Registry luggageCollectionPointRegistry = LocateRegistry.getRegistry(luggageCollectionPointLocation, RmiUtils.rmiPort);
+			luggageCollectionPoint = (IPassengerBaggageCollectionPoint) luggageCollectionPointRegistry.lookup(RmiUtils.baggagePickupZoneId);
+			
+			String baggageReclaimOfficeLocation = genRep.getServiceLocation(RmiUtils.baggageReclaimGuichetId);
+			Registry baggageReclaimOfficeRegistry = LocateRegistry.getRegistry(baggageReclaimOfficeLocation, RmiUtils.rmiPort);
+			baggageReclaimOffice = (IPassengerBaggageReclaimGuichet) baggageReclaimOfficeRegistry.lookup(RmiUtils.baggageReclaimGuichetId);
+			
+			String arrivalTerminalExitLocation = genRep.getServiceLocation(RmiUtils.arrivalTerminalTransferZoneId);
+			Registry arrivalTerminalExitRegistry = LocateRegistry.getRegistry(arrivalTerminalExitLocation, RmiUtils.rmiPort);
+			arrivalTerminalExit = (IPassengerArrivalExitTransferZone) arrivalTerminalExitRegistry.lookup(RmiUtils.arrivalTerminalTransferZoneId);
+			
+			String departureTerminalEntraceLocation = genRep.getServiceLocation(RmiUtils.departureTerminalEntraceZoneId);
+			Registry departureTerminalEntraceRegistry = LocateRegistry.getRegistry(departureTerminalEntraceLocation, RmiUtils.rmiPort);
+			departureTerminalEntrace = (IPassengerDepartureTerminalEntrance) departureTerminalEntraceRegistry.lookup(RmiUtils.departureTerminalEntraceZoneId);
+			
+			String busLocation = genRep.getServiceLocation(RmiUtils.busId);
+			Registry busRegistry = LocateRegistry.getRegistry(busLocation, RmiUtils.rmiPort);
+			bus = (IPassengerBus) busRegistry.lookup(RmiUtils.busId);
 
 		} catch (AccessException e1) {
 			// TODO Auto-generated catch block
