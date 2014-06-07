@@ -29,4 +29,6 @@ IPorterGenRep, IBusGenRep, IArrivalTerminalExitGenRep, Remote {
 	int getNumBusSeats() throws RemoteException;
 	
 	int getBusWaitTime() throws RemoteException;
+	
+	void registerService(String serviceName, String hostname, int portNumber) throws RemoteException;
 }
