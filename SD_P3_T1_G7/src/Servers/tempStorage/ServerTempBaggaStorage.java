@@ -1,6 +1,7 @@
 package Servers.tempStorage;
 
 
+import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -8,6 +9,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import Servers.genRep.IGenRep;
+import Utils.IRMIProxy;
 import Utils.RmiUtils;
 
 /**
@@ -72,8 +74,16 @@ public class ServerTempBaggaStorage {
 		
 		System.out.println("TempStorage stub created");
 		
+		IRMIProxy proxy = null;
 		try {
-			rmiReg.bind(RmiUtils.tempStorageId, tempStorageInter);
+			proxy = (IRMIProxy)rmiReg.lookup(RmiUtils.rmiProxyId);
+		} catch ( RemoteException | NotBoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			proxy.bind(RmiUtils.tempStorageId, tempStorageInter);
 		} catch (RemoteException | AlreadyBoundException e) {
 			System.err.println("Error binding the TempStorage to the RMI registry");
 			e.printStackTrace();
