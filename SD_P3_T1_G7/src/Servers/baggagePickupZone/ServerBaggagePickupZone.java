@@ -76,8 +76,25 @@ public class ServerBaggagePickupZone {
 		
 		System.out.println("Baggage Pickup Zone stub created");
 		
+		IGenRep genRep = null;
 		try {
-			rmiReg.bind(RmiUtils.baggagePickupZoneId, baggagePickupInter);
+			genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
+		} catch (AccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.exit(1);
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.exit(1);
+		} catch (NotBoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.exit(1);
+		}
+		
+		try {
+			genRep.bind(RmiUtils.baggagePickupZoneId, baggagePickupInter);
 		} catch (RemoteException | AlreadyBoundException e) {
 			System.err.println("Error binding the BaggagePickupZone to the RMI registry");
 			e.printStackTrace();
@@ -86,15 +103,6 @@ public class ServerBaggagePickupZone {
 		
 		System.out.println("Baggage Pickup Zone binded to RMI registry (port " + portNumber + ")");
 		System.out.println("Ready");
-		
-		System.out.println("REGISTRY:");
-		try {
-			for( String s : rmiReg.list() ) {
-				System.out.println("   "+s);
-			}
-		} catch( RemoteException e ) {
-			e.printStackTrace();
-		}
 
 	}
 }

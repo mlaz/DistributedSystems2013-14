@@ -94,7 +94,7 @@ public class ServerArrivalTerminal {
 		System.out.println("Arrival Termina stub created");
 		
 		try {
-			rmiReg.bind(RmiUtils.arrivalTerminalId, arrivalTerminalInter);
+			genRep.bind(RmiUtils.arrivalTerminalId, arrivalTerminalInter);
 		} catch (RemoteException | AlreadyBoundException e) {
 			System.err.println("Error binding the ArrivalTermminal to the RMI registry");
 			e.printStackTrace();

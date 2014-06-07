@@ -92,7 +92,7 @@ public class ServerArrivalTerminalExit {
 		System.out.println("Arrival Terminal Exit stub created");
 		
 		try {
-			rmiReg.bind(RmiUtils.arrivalTerminalTransferZoneId, arrivalTerminalExitInter);
+			genRep.bind(RmiUtils.arrivalTerminalTransferZoneId, arrivalTerminalExitInter);
 		} catch (RemoteException | AlreadyBoundException e) {
 			System.err.println("Error binding the ArrivalTermminalExit to the RMI registry");
 			e.printStackTrace();
