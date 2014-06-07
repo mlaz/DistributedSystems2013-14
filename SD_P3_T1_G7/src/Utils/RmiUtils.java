@@ -18,6 +18,8 @@ public class RmiUtils {
 	public static final String departureTerminalEntraceZoneId 	= "departureTerminalEntraceId";
 	public static final String rmiProxyId 						= "rmiProxy";
 	
+	public static final int rmiPort = 22168;	//rmi port for ALL servers
+	
 	public static Registry getRMIReg( String hostname, int port, String usage ) throws RemoteException {
     	Registry rmiReg 	  = null;
     	boolean registered 	  = true;
