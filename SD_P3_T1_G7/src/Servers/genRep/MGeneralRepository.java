@@ -535,6 +535,7 @@ public class MGeneralRepository implements IGenRep {
 	@Override
 	public void registerService(String serviceName, String hostName, int portNumber) throws RemoteException {
 		services.put(serviceName, new HostPort(hostName, portNumber));
+		System.out.println(serviceName + " registered at " + hostName + ":" + portNumber);
 	}
 	
 	public HostPort getServiceLocation(String serviceName) throws RemoteException {
