@@ -1,8 +1,11 @@
 package Servers.baggageReclaimGuichet;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -24,35 +27,29 @@ public class ServerBaggageReclaimGuichet {
      */
     public static void main(String[] args) {
 		
-		if (args.length != 2) {
+    	if (args.length != 1) {
 			System.out.println(usage);
 			// System.exit(1);
-			args = new String[2];
+			args = new String[1];
 			args[0] = "localhost";
-			args[1] = "22168";
 		}
-
-		/* get the RMI registry */
-		Registry rmiReg = null;
-		try {
-			rmiReg = RmiUtils.getRMIReg( args[0], Integer.parseInt(args[1]), usage );
-		} catch (NumberFormatException e1) {
-			System.err.println("The second argument isn't a valid port number");
-			e1.printStackTrace();
-			System.exit(1);
-		} catch (RemoteException e1) {
-			System.err.println("The RMI registry is unavailable");
-			e1.printStackTrace();
-			System.exit(1);
-		}
+		/* obter parametros do problema */
 		
-		System.out.println("RMI registry located");
+		Registry genRepRegistry = null;
+		try {
+			genRepRegistry = LocateRegistry.getRegistry(args[0], RmiUtils.rmiPort);
+		} catch( RemoteException e ) {
+			System.err.println( "Error accessing the RMI registry: " + e.getMessage() );
+			e.printStackTrace();
+			System.exit(1);
+		}
+		System.out.println( "GenRep RMI registry accessed" );
 		
 		
 		int numEntities = 0;
 		IGenRep genRep = null;
 		try {
-			genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
+			genRep = (IGenRep) genRepRegistry.lookup(RmiUtils.genRepId);
 			numEntities = genRep.getNumPassengers() + 2;
 		} catch ( RemoteException | NotBoundException e1) {
 			// TODO Auto-generated catch block
@@ -73,8 +70,18 @@ public class ServerBaggageReclaimGuichet {
 		
 		System.out.println("BaggageReclameGuichet stub created");
 		
+		Registry registry = null;
 		try {
-			genRep.bind(RmiUtils.baggageReclaimGuichetId, baggageReclaimInter);
+			registry = LocateRegistry.getRegistry(RmiUtils.rmiPort);
+		} catch( RemoteException e ) {
+			System.err.println( "Error accessing the RMI registry: " + e.getMessage() );
+			e.printStackTrace();
+			System.exit(1);
+		}
+		System.out.println( "Local RMI registry accessed" );
+		
+		try {
+			registry.bind(RmiUtils.baggageReclaimGuichetId, baggageReclaimInter);
 		} catch (RemoteException | AlreadyBoundException e) {
 			System.err.println("Error binding the BaggageReclaimGuichet to the RMI registry");
 			e.printStackTrace();
@@ -82,16 +89,12 @@ public class ServerBaggageReclaimGuichet {
 		}
 		
 		System.out.println("Baggage Reclaim Guichet binded to RMI registry (port " + portNumber + ")");
-		System.out.println("Ready");
-		
-		System.out.println("REGISTRY:");
-		try {
-			for( String s : rmiReg.list() ) {
-				System.out.println("   "+s);
+		 try {
+				genRep.registerService(RmiUtils.baggageReclaimGuichetId, InetAddress.getLocalHost().getHostName(), portNumber);
+			} catch (RemoteException | UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch( RemoteException e ) {
-			e.printStackTrace();
-		}
-	
+		System.out.println("Ready");			
 	}
 }

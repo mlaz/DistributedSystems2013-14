@@ -1,9 +1,12 @@
 package Servers.arrivalTerminalExit;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -33,22 +36,19 @@ public class ServerArrivalTerminalExit {
 			args[1] = "22168";
 		}
 
-		/* get the RMI registry */
-		Registry rmiReg = null;
+		Registry genRepRegistry = null;
 		try {
-			rmiReg = RmiUtils.getRMIReg( args[0], Integer.parseInt(args[1]), usage );
-		} catch (NumberFormatException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} catch (RemoteException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
+			genRepRegistry = LocateRegistry.getRegistry(args[0], RmiUtils.rmiPort);
+		} catch( RemoteException e ) {
+			System.err.println( "Error accessing the RMI registry: " + e.getMessage() );
+			e.printStackTrace();
+			System.exit(1);
 		}
-		System.out.println("RMI registry located");
+		System.out.println( "GenRep RMI registry accessed" );
 		
 		IGenRep genRep = null;
 		try {
-			genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
+			genRep = (IGenRep) genRepRegistry.lookup(RmiUtils.genRepId);
 		} catch (AccessException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -91,8 +91,18 @@ public class ServerArrivalTerminalExit {
 		
 		System.out.println("Arrival Terminal Exit stub created");
 		
+		Registry registry = null;
 		try {
-			genRep.bind(RmiUtils.arrivalTerminalTransferZoneId, arrivalTerminalExitInter);
+			registry = LocateRegistry.getRegistry(RmiUtils.rmiPort);
+		} catch( RemoteException e ) {
+			System.err.println( "Error accessing the RMI registry: " + e.getMessage() );
+			e.printStackTrace();
+			System.exit(1);
+		}
+		System.out.println( "Local RMI registry accessed" );
+		
+		try {
+			registry.bind(RmiUtils.arrivalTerminalTransferZoneId, arrivalTerminalExitInter);
 		} catch (RemoteException | AlreadyBoundException e) {
 			System.err.println("Error binding the ArrivalTermminalExit to the RMI registry");
 			e.printStackTrace();
@@ -100,5 +110,13 @@ public class ServerArrivalTerminalExit {
 		}
 		
         System.out.println("Arrival Terminal Exit binded to RMI registry (port " + portNumber + ")");
+        try {
+			genRep.registerService(RmiUtils.arrivalTerminalTransferZoneId, InetAddress.getLocalHost().getHostName(), portNumber);
+		} catch (RemoteException | UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Ready");			
+
 	}
 }

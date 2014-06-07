@@ -1,9 +1,12 @@
 package Servers.baggagePickupZone;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -23,33 +26,28 @@ public class ServerBaggagePickupZone {
      * @param args
      */
     public static void main(String[] args) {
-		if (args.length != 2) {
+    	if (args.length != 1) {
 			System.out.println(usage);
 			// System.exit(1);
-			args = new String[2];
+			args = new String[1];
 			args[0] = "localhost";
-			args[1] = "22168";
 		}
+    	/* obter parametros do problema */
 		
-		/* get the RMI registry */
-		Registry rmiReg = null;
+		Registry genRepRegistry = null;
 		try {
-			rmiReg = RmiUtils.getRMIReg( args[0], Integer.parseInt(args[1]), usage );
-		} catch (NumberFormatException e1) {
-			System.err.println("The second argument isn't a valid port number");
-			e1.printStackTrace();
-			System.exit(1);
-		} catch (RemoteException e1) {
-			System.err.println("The RMI registry is unavailable");
-			e1.printStackTrace();
+			genRepRegistry = LocateRegistry.getRegistry(args[0], RmiUtils.rmiPort);
+		} catch( RemoteException e ) {
+			System.err.println( "Error accessing the RMI registry: " + e.getMessage() );
+			e.printStackTrace();
 			System.exit(1);
 		}
-		
-		System.out.println("RMI registry located");
+		System.out.println( "GenRep RMI registry accessed" );
 		
 		int numEntities = 0;
+		IGenRep genRep = null;
 		try {
-			IGenRep genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
+			genRep = (IGenRep) genRepRegistry.lookup(RmiUtils.genRepId);
 			numEntities = genRep.getNumPassengers() + 2;
 		} catch (AccessException e1) {
 			// TODO Auto-generated catch block
@@ -76,25 +74,18 @@ public class ServerBaggagePickupZone {
 		
 		System.out.println("Baggage Pickup Zone stub created");
 		
-		IGenRep genRep = null;
+		Registry registry = null;
 		try {
-			genRep = (IGenRep) rmiReg.lookup(RmiUtils.genRepId);
-		} catch (AccessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.exit(1);
-		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.exit(1);
-		} catch (NotBoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			registry = LocateRegistry.getRegistry(RmiUtils.rmiPort);
+		} catch( RemoteException e ) {
+			System.err.println( "Error accessing the RMI registry: " + e.getMessage() );
+			e.printStackTrace();
 			System.exit(1);
 		}
+		System.out.println( "Local RMI registry accessed" );
 		
 		try {
-			genRep.bind(RmiUtils.baggagePickupZoneId, baggagePickupInter);
+			registry.bind(RmiUtils.baggagePickupZoneId, baggagePickupInter);
 		} catch (RemoteException | AlreadyBoundException e) {
 			System.err.println("Error binding the BaggagePickupZone to the RMI registry");
 			e.printStackTrace();
@@ -102,7 +93,12 @@ public class ServerBaggagePickupZone {
 		}
 		
 		System.out.println("Baggage Pickup Zone binded to RMI registry (port " + portNumber + ")");
-		System.out.println("Ready");
-
+		 try {
+				genRep.registerService(RmiUtils.baggagePickupZoneId, InetAddress.getLocalHost().getHostName(), portNumber);
+			} catch (RemoteException | UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		System.out.println("Ready");	
 	}
 }
