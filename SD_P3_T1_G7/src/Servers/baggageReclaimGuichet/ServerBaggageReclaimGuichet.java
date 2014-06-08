@@ -13,17 +13,26 @@ import Servers.genRep.IGenRep;
 import Utils.RmiUtils;
 
 /**
- *
- * @author miguel
+ * This class establishes a new service, the Baggage Reclaim Guichet.
+ * The communications use RMI.
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 public class ServerBaggageReclaimGuichet {
+	/**
+	 * The port this service will use 
+	 */
 	private static final int portNumber = 22165;
+	/**
+	 * How to launch this service
+	 */
 	private static final String usage = "Usage: java -jar RMIBaggageReclaimGuichet [genRepRegistryName]";
 
 
     /**
-     *
-     * @param args
+     * Starts the server.
+     * @param args Only one argument is allowed. The name of the server hosting the General Repository
      */
     public static void main(String[] args) {
 		
