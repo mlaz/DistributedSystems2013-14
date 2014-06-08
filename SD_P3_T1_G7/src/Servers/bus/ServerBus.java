@@ -14,15 +14,25 @@ import Servers.genRep.IGenRep;
 import Utils.RmiUtils;
 
 /**
- * Classe de servidor com replicação para receção de pedidos ao monior por parte das threads(clientes)
- * @author miguel
+ * This class establishes a new service, the Bus.
+ * The communications use RMI.
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 public class ServerBus {
+	/**
+	 * The port this service will use
+	 */
 	private static final int portNumber = 22163;
+	/**
+	 * How to launch this service
+	 */
 	private static final String usage = "Usage: java -jar RMIBus [genRepRegistryName]";
+	
     /**
-     *
-     * @param args
+     * Starts the server.
+     * @param args Only one argument is allowed. The name of the server hosting the General Repository
      */
     public static void main(String[] args) {
 		
