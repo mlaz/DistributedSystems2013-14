@@ -20,45 +20,105 @@ import Utils.ClockTuple;
 import Utils.VectorClock;
 
 /**
+ * Class that implements the General Repository server services.
  * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Monitor do repositório geral de informação
+ */
+/**
+ * @author fteixeira
+ *
  */
 public class MGeneralRepository implements IGenRep {
 
+	/**
+	 * The number of passengers in each flight
+	 */
 	private int numPassengers;
+	/**
+	 * The number of seats in the bus
+	 */
 	private int nBusSeats;
+	/**
+	 * The time, in mili-seconds, that the bus waits for new passengers
+	 */
 	private int busWaitTime;
+	/**
+	 * The total number of flights
+	 */
 	private int numFlights;
+	/**
+	 * The maximum number of bags that each passenger may have
+	 */
 	private int maxBags;
-
+	/**
+	 * The current logging information of the plane
+	 */
 	private FlightInfo plane;
+	/**
+	 * The current logging information of the porter
+	 */
 	private PorterInfo porter;
+	/**
+	 * The current logging information of the driver
+	 */
 	private DriverInfo driver;
+	/**
+	 * The current logging information of the passengers
+	 */
 	private PassengerInfo[] passengers;
+	/**
+	 * The number of passengers registered
+	 */
 	private int registeredPassengers;
+	/**
+	 * True if all passengers have already registered
+	 */
 	private boolean allPassReg;
-
+	/**
+	 * The lock
+	 */
 	private Lock lock;
+	/**
+	 * Waiting condition for the porter to be dead
+	 */
 	private Condition porterDead;
+	/**
+	 * Waiting condition for the driver to be dead
+	 */
 	private Condition driverDead;
+	/**
+	 * Waiting condition for the driver and porter to finish the current plane
+	 */
 	private Condition ready4NxtPlane;
+	/**
+	 * True if the porter is ready for a new plane
+	 */
 	private boolean porterReady;
+	/**
+	 * True if the driver is ready for a new plane
+	 */
 	private boolean driverReady;	
-	
+	/**
+	 * File writer
+	 */
 	private BufferedWriter bw;
+	/**
+	 * Stores all the events of the current plane to then sort using the vectorial clocks
+	 */
 	private List<ClockTuple<String>> logEvList;
-	
+	/**
+	 * Stores the registered services location
+	 */
 	private Map<String, String> services;
 
     /**
-     *
-     * @param numPassengers
-     * @param nBusSeats
-     * @param busWaitTime
-     * @param numFlights
-     * @param maxBags
-     * @param path
+     * Instanciates a MGeneralRepository object.
+     * @param numPassengers The number of passengers in each flight
+     * @param nBusSeats The number of seats on the bus
+     * @param busWaitTime The time, in mili-seconds, that the bus waits for new passengers
+     * @param numFlights The number of flights in the simulation
+     * @param maxBags The maximum number of bags that each passenger may have
+     * @param path The path to the log file
      */
     public MGeneralRepository(int numPassengers, int nBusSeats, int busWaitTime, int numFlights, int maxBags, String path ) {
 		passengers = null; // new PassengerInfo[numPassengers];
@@ -130,9 +190,6 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-    /**
-     *
-     */
     public void endSimulation() {
 		try {
 			bw.close();
@@ -144,6 +201,9 @@ public class MGeneralRepository implements IGenRep {
 		System.out.println("Log written!");
 	}
 
+	/**
+	 * Prints the header of the log file 
+	 */
 	private void printHeader() {
 		try {
 
@@ -160,27 +220,10 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-//	private void printLogEntry() {
-//		String s = "";
-//
-//		s += (allPassReg) ? plane.toString() : "NLANDED ";
-//		s += porter.toString();
-//		s += driver.toString();
-//		s += '\n';
-//
-//		if (allPassReg) // this avoids nullpointerexceptions during
-//						// non-passenger threads state updates between flights
-//			for (int i = 0; i < passengers.length; i++)
-//				s += passengers[i].toString();
-//
-//		try {
-//			bw.write(s + "\n");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-
+	/**
+	 * Adds a new event to logEvList.
+	 * @param clk The clock associated with the event
+	 */
 	private void addLogEntry(VectorClock clk) {
 		String s = "";
 
@@ -197,12 +240,6 @@ public class MGeneralRepository implements IGenRep {
 		logEvList.add( new ClockTuple<String>(s, clk));
 	}
 
-	/* porter */
-
-    /**
-     *
-     */
-    
 	public void registerPorter() {
 		lock.lock();
 		try {
@@ -212,10 +249,6 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-    /**
-     *
-     * @param newState
-     */
     public void updatePorterState(EPorterStates newState, VectorClock clk) {
 		lock.lock();
 		try {
@@ -226,9 +259,6 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-    /**
-     *
-     */
     public void incLuggageAtCB(VectorClock clk) {
 		lock.lock();
 		try {
@@ -239,9 +269,6 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-    /**
-     *
-     */
     public void incLuggageAtSR(VectorClock clk) {
 		lock.lock();
 		try {
@@ -252,9 +279,6 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-    /**
-     *
-     */
     public void removeLuggageAtPlane(VectorClock clk) {
 		lock.lock();
 		try {
@@ -267,10 +291,6 @@ public class MGeneralRepository implements IGenRep {
 
 	/* driver */
 
-    /**
-     *
-     */
-    
 	public void registerDriver() {
 		lock.lock();
 		try {
@@ -281,10 +301,6 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-    /**
-     *
-     * @param newState
-     */
     public void updateDriverState(EDriverStates newState, VectorClock clk) {
 		lock.lock();
 		try {
@@ -295,10 +311,6 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-    /**
-     *
-     * @param queue
-     */
     public void updateDriverQueue(int[] queue, VectorClock clk) {
 		lock.lock();
 		try {
@@ -320,10 +332,6 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-    /**
-     *
-     * @param seats
-     */
     public void updateDriverSeats(int[] seats, VectorClock clk) {
 		lock.lock();
 		try {
@@ -336,14 +344,6 @@ public class MGeneralRepository implements IGenRep {
 
 	/* passengers */
 
-    /**
-     *
-     * @param pID
-     * @param planeId
-     * @param inTransit
-     * @param startingLuggage
-     */
-    
 	public void registerPassenger(int pID, int planeId, boolean inTransit,
 			int startingLuggage) {
 
@@ -371,11 +371,6 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-    /**
-     *
-     * @param pID
-     * @param newStat
-     */
     public void setPassengerStat(int pID, EPassengerStates newStat, VectorClock clk) {
 		lock.lock();
 		try {
@@ -387,10 +382,6 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-    /**
-     *
-     * @param pID
-     */
     public void gotLuggage(int pID, VectorClock clk) {
 		lock.lock();
 		try {
@@ -411,49 +402,26 @@ public class MGeneralRepository implements IGenRep {
 		return null;
 	}
 
-    /**
-     *
-     * @return
-     */
     public int getBusWaitTime() {
 		return busWaitTime;
 	}
 
-    /**
-     *
-     * @return
-     */
     public int getNumFlights() {
 		return numFlights;
 	}
 
-    /**
-     *
-     * @return
-     */
     public int getNumPassengers() {
 		return numPassengers;
 	}
 
-    /**
-     *
-     * @return
-     */
     public int getMaxBags() {
 		return maxBags;
 	}
 
-    /**
-     *
-     * @return
-     */
     public int getNumBusSeats() {
 		return nBusSeats;
 	}
 
-    /**
-     *
-     */
     public void setPorterAsDead() {
 		lock.lock();
 		try {
@@ -464,9 +432,6 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-    /**
-     *
-     */
     public void setDriverAsDead() {
 		lock.lock();
 		try {
@@ -477,9 +442,6 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-    /**
-     *
-     */
     public void waitForDriverToDie() {
 		lock.lock();
 		try {
@@ -493,9 +455,6 @@ public class MGeneralRepository implements IGenRep {
 		}
 	}
 
-    /**
-     *
-     */
     public void waitForPorterToDie() {
 		lock.lock();
 		try {

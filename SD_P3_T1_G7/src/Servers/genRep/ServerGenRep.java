@@ -11,18 +11,28 @@ import Utils.RmiUtils;
 
 
 /**
- * Classe de servidor com replicação para receção de pedidos ao monior por parte das threads(clientes)
- * @author miguel
+ * This class establishes a new service, the General Repository.
+ * The communications use RMI.
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
+
 public class ServerGenRep {
 
+	/**
+	 * The port this service will use
+	 */
 	private static final int portNumber = 22160;
-	private static final int rmiPort	= 22168;
+
+	/**
+	 * The name of the log file.
+	 */
 	private static String logFile;
 
     /**
-     *
-     * @param args
+     * Starts the server
+     * @param args Requires 6 arguments: [logFile] [numFlights] [numPassengers] [numBusSeats] [maxBags] [busTimer_in_ms]
      */
     public static void main(String[] args) {
 
@@ -53,7 +63,7 @@ public class ServerGenRep {
 		Registry registry = null;
 		
 		try {
-			registry = LocateRegistry.getRegistry(rmiPort);
+			registry = LocateRegistry.getRegistry(RmiUtils.rmiPort);
 		} catch( RemoteException e ) {
 			System.err.println( "Error accessing the RMI registry: " + e.getMessage() );
 			e.printStackTrace();

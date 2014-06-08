@@ -2,27 +2,34 @@ package Servers.genRep;
 
 import Driver.EDriverStates;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Classe para logging de informação das threads TDriver
+ * Class that stores the driver information. Used only for logging porposes
+ * 
  * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 public class DriverInfo {
+    /**
+     * The state of the driver
+     */
     private EDriverStates stat;
+    /**
+     * Who's in the queue
+     */
     private int[]  queueIDs;
+    /**
+     * Who's in the bus
+     */
     private int[]  seatsIDs;
+    /**
+     * True if the driver is dead.
+     */
     private boolean dead;
     
     /**
-     *
-     * @param queueSize
-     * @param numSeats
+     * Instanciates a DriverInfo object.
+     * @param queueSize The size of the queue to wait for the bus
+     * @param numSeats The number of seats on the bus
      */
     public DriverInfo(int queueSize, int numSeats) {
     	
@@ -41,7 +48,7 @@ public class DriverInfo {
     }
 
     /**
-     *
+     * Updates the state of the driver
      * @param stat
      */
     public void setStat(EDriverStates stat) {
@@ -49,7 +56,7 @@ public class DriverInfo {
     }
 
     /**
-     *
+     * Updates the queue
      * @param queueIDs
      */
     public void setQueueIDs(int[] queueIDs) {
@@ -57,7 +64,7 @@ public class DriverInfo {
     }
 
     /**
-     *
+     * Updates the bus seats
      * @param seatsIDs
      */
     public void setSeatsIDs(int[] seatsIDs) {
@@ -65,24 +72,20 @@ public class DriverInfo {
     }
 
     /**
-     *
+     * Set the driver as dead.
      */
     public void setAsDead() {
     	dead = true;
     }
     
     /**
-     *
+     * Returs true if the driver is dead
      * @return
      */
     public boolean isDead() {
     	return dead;
     }
     
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
     	String stat;
