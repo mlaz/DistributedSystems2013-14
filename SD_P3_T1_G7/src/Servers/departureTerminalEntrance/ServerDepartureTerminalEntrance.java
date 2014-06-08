@@ -15,16 +15,20 @@ import Utils.RmiUtils;
 
 
 /**
- * Classe de servidor com replicação para receção de pedidos ao monior por parte das threads(clientes)
- * @author miguel
+ * This class establishes a new service, the Departure Terminal Entrance.
+ * The communications use RMI.
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 public class ServerDepartureTerminalEntrance {
 	private static final int portNumber = 22166;
 	private static final String usage = "Usage: java -jar RMIDepartureTerminalEntrance [genRepRegistryName]";
 
+    
     /**
-     *
-     * @param args
+     * Starts the server
+     * @param Only one argument is allowed. The name of the server hosting the General Repository
      */
     public static void main(String[] args) {
 		if (args.length != 1) {

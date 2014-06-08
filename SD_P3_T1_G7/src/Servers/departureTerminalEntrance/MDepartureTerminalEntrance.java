@@ -10,19 +10,38 @@ import java.util.concurrent.locks.ReentrantLock;
 import Utils.VectorClock;
 
 /**
+ * Class that implements the Departure Terminal Entrance server services.
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Monitor da entrada do terminal de partida
  */
 public class MDepartureTerminalEntrance implements IDepartureTerminalEntrance {
+	/**
+	 * The number of passengers that are or will be in transit
+	 */
 	private int remainingPassengers;
+	/**
+	 * The total number of passengers of the current simulation
+	 */
 	private int totalPassengers;
+	/**
+	 * The lock
+	 */
 	private Lock lock;
+	/**
+	 * A waiting condition
+	 */
 	private Condition cond;
+	/**
+	 * The Clock
+	 */
 	private VectorClock vecClock;
 	
+    
+    
     /**
-     *
-     * @param totalPassengers
+     * Instanciates a Departure Terminal Entrance
+     * @param totalPassengers The total number of passengers of the current simulation 
+     * @param numEntities The number of entities that will use the VectorClock at the same time
      */
     public MDepartureTerminalEntrance (int totalPassengers, int numEntities) {
 		remainingPassengers = caclNumPassengers(totalPassengers);
@@ -49,10 +68,6 @@ public class MDepartureTerminalEntrance implements IDepartureTerminalEntrance {
 		return n;
 	}
 
-    /**
-     *
-     * @throws InterruptedException
-     */
     public VectorClock prepareNextLeg(VectorClock extClk) throws InterruptedException {
 		lock.lock();
 		try {
