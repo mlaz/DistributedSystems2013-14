@@ -10,27 +10,65 @@ import Utils.ClockTuple;
 import Utils.VectorClock;
 
 /**
+ * Class that implements the Arrival Terminal Exit server services.
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Monitor da saida do terminal de chegada
  */
 public class MArrivalTerminalExit implements IArrivalTerminalExit {
 
-	private int totalPassengers;
-	private int passengersDone = 0;
-	private int nSeats;
-	private int passengersToGo;				// number of empty seats available on the bus
-	private Queue<Integer> busQueue;
-	private boolean availableBus = false;
-	private IArrivalTerminalExitGenRep genRep;
-	private Lock lock;
-	private Condition noPassengersInQueue;
-	private Condition busReady;
-	private VectorClock vecClock;
 	/**
-     * @param nAirplanes
-	 * @param genRep
-     * @param nPassengers
-     * @param nSeats
+	 * The total number of passengers in the simulation
+	 */
+	private int totalPassengers;
+	/**
+	 * The number of passengers already processed
+	 */
+	private int passengersDone = 0;
+	/**
+	 * The number of seats in the bus
+	 */
+	private int nSeats;
+	/**
+	 * The number of currently empty seats on the bus
+	 */
+	private int passengersToGo;				// number of empty seats available on the bus
+	/**
+	 * The queue of passengers waiting for the bus
+	 */
+	private Queue<Integer> busQueue;
+	/**
+	 * True if the bus is available to board
+	 */
+	private boolean availableBus = false;
+	/**
+	 * The interface with the General Repository
+	 */
+	private IArrivalTerminalExitGenRep genRep;
+	/**
+	 * The lock
+	 */
+	private Lock lock;
+	/**
+	 * Condition to wait for passengers to arrive at the queue 
+	 */
+	private Condition noPassengersInQueue;
+	/**
+	 * Condition to wait for the bus to be ready to board
+	 */
+	private Condition busReady;
+	/**
+	 * The clock
+	 */
+	private VectorClock vecClock;
+	
+	/**
+	 * Instanciates a Arrival Terminal Exit object.
+	 * 
+	 * @param nAirplanes The number of flights of the simulation
+	 * @param nPassengers The number of passengers in each flight
+	 * @param nSeats The number of seats on the bus
+	 * @param genRep The interface with the General Repository
 	 */
 	public MArrivalTerminalExit(int nAirplanes, int nPassengers, int nSeats, IArrivalTerminalExitGenRep genRep) {
 		this.nSeats = nSeats;
@@ -44,11 +82,6 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 		busReady			= lock.newCondition();				
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see IPassengerArrivalTerminalTransferZone#takeABus()
-	 */
 	@Override
 	public VectorClock takeABus(int passNumber, VectorClock extClk) throws InterruptedException {
 		lock.lock();
@@ -56,11 +89,7 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 			vecClock.updateClock(extClk);
 			busQueue.add((Integer) passNumber);
 			noPassengersInQueue.signal();	//notify the driver that Im waiting in line!
-//			if (busQueue.size() == nSeats) {
-//				notifyAll(); // the line is enough to fill the bus > why notifyAll? > who am i notifying?
-//				noPassengersInQueue.signalAll();
-//			}
-			
+
 			//logging the queue
 			try {
 				genRep.updateDriverQueue(toIntArray(busQueue.toArray()), vecClock);
@@ -90,7 +119,7 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 				availableBus = false;
 			}
 			
-			busReady.signalAll();; //notify who? about what? > notify other passengers that they may enter try to enter the bus
+			busReady.signalAll();
 			return vecClock;
 		} finally {
 			lock.unlock();
@@ -105,11 +134,6 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 		return ints;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see IDriverArrivalTerminalTransferZone#announcingBusBoaring()
-	 */
 	@Override
 	public ClockTuple<Boolean> announcingBusBoaring(int lastPassengers, VectorClock extClk) throws InterruptedException {
 		lock.lock();
@@ -144,10 +168,7 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 		}
 	}
 
-	/**
-	 * 
-     * @param passengerNumber
-	 */
+	@Override
 	public VectorClock goHome(int passengerNumber, VectorClock extClk) {
 		lock.lock();
 		try {
@@ -164,9 +185,6 @@ public class MArrivalTerminalExit implements IArrivalTerminalExit {
 		}
 	}
 
-    /**
-     *
-     */
     @Override
 	public VectorClock announcingDeparture(VectorClock extClk) {
 		lock.lock();
