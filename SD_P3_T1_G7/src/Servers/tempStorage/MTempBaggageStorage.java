@@ -6,16 +6,27 @@ import java.util.concurrent.locks.ReentrantLock;
 import Utils.Bag;
 import Utils.VectorClock;
 /**
+ * Class that implements the Temporary Baggage Storage server services.
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Monitor para o depósito temporário de bagagens
  */
 public class MTempBaggageStorage implements ITempStorage {	
+	/**
+	 * The number of bags currently stored
+	 */
 	private int storedBags;
+	/**
+	 * The lock.
+	 */
 	private Lock lock;
+	/**
+	 * The VectorClock
+	 */
 	private VectorClock vecClock;
 
     /**
-     *
+     * Instanciates a Temporary Baggage Storage.
+     * @param numEntities The number of identities that will use the VectorClock at the same time;
      */
     public MTempBaggageStorage(int numEntities) {
 		storedBags = 0;
@@ -23,9 +34,6 @@ public class MTempBaggageStorage implements ITempStorage {
 		this.vecClock = new VectorClock(numEntities);
 	}
 
-	/**
-	 * @param currentBag
-	 */
 	public VectorClock carryItToAppropriateStore(Bag currentBag, VectorClock extClk) {
 		lock.lock();
 		try {
