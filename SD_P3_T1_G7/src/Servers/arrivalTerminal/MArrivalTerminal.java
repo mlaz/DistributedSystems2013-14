@@ -13,19 +13,46 @@ import Passenger.IPassengerArrivalTerminal;
 import Porter.IPorterArrivalTerminal;
 
 /**
+ * Class that implements the Arrival Terminal server services.
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Monitor terminal de chegada
  */
 public class MArrivalTerminal implements IArrivalTerminal {
 
+	/**
+	 * 
+	 */
 	private Queue<Stack<Bag>> flightQueue;
+	/**
+	 * The bags currently on the plane's hold
+	 */
 	private Stack<Bag> currentPlanesHold;
+	/**
+	 * 
+	 */
 	private boolean ongoingArrival;
+	/**
+	 * The number of passengers in each plane
+	 */
 	private int passengersPerPlane;
+	/**
+	 * The number of passengers on the arrival terminal
+	 */
 	private int remainingPassengers;
+	/**
+	 * The lock
+	 */
 	private Lock lock;
-	private Condition passengers;	//give a better name to this
+	/**
+	 * Waiting condition
+	 */
+	private Condition passengers;
+	/**
+	 * The clock
+	 */
 	private VectorClock vecClock;
+	
     /**
      *
      * @param nFlights
