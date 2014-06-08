@@ -8,17 +8,24 @@ import java.rmi.registry.Registry;
 import Servers.genRep.IGenRep;
 import Utils.RmiUtils;
 
+
 /**
- * Classe ClientDriver: classe para lançar a thread TDriver
- * @author miguel
+ * Class that implements the Driver client.
+ * The communications use RMI.
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 public class ClientDriver {
 
+	/**
+	 * How to start the client
+	 */
 	final static String usage = "Usage: java -jar RMIDriver [genRepRegistryName]";
 			
     /**
-     *
-     * @param args genRepName genRepPort
+     * Starts the Driver
+     * @param args Accepts only one argument, the genRepName. 
      */
     public static void main(String[] args) {
 		

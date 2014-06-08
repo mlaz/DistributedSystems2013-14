@@ -9,25 +9,30 @@ import java.rmi.RemoteException;
 import Utils.ClockTuple;
 import Utils.VectorClock;
 
+
 /**
+ * Interface for communication between the Driver and the Bus
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Interface para interação entre a thread de condutor (TDriver) e o autocarro (MBus) 
  */
 public interface IDriverBus {
 
 	/**
-	 * @param vecClock 
-	 * @return 
-	 * @throws InterruptedException 
-	 * Método chamado pelo condutor para bloqueio à espera que os passageiros entrem no autocarro
+	 * Blocks the driver waiting for passengers to enter the bus
+	 * @param vecClock The clock
+	 * @return The clock
+	 * @throws InterruptedException
+	 * @throws RemoteException
 	 */
 	VectorClock waitingForPassengers(VectorClock vecClock) throws InterruptedException, RemoteException;
 
 	/**
-	 * @param vecClock 
-	 * @return 
-	 * @throws InterruptedException 
-	 * Método chamado pelo condutor para bloqueio à espera que os passageiros abandonem o autocarro
+	 * Blocks the driver waiting for passengers to leave the bus
+	 * @param vecClock
+	 * @return
+	 * @throws InterruptedException
+	 * @throws RemoteException
 	 */
 	ClockTuple<Integer> parkAndLetPassOff(VectorClock vecClock) throws InterruptedException, RemoteException;
 }

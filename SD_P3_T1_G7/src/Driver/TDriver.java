@@ -6,22 +6,47 @@ import Utils.ClockTuple;
 import Utils.VectorClock;
 
 /**
+ * Class that implements the Bus driver.
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Classe TDriver: classe de implementação da thread de condutor de autocarro
  */
 public class TDriver extends Thread {
 	
+	/**
+	 * The interface with the General Repository
+	 */
 	private IDriverGenRep genRep;
+	/**
+	 * The interface with the Arrival Terminal Transfer Zone
+	 */
 	private IDriverArrivalTerminalTransferZone arrivalTerminalTransferZone;
+	/**
+	 * The interface with the Bus
+	 */
 	private IDriverBus bus;
+	/**
+	 * The number of passengers transported in the last trip.
+	 */
 	private int lastPassengers = 0;
 
+	/**
+	 * My index on the vectorial clock
+	 */
 	private int clockIndex;
+	/**
+	 * The clock
+	 */
 	private VectorClock vecClock;
 	
 	/**
-	 * @param genRep
-	 * Construtor da classe TDriver
+	 * Instanciates a TDriver object.
+	 * 
+	 * @param numIdentities	The size of the vectorial clock
+	 * @param clockIndex My index on the vectorial clock
+	 * @param genRep The interface to the General Repository
+	 * @param arrivalTerminalTransferZone The interface to the Arrival Terminal Transfer Zone
+	 * @param bus The interface to the Bus
 	 */
 	public TDriver(
 			int numIdentities,
