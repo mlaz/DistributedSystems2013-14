@@ -26,7 +26,7 @@ public class MTempBaggageStorage implements ITempStorage {
 
     /**
      * Instanciates a Temporary Baggage Storage.
-     * @param numEntities The number of identities that will use the VectorClock at the same time;
+     * @param numEntities The number of entities that will use the VectorClock at the same time
      */
     public MTempBaggageStorage(int numEntities) {
 		storedBags = 0;

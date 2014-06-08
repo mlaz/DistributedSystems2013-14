@@ -13,7 +13,7 @@ import java.rmi.server.UnicastRemoteObject;
 import Servers.genRep.IGenRep;
 import Utils.RmiUtils;
 /**
- * This classe establishes a new service, the Temporary Baggage Storage.
+ * This class establishes a new service, the Temporary Baggage Storage.
  * The communications use RMI.
  * 
  * @author Filipe Teixeira <fmteixeira@ua.pt>
