@@ -13,20 +13,48 @@ import Utils.VectorClock;
  */
 
 /**
- * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Monitor da zona de recolha de bagagens 
+ * Class that implements the Baggage Pickup Zone server services. 
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt> 
  */
 public class MBaggagePickupZone implements IBaggagePickupZone {
+	/**
+	 *	 
+	 */
 	private boolean looseNextItem;
+	/**
+	 * 
+	 */
 	private int currentFlight;
+	/**
+	 * The number of passengers currently waiting for a bag 
+	 */
 	private int passengersWaiting;
+	/**
+	 * 
+	 */
 	private boolean waitingForBags;
+	/**
+	 * The bags that are currently on the conveyourBelt
+	 */
 	private LinkedList<Integer> conveyourBelt;
+	/**
+	 * The lock
+	 */
 	private Lock lock;
+	/**
+	 * A waiting condition
+	 */
 	private Condition cond;
+	/**
+	 * The Clock
+	 */
 	private VectorClock vecClock;
+    
+	
     /**
-     *
+     * @param numEntities
      */
     public MBaggagePickupZone(int numEntities) {
 		conveyourBelt = new LinkedList<Integer>();
@@ -64,11 +92,6 @@ public class MBaggagePickupZone implements IBaggagePickupZone {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see IPorterBaggagePickupZone#noMoreBags()
-	 */
 	@Override
 	public VectorClock noMoreBagsToCollect(VectorClock extClk) throws InterruptedException {
 		lock.lock();
@@ -91,11 +114,6 @@ public class MBaggagePickupZone implements IBaggagePickupZone {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see IPassengerBaggageCollectionPoint#tryToCollectABag(int)
-	 */
 	@Override
 	public ClockTuple<Boolean> tryToCollectABag(int passengerNumber, int flightNum, VectorClock extClk) throws InterruptedException {
 		lock.lock();
