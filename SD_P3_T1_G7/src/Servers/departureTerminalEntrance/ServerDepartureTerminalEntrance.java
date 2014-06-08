@@ -22,7 +22,13 @@ import Utils.RmiUtils;
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 public class ServerDepartureTerminalEntrance {
+	/**
+	 * The port this service will use
+	 */
 	private static final int portNumber = 22166;
+	/**
+	 * How to launch this service
+	 */
 	private static final String usage = "Usage: java -jar RMIDepartureTerminalEntrance [genRepRegistryName]";
 
     
