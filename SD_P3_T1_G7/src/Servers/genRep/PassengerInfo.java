@@ -3,19 +3,40 @@ package Servers.genRep;
 import Passenger.EPassengerStates;
 
 /**
- * Classe para logging de informação de cada passageiro
+ * Class that stores the driver information. Used only for logging porposes
+ * 
  * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 class PassengerInfo {
     
+    /**
+     * The id of the passenger
+     */
     private int id;
+    /**
+     * True if the passenger is in transit
+     */
     private boolean inTransit;
+    /**
+     * The number of bags that the passenger initially has.
+     */
     private int startingLuggage;
-    
+    /**
+     * The state of the passenger
+     */
     private EPassengerStates stat;
+    /**
+     * The number of bags that the passenger currently has
+     */
     private int currentLuggage;
 
+    /**
+     * Instanciates a new PassengerInfo object
+     * @param id The id of the passenger
+     * @param inTransit True if the passenger is in transit
+     * @param startingLuggage The number of the bags the passenger has
+     */
     public PassengerInfo(int id, boolean inTransit, int startingLuggage) {
         this.id = id;
         this.inTransit = inTransit;
@@ -24,22 +45,41 @@ class PassengerInfo {
         this.stat = EPassengerStates.EXITING_THE_ARRIVAL_TERMINAL;
     }
 
+    /**
+     * Returns the id of the passenger
+     * @return The ID of the passenger
+     */
     public int getId() { 
     	return id;
     }
     
+    /**
+     * Updates the state of the passenger
+     * @param stat The new state of the Passenger
+     */
     public void setStat(EPassengerStates stat) {
         this.stat = stat;
     }
 
+    /**
+     * Returns the current luggage of the passenger
+     * @return The current luggage of the passenger
+     */
     public int getCurrentLuggage() {
         return currentLuggage;
     }
 
+    /**
+     * Increments the number of bags the passenger currently has
+     */
     public void gotLuggage() {
         this.currentLuggage++;
     }
 
+    /**
+     * Returns the passengers's initial number of bags
+     * @return The passengers's initial number of bags
+     */
     public int getStartingLuggage() {
         return startingLuggage;
     }

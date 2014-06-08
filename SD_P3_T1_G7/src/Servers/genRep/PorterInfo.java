@@ -2,41 +2,71 @@ package Servers.genRep;
 
 import Porter.EPorterStates;
 
-//import TPorter.states;
 /**
- * Classe para logging de informação da thread do bagageiro
+ * Class that stores the porter information. Used only for logging porposes
+ * 
  * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 class PorterInfo {
+    /**
+     * The state of the porter
+     */
     private EPorterStates stat;
+    /**
+     * The number of bags in the conbeyor belt
+     */
     private int convBeltItems;
+    /**
+     * The number of bags in the temporary baggage storage
+     */
     private int storedBaggage;
+    /**
+     * True if the porter is dead
+     */
     private boolean dead;
     
-    public PorterInfo(/*String state, int cb, int sr*/) {
+    /**
+     * Instanciates a PorterInfo object.
+     */
+    public PorterInfo() {
         stat = EPorterStates.WAITING_FOR_A_PLANE_TO_LAND;
-        //this.cb   = cb;
-        //this.sr   = sr;
         dead = false;
     }
 
+    /**
+     * Updates the state of the porter
+     * @param stat
+     */
     public void setStat(EPorterStates stat) {
         this.stat = stat;
     }
 
+    /**
+     * Adds a new item to the conveyor belt
+     */
     public void addconvBeltItem() {
         this.convBeltItems++;
     }
 
+    /**
+     * Adds a new item to the temporary storage
+     */
     public void addStoredBaggage() {
         this.storedBaggage++;
     }
     
+    /**
+     * Set the porter as dead
+     */
     public void setAsDead() {
     	dead = true;
     }
     
+    /**
+     * Returns true if the porter is dead
+     * @return True if the porter is dead
+     */
     public boolean isDead() {
     	return dead;
     }
