@@ -20,7 +20,13 @@ import Utils.RmiUtils;
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 public class ServerTempBaggaStorage {
+	/**
+	 * The port this service will use
+	 */
 	private static final int portNumber = 22167;
+	/**
+	 * How to lauch this service
+	 */
 	private static final String usage 	= "Usage: java -jar RMITemporaryBaggageStorage [genRepRegistryName]";
     /**
      * Starts the server.
