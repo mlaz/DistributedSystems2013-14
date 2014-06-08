@@ -14,16 +14,25 @@ import Servers.genRep.IGenRep;
 import Utils.RmiUtils;
 
 /**
- * Classe de servidor com replicação para receção de pedidos ao monior por parte das threads(clientes)
- * @author miguel
+ * This class establishes a new service, the Arrival Terminal.
+ * The communications use RMI.
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 public class ServerArrivalTerminal {
+	/**
+	 * The port this service will use
+	 */
 	private static int portNumber = 22161;
+	/**
+	 * How to launch this service
+	 */
 	private static String usage = "Usage: java -jar RMIArrivalTerminal [genRepRegistryName]";
 	
     /**
-     *
-     * @param args
+     * Starts the server.
+     * @param args Only one argument is allowed. The name of the server hosting the General Repository
      */
     public static void main(String[] args) {
 		
