@@ -25,10 +25,11 @@ public class ServerTempBaggaStorage {
 	 */
 	private static final int portNumber = 22167;
 	/**
-	 * How to lauch this service
+	 * How to launch this service
 	 */
 	private static final String usage 	= "Usage: java -jar RMITemporaryBaggageStorage [genRepRegistryName]";
-    /**
+   
+	/**
      * Starts the server.
      * @param args Only one argument is allowed. The name of the server hosting the General Repository
      */
