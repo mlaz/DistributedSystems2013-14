@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @param <T> The  DataType to be paired with the VectorClock
  */
-public class ClockTuple<T> implements Comparable<ClockTuple>, Serializable {
+public class ClockTuple<T> implements Comparable<ClockTuple<T>>, Serializable {
 	private static final long serialVersionUID = -893972544712953603L;
 	
 	/**
@@ -50,7 +50,7 @@ public class ClockTuple<T> implements Comparable<ClockTuple>, Serializable {
 	}
 
 	@Override
-	public int compareTo(ClockTuple other) {
+	public int compareTo(ClockTuple<T> other) {
 		return clock.compareTo(other.getClock());
 	}
 }

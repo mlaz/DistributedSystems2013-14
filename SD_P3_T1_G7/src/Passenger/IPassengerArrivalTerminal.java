@@ -5,16 +5,20 @@ import java.rmi.RemoteException;
 import Utils.VectorClock;
 
 /**
+ * Interface for communications between a Passenger and the Arrival Terminal
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Interface para interação entre a thread de condutor (TDriver) e o terminal de chagada (MArrivalTerminal) 
  */
 public interface IPassengerArrivalTerminal {
 
 	/**
-	 * @param passengerId
-	 * @param vecClock 
-	 * @return 
-	 * @throws InterruptedException 
+	 * The passenger arrives at the airport.
+	 * @param passengerId The id of the passenger
+	 * @param vecClock The clock
+	 * @return The clock
+	 * @throws InterruptedException
+	 * @throws RemoteException
 	 */
 	VectorClock whatSouldIDo(int passengerId, VectorClock vecClock) throws InterruptedException, RemoteException;
 

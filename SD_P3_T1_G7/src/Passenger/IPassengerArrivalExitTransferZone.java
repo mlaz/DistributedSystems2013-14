@@ -14,9 +14,9 @@ import Utils.VectorClock;
 public interface IPassengerArrivalExitTransferZone {
 
 	/**
-	 * @param passNumber
-	 * @param vecClock 
-	 * @return 
+	 * @param passNumber The ID of the passenger
+	 * @param vecClock The clock
+	 * @return The clock
 	 * @throws InterruptedException
 	 */
 	VectorClock takeABus(int passNumber, VectorClock vecClock) throws InterruptedException, RemoteException;

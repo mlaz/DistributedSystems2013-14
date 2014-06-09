@@ -11,15 +11,22 @@ import Utils.RmiUtils;
 
 
 /**
- * Classe ClientDriver: classe para lançar todas as threads TPassenger
- * @author miguel
+ * Class that implements the Passengers client. Starts all the Passenger threads
+ * The communications use RMI.
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 public class ClientPassengers {
 	
-	final static String usage = "Usage: java ClientPassengers [RMIRegName] [RMIRegPort]";
+	/**
+	 * How to start the client 
+	 */
+	final static String usage = "Usage: java ClientPassengers [genRepName]";
+    
     /**
-     *
-     * @param args  [genRepName] [genRepPort]
+     * Starts the client
+     * @param args Accepts only one argument, the name of the General Repository host name.
      */
     public static void main(String[] args) {
     	if (args.length != 1) {
