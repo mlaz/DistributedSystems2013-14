@@ -100,52 +100,50 @@ public class ClientPassengers {
 		int flightNumber;
 		int passNumber;
 		int nbags = M;
-		
-		Boolean transit = true;
+		Boolean transit;
 		for(flightNumber = 0; flightNumber < K; flightNumber++){
-		//generating passengers         
-		        for (passNumber = 0; passNumber < N; passNumber++) {
-		                passengerList[flightNumber][passNumber] = 
-		                		new TPassenger(passNumber,
-		                				nbags, 
-		                				transit, 
-		                				flightNumber,
-		                				N + 2,
-		                				passNumber + 2,
-		                				(IPassengerGenRep) genRep,
-		                				arrivalTerminal,
-		                	    		luggageCollectionPoint,
-		                	    		baggageReclaimOffice,
-		                	    		arrivalTerminalExit,
-		                	    		departureTerminalEntrace,
-		                	    		bus);
+		//generating passengers
+			transit = true;
+		    for (passNumber = 0; passNumber < N; passNumber++) {
+		    	passengerList[flightNumber][passNumber] = new TPassenger(
+									    							passNumber,
+									                				nbags, 
+									                				transit, 
+									                				flightNumber,
+									                				N + 2,
+									                				passNumber + 2,
+									                				(IPassengerGenRep) genRep,
+									                				arrivalTerminal,
+									                	    		luggageCollectionPoint,
+									                	    		baggageReclaimOffice,
+									                	    		arrivalTerminalExit,
+									                	    		departureTerminalEntrace,
+									                	    		bus);
+		    	transit = !transit;
+		        nbags = (nbags == M) ? 0 : nbags + 1;
+		    }
 		        
-		                transit = !transit;
-		                nbags = (nbags == M) ? 0 : nbags + 1;
+		    System.out.println("flight# " + flightNumber + " NPASSENGERS:" + N);
+		    //starting threads
+		    System.out.println("NEW airplane-----------------------------------------\n");
+		    
+		    for (passNumber = 0; passNumber < N; passNumber++) 
+		    	passengerList[flightNumber][passNumber].start();
+		    
+		    for (passNumber = 0; passNumber < N; passNumber++)
+		    	try {
+		    		passengerList[flightNumber][passNumber].join();
+		        } catch (InterruptedException e) {
+		        	// TODO Auto-generated catch block
+		            e.printStackTrace();
 		        }
-		        
-		        System.out.println("flight# " + flightNumber + " NPASSENGERS:" + N);
-		        //starting threads
-		        System.out.println("NEW airplane-----------------------------------------\n");
-		        
-		        for (passNumber = 0; passNumber < N; passNumber++) 
-		                passengerList[flightNumber][passNumber].start();
-		                
-		                
-		        for (passNumber = 0; passNumber < N; passNumber++)
-		                try {
-		                        passengerList[flightNumber][passNumber].join();
-		                } catch (InterruptedException e) {
-		                        // TODO Auto-generated catch block
-		                        e.printStackTrace();
-		                }
-		        try {
-					genRep.planeFinished();
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		        System.out.println("ALL Passengers Done-----------------------------------------\n");
+		    try {
+		    	genRep.planeFinished();
+		    } catch (RemoteException e) {
+		    	// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    System.out.println("ALL Passengers Done-----------------------------------------\n");
 		}
 		
 		// WAIT FOR PORTER AND DRIVER TO DIE

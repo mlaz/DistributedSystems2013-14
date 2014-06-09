@@ -245,6 +245,7 @@ public class MGeneralRepository implements IGenRep {
 		try {
 			porter = new PorterInfo();
 		} finally {
+			System.out.println("Porter registered");
 			lock.unlock();
 		}
 	}
@@ -294,9 +295,11 @@ public class MGeneralRepository implements IGenRep {
 	public void registerDriver() {
 		lock.lock();
 		try {
+
 			driver = new DriverInfo(numPassengers, nBusSeats);
 			// addLogEntry();
 		} finally {
+			System.out.println("Driver registered");
 			lock.unlock();
 		}
 	}
@@ -367,6 +370,7 @@ public class MGeneralRepository implements IGenRep {
 			plane.addBaggage(startingLuggage);
 			allPassReg = (registeredPassengers == numPassengers);
 		} finally {
+			System.out.println("Passenger "+pID+" from flight " + planeId + " registered");
 			lock.unlock();
 		}
 	}
