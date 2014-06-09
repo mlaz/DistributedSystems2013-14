@@ -10,21 +10,25 @@ import Utils.ClockTuple;
 import Utils.VectorClock;
 
 /**
+ * Interface for communications between the Porter and the Baggage Pickup Zone
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Interface para interação entre a thread de bagageiro (TPorter) e a zona de recolha de bagagem (MBaggagePickupZone) 
  */
 public interface IPorterBaggagePickupZone {
 
-	/**
-     * @param passId
-	 * @param vecClock 
-	 * @return 
+	/** 
+	 * The porter carries the Bag to the correct destination, either the Temporary Storage or the Conveyor Belt
+     * @param passId The ID of the passenger who owns the bag
+	 * @param vecClock The clock
+	 * @return The clock
 	 */
 	ClockTuple<Boolean> carryItToAppropriateStore(int passId, VectorClock vecClock) throws RemoteException;
 
 	/**
-	 * @param vecClock 
-	 * @return 
+	 * The porter signals the passengers waiting that there are no more bags.
+	 * @param vecClock The clock
+	 * @return The clock
 	 * @throws InterruptedException 
 	 * 
 	 */
