@@ -8,12 +8,15 @@ import java.rmi.RemoteException;
 import Utils.VectorClock;
 
 /**
+ * Interface for communications between a Passenger and the Arrival Terminal Exit
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Interface para interação entre a thread de passageiro (TPassenger) e a zona de transferencia do terminal de chagada (MArrivalTerminalExitTransferZone) 
  */
 public interface IPassengerArrivalExitTransferZone {
 
 	/**
+	 * The passenger goes to the bus queue
 	 * @param passNumber The ID of the passenger
 	 * @param vecClock The clock
 	 * @return The clock
@@ -22,10 +25,12 @@ public interface IPassengerArrivalExitTransferZone {
 	VectorClock takeABus(int passNumber, VectorClock vecClock) throws InterruptedException, RemoteException;
 
     /**
-     *
-     * @param passNumber
-     * @param vecClock 
-     * @return 
+     * The passenger goes home
+     * 
+     * @param passNumber The id of this passenger
+     * @param vecClock The clock
+     * @return The clock
+     * @throws RemoteException
      */
     VectorClock goHome(int passNumber, VectorClock vecClock) throws RemoteException;
 }
