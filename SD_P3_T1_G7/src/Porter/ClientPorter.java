@@ -9,15 +9,22 @@ import Servers.genRep.IGenRep;
 import Utils.RmiUtils;
 
 /**
- * Classe ClientDriver: classe para lançar a thread TPorter
- * @author miguel
+ * Class that implements the Porter client.
+ * The communications use RMI.
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 public class ClientPorter {
 
+	/**
+	 * How to start the client
+	 */
 	final static String usage = "Usage: java -jar RMIPorter [genRepRegistryName]";
+	
     /**
-     *
-     * @param args [genRepName] [genRepPort]
+     * Starts the client
+     * @param args Accepts only one argument, the genRepName. 
      */
     public static void main(String[] args) {
 		if (args.length != 1) {

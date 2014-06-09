@@ -11,23 +11,25 @@ import Utils.VectorClock;
  */
 
 /**
- * @author miguel
- * Interface para interação entre a thread de bagageiro (TPorter) e o terminal de chagada (MArrivalTerminal) 
+ * Interface for communications between the Porter and the Arrival Terminal
+ *  
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 public interface IPorterArrivalTerminal {
 
     /**
-     *
-     * @param vecClock 
-     * @return
+     * The porter rests and waits for a new plane
+     * @param vecClock The clock 
+     * @return The clock
      * @throws InterruptedException
      */
     public ClockTuple<Boolean> takeARest (VectorClock vecClock) throws InterruptedException, RemoteException;
 
     /**
-     *
-     * @param vecClock 
-     * @return
+     * The porter collects a bag from the plane.
+     * @param vecClock The clock
+     * @return The clock
      */
     public ClockTuple<Bag> tryToCollectABag (VectorClock vecClock) throws RemoteException;
 

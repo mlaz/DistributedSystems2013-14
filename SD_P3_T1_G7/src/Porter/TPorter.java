@@ -7,21 +7,47 @@ import Utils.ClockTuple;
 import Utils.VectorClock;
 
 /**
+ * Class that implements the Porter.
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Classe TPassanger: classe de implementação da thread de passageiro
  */
 public class TPorter extends Thread {
 	
+	/**
+	 * The interface with the arrival terminal
+	 */
 	private IPorterArrivalTerminal arrivalTerminal;
+	/**
+	 * The interface with the baggage pickup zone
+	 */
 	private IPorterBaggagePickupZone baggageBeltConveyor;
+	/**
+	 * The interface with the temporary baggage storage
+	 */
 	private IPorterTempBaggageStorage baggageStorage;
+	/**
+	 * The interface with the general repository
+	 */
 	private IPorterGenRep genRep;
+	/**
+	 * My index on the vectorial clock
+	 */
 	private int clockIndex;
+	/**
+	 * The clock
+	 */
 	private VectorClock vecClock;
 	
     /**
-     * Construtor da Classe
-     * @param genRep
+     * Instanciates a TPorter object 
+     * 
+     * @param numIdentities The number of entities on the vector clock
+     * @param clockIndex My index on vectorial clock
+     * @param genRep The interface with the general repository
+     * @param arrivalTerminal The interface with the arrival terminal
+     * @param baggageBeltConveyor The interface with the baggage pickup zone
+     * @param baggageStorage The interface with the temporary baggage storage
      */
     public TPorter(
     			int numIdentities,
