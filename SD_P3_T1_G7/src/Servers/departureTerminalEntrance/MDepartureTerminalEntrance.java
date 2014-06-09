@@ -22,7 +22,7 @@ public class MDepartureTerminalEntrance implements IDepartureTerminalEntrance {
 	/**
 	 * The total number of passengers of the current simulation
 	 */
-	private int totalPassengers;
+	private final int totalPassengers;
 	/**
 	 * The lock
 	 */
@@ -61,9 +61,9 @@ public class MDepartureTerminalEntrance implements IDepartureTerminalEntrance {
 		int passNumber;
 		Boolean transit = true;
 		for (passNumber = 0; passNumber < N; passNumber++) {
-			transit = !transit;
 			if (transit)
 				n++;
+			transit = !transit;
 		}
 		return n;
 	}
@@ -71,12 +71,15 @@ public class MDepartureTerminalEntrance implements IDepartureTerminalEntrance {
     public VectorClock prepareNextLeg(VectorClock extClk) throws InterruptedException {
 		lock.lock();
 		try {
+			System.out.print("PREPARE NEXT LEG >>> RemainingPassengers:" + remainingPassengers);
 			vecClock.updateClock(extClk);
 			remainingPassengers--;
+			System.out.println(" ...... " + remainingPassengers);
 			
 			if (remainingPassengers > 0) {
 				cond.await();
 			} else {
+				
 				remainingPassengers = caclNumPassengers(totalPassengers);
 				cond.signalAll();
 			}

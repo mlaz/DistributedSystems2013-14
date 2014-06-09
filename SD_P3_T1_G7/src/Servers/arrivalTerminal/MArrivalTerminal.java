@@ -63,15 +63,17 @@ public class MArrivalTerminal implements IArrivalTerminal {
 		int j;
 		int k;
 		int nbags = maxBags;
-		Boolean transit = true;
+		Boolean transit;
 		Stack<Bag> planesHold;
 		flightQueue = new LinkedList <Stack<Bag>>();
 		for(k = 0; k < nFlights; k++) {
 			planesHold = new Stack<Bag>();
-			for (i = 0; i < nPassengers; i++) {
-				for (j = 0 ; j < nbags; j++)
-					planesHold.add(new Bag(i,transit));
+			transit = true;
 			
+			for (i = 0; i < nPassengers; i++) {
+				for (j = 0 ; j < nbags; j++) {
+					planesHold.add(new Bag(i,transit));
+				}
 				transit = !transit;
 				nbags = (nbags == maxBags) ? 0 : nbags + 1;
 			}

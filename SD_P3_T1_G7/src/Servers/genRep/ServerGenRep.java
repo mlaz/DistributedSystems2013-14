@@ -46,7 +46,7 @@ public class ServerGenRep {
 			args = new String[6];
 			args[0] = "log2.log";
 			args[1] = "6";
-			args[2] = "10";
+			args[2] = "19";
 			args[3] = "3";
 			args[4] = "2";
 			args[5] = "2000";
