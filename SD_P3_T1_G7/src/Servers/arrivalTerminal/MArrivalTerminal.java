@@ -9,8 +9,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import Utils.Bag;
 import Utils.ClockTuple;
 import Utils.VectorClock;
-import Passenger.IPassengerArrivalTerminal;
-import Porter.IPorterArrivalTerminal;
 
 /**
  * Class that implements the Arrival Terminal server services.
@@ -54,10 +52,10 @@ public class MArrivalTerminal implements IArrivalTerminal {
 	private VectorClock vecClock;
 	
     /**
-     *
-     * @param nFlights
-     * @param nPassengers
-     * @param maxBags
+     * Instanciates a MArrivalTerminal object.
+     * @param nFlights The total number of flights on the current simulation
+     * @param nPassengers The number of passengers on each plan
+     * @param maxBags The maximum number of bags each passenger may have
      */
     public MArrivalTerminal(int nFlights, int nPassengers, int maxBags) {
 		//generating bags
@@ -89,12 +87,6 @@ public class MArrivalTerminal implements IArrivalTerminal {
 		passengers = lock.newCondition();
 	}
 	
-	/**
-     * @return 
-     * @throws java.lang.InterruptedException
-	 * @see IPorterArrivalTerminal#takeARest
-	 * ()
-	 */
 	@Override
 	public ClockTuple<Boolean> takeARest(VectorClock extClk) throws InterruptedException {
 		lock.lock();
@@ -118,10 +110,6 @@ public class MArrivalTerminal implements IArrivalTerminal {
 		}
 	}
 
-	/**
-     * @throws java.lang.InterruptedException
-	 * @see IPassengerArrivalTerminal#whatSouldIDo()
-	 */
 	@Override
 	public VectorClock whatSouldIDo(int passengerId, VectorClock extClk) throws InterruptedException {
 		lock.lock();
@@ -140,10 +128,7 @@ public class MArrivalTerminal implements IArrivalTerminal {
 		}
 	}
 
-    /**
-     *
-     * @return
-     */
+	@Override
     public ClockTuple<Bag> tryToCollectABag (VectorClock extClk) {
 		lock.lock();
 		try {

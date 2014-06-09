@@ -29,8 +29,8 @@ public interface IDriverBus {
 
 	/**
 	 * Blocks the driver waiting for passengers to leave the bus
-	 * @param vecClock
-	 * @return
+	 * @param vecClock The clock
+	 * @return A ClockTuple with the clock and a integer with the number of passengers on the bus
 	 * @throws InterruptedException
 	 * @throws RemoteException
 	 */

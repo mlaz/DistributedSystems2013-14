@@ -53,8 +53,8 @@ public class MDepartureTerminalEntrance implements IDepartureTerminalEntrance {
 	
 	/**
 	 * This uses the same algorithm used to generate the passenger threads
-	 * @param number of passengers per plane
-	 * @return number of expected 
+	 * @param N number of passengers per plane
+	 * @return Number of expected passengers in transit 
 	 */
 	private int caclNumPassengers(int N) {
 		int n = 0;

@@ -80,7 +80,7 @@ public class DriverInfo {
     
     /**
      * Returs true if the driver is dead
-     * @return
+     * @return True if the driver is dead
      */
     public boolean isDead() {
     	return dead;

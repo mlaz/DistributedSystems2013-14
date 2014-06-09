@@ -299,7 +299,7 @@ public class TPassenger extends Thread {
 	}
 
 	/**
-	 * @return
+	 * @return The ID of this passenger
 	 */
 	public int getPassNumber() {
 		// TODO Auto-generated method stub

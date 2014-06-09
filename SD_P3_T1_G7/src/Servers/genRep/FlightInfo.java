@@ -41,7 +41,7 @@ class FlightInfo {
 
     /**
      * Returns the number of bags
-     * @return
+     * @return The number of bags
      */
     public int getNumLuggage() {
         return numLuggage;

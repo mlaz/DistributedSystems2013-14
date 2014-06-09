@@ -34,7 +34,7 @@ public class ServerDepartureTerminalEntrance {
     
     /**
      * Starts the server
-     * @param Only one argument is allowed. The name of the server hosting the General Repository
+     * @param args Only one argument is allowed. The name of the server hosting the General Repository
      */
     public static void main(String[] args) {
 		if (args.length != 1) {
