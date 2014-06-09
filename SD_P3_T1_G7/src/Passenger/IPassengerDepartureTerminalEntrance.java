@@ -5,16 +5,20 @@ import java.rmi.RemoteException;
 import Utils.VectorClock;
 
 /**
- * Interface para interação entre a thread de passageiro (TPassenger) e a entrada do terminal de partida (MDepartureTerminalEntrance) 
- * @author miguel
+ * Interface for communications between a Passenger and the Departure Terminal Entrance
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
+ * @author Miguel Azevedo <lobaoazevedo@ua.pt>
  */
 public interface IPassengerDepartureTerminalEntrance {
 
     /**
+     * The passenger blocks waits for all the passengers to call this method.
      * 
-     * @param vecClock 
-     * @return 
+     * @param vecClock The clock
+     * @return The clock
      * @throws InterruptedException
+     * @throws RemoteException
      */
     public VectorClock prepareNextLeg(VectorClock vecClock) throws InterruptedException, RemoteException;
 }

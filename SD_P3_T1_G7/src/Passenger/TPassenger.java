@@ -5,39 +5,84 @@ import java.rmi.RemoteException;
 import Utils.ClockTuple;
 import Utils.VectorClock;
 
-/**
- * 
- */
 
 /**
+ * Class that implements a Passenger.
+ * 
+ * @author Filipe Teixeira <fmteixeira@ua.pt>
  * @author Miguel Azevedo <lobaoazevedo@ua.pt>
- * Classe TPassanger: classe de implementação da thread de passageiro
  */
 public class TPassenger extends Thread {
 	
+	/**
+	 * The interface of the Passenger with the General Repository
+	 */
 	private IPassengerGenRep genRep;
+	/**
+	 * The interface of the Passenger with the Arrival Terminal
+	 */
 	private IPassengerArrivalTerminal arrivalTerminal;
+	/**
+	 * The interface of the Passenger with the Baggage Collection Point
+	 */
 	private IPassengerBaggageCollectionPoint luggageCollectionPoint;
+	/**
+	 * The interface of the Passenger with the Baggage Reclaim Guichet
+	 */
 	private IPassengerBaggageReclaimGuichet baggageReclaimOffice;
+	/**
+	 * The interface of the Passenger with the Arrival Terminal Exit
+	 */
 	private IPassengerArrivalExitTransferZone arrivalTerminalExit;
+	/**
+	 * The interface of the Passenger with the Departure Terminal Entrance
+	 */
 	private IPassengerDepartureTerminalEntrance departureTerminalEntrace;
+	/**
+	 * The interface of the Passenger with the Bus
+	 */
 	private IPassengerBus bus;
 	
+	/**
+	 * The ID of this passenger
+	 */
 	private int passengerNumber;
+	/**
+	 * The number of flight this passenger is in
+	 */
 	private int flightNumber;
+	/**
+	 * The number of bags the passenger still has to collect
+	 */
 	private int remainingBags;
+	/**
+	 * True if the passenger is in transit
+	 */
 	private boolean inTransit;
 
+	/**
+	 * The vectorial clock
+	 */
 	private VectorClock vecClock;
+	/**
+	 * The index of this passenger on the vectorial clock
+	 */
 	private int clockIndex;
 	
     /**
-     * Construtor da classe
-     * @param passengerNumber
-     * @param remainingBags
-     * @param inTransit
-     * @param flightNumber
-     * @param genRep
+     * @param passengerNumber The ID of this passenger
+     * @param remainingBags The number of bags that the passenger has
+     * @param inTransit True if the passenger is in transit
+     * @param flightNumber The number of the flight this passenger is in
+     * @param numIdentities The number of identities that use the vectorial clock
+     * @param clockIndex The index of this passenger on the vectorial clock
+     * @param genRep The interface with the General Repository
+     * @param arrivalTerminal The interface with the Arrival Terminal
+     * @param luggageCollectionPoint The interface with the Luggage Collection Point
+     * @param baggageReclaimOffice The interface with the Baggage Reclaim Office
+     * @param arrivalTerminalExit The interface with the Arrival Terminal Exit
+     * @param departureTerminalEntrace The interface with the Departure Terminal Entrance
+     * @param bus The interface with the Bus
      */
     public TPassenger(int passengerNumber, 
     		int remainingBags, 
